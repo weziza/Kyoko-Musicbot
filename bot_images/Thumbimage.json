@@ -1,0 +1,15 @@
+{
+    "Pause" : "https://cdn.discordapp.com/attachments/431961728054722571/431962384941187073/play_pause.png",
+    "Resume" : "https://cdn.discordapp.com/attachments/431961728054722571/431962351432892417/play_resume.png",
+    "Leave" : "https://cdn.discordapp.com/attachments/431961728054722571/431961840478715914/bot_leave.png",
+    "NoVoiceCh" : "https://brandtkrueger.files.wordpress.com/2012/08/no-s-voice1.png?w=300&h=300",
+    "QueueSong" : "http://lh6.ggpht.com/f5PfyElwOb8-2v8Pb2DW3NYBTUSjuk18MnofZG-QrkSn86-TS0WAgQFalg0lvSCsSEb3=w300",
+    "QueueClean" : "https://cdn.discordapp.com/attachments/431961728054722571/431961948779708456/diskclean.png",
+    "QueueLeer" : "https://cdn.discordapp.com/attachments/431961728054722571/431962013707796480/Music_not_Playing.png",
+    "NoQueue" : "https://cdn.discordapp.com/attachments/431961728054722571/431962701690830859/No_Music_Image.png",
+    "skip" : "https://cdn.discordapp.com/attachments/431961728054722571/431962521419776002/Play_Forward.png",
+    "ConnectToVoiceCh" : "https://cdn.discordapp.com/attachments/431961728054722571/431962296911134721/Player_Connect.png",
+    "NoQueueListe" : "https://cdn.discordapp.com/attachments/431961728054722571/431962170654326795/no_play_Liste.png",
+    "QueueListe" : "https://cdn.discordapp.com/attachments/431961728054722571/431962234009419786/play_Liste.png"
+}
+

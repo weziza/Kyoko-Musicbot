@@ -1,0 +1,42 @@
+{
+
+    "token"         : " your Token here ", 
+
+    "yt_api_key"    : " your youtube api here ",
+
+    "botchannel"    : " your bot channel here",
+
+    "defaultVolume" : 0.1,
+
+    "passes"        : 1,
+
+    "MaxQueue"      : 5,
+
+    "BotName"       : "Kyoko",
+
+    "Delete_Message": "100",
+
+    "serverId"      : "1000",
+
+    "prefix"        : "+",    
+    "set_ping"      : "ping",
+    "set_mega"      : "mega",
+    "set_witz"      : "witz",
+    "set_uhr"       : "uhr",
+    "set_hilfe"     : "hilfe",
+    "set_clean"     : "clean",
+    "set_queue"     : "queue",
+    "set_skip"      : "skip",
+    "set_pause"     : "pause",
+    "set_resume"    : "resume",
+    "set_leave"     : "leave",
+    "set_volume"    : "volume",
+    "set_purge"     : "purge",
+    "set_getsong"   : "getsong",
+    "set_randomsong": "randomsong",    
+    "set_songliste" : "songliste",
+    "set_savesong"  : "savesong",
+    "set_deletesong": "deletesong",
+    "set_playsong"  : "playsong",
+    "set_searchsong": "searchsong"
+}

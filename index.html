@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+        
+    <head>
+        <meta charset="UTF-8">
+        <title></title>          
+                
+    </head>
+
+    <body>
+        <div class="container">
+
+        <header>
+            <h1><p style="color:red;">Server Tool</h1>
+        </header> 
+        <h1 style= "text-align:center;"> 
+            <p style="color:blueviolet;">Server Function
+        </h1>
+        
+        <h1 style= "text-align:center;">
+            <form action="/sendMessage" method="POST">            
+                <input type="submit" value="send message">
+                <input type="text" name=":" value="message">
+            </form>
+
+
+            <form action="/purge" method="POST">
+                <input type="submit" name="purge" value="purge all messages">
+            </from>
+        </h1>                   
+    </body>
+        
+
+    <footer>Copyright &copy; Kyoko Bot Programming</footer>    
+    
+        
+    </body> 
+    <style id="jsbin-css">
+        div.container {
+            width: 100%;
+            border: 1px solid gray;
+        }
+
+        header, footer {
+            padding: 1em;
+            color: burlywood;
+            background-color: black;
+            clear: left;
+            text-align: center;
+        }
+
+        nav {
+            float: left;
+            max-width: 160px;
+            margin: 0;
+            padding: 1em;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        nav ul a {
+            text-decoration: none;
+        }
+
+        article {
+            margin-left: 5em;
+            border-left: 1px solid gray;
+            padding: 1em;
+            overflow: hidden;
+        }
+        body, html {
+            margin: 0;
+            min-height: 100%;
+            background: #2B2922;
+            color: #eee;
+            font-family: 'Roboto', serif;
+            font-size: 20px;
+            font-weight: 100;
+            line-height: 1.5;
+        }
+    </style>    
+</html>
