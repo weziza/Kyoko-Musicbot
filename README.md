@@ -5,7 +5,7 @@
 welcome to my little Discord Musikbot
 I'm not a programmer, but I like to tinker around and have written me a little music bot for discord. The code is not mature, it goes so far without errors. I have some safeguards in it to avoid the errors. Nevertheless, the code is not mature yet.
 ***
-> # `you nit to install Kyoko`
+> # `you need to install Kyoko`
 ***
 * `node.js`
 * `npm install discord.js`
