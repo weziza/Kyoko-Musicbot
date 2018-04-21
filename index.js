@@ -88,7 +88,7 @@ var URLArray=[ // zufall url ergenzung wenn die suche fehlschlägt
     "Mgfe5tIwOj0"]
 //------------------------------
 
-// html function noch in arbeit momentan geht nur purge botchannel und senden einer nachricht
+// html function noch in arbeit momentan geht nur purge botchannel und senden einer nachricht in botchannel
 
 server.use(bodyParses.urlencoded({extended: true}));
 
