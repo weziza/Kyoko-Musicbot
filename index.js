@@ -34,6 +34,7 @@ var setThumbnail = require('./bot_images/InfoEmbedThumbnail');
 const setting = require('./bot_setting/bot_setting.json');
 const token = setting.token;
 const ChatChannel = setting.botchannel;
+const allgeChannel = setting.allgemeinChat;
 const prefix = setting.prefix;
 const defaultVolume = setting.defaultVolume;
 const yt_api_key = setting.yt_api_key;
@@ -77,15 +78,18 @@ var bot_sound_option=true;
 var bot_joint=false;
 var autodelete=false;
 //------------------------------
-var Warteschlange_Array = {};
+var Warteschlange_Array = {}; 
 var TrackTitel_Array = [];
 //------------------------------
-var URLArray=[
+var URLArray=[ // zufall url ergenzung wenn die suche fehlschlägt
     "FlmToFkw9W0",
     "LLB39g0ix1A",
     "3_-a9nVZYjk",
     "Mgfe5tIwOj0"]
 //------------------------------
+
+// html function noch in arbeit momentan geht nur purge botchannel und senden einer nachricht
+
 server.use(bodyParses.urlencoded({extended: true}));
 
 
@@ -117,8 +121,6 @@ server.post('/sendMessage', function(req,res){
     bot.channels.find("name", ChatChannel).send(senMess);
     res.sendFile(__dirname+'/index.html');
 });
-
-
 
 //------------------------------
 /**
@@ -171,7 +173,7 @@ bot.on("message",function(message){
             var voicechannelid = message.member.voiceChannelID;        
             //-----------------------------
             var auth = message.author.username; // ist message author
-            var auth_id = message.author.id;
+            var auth_id = message.author.id; // ist message author id
             var MessChannel = bot.channels.find("name", ChatChannel); // bot schreibt in einen bestimmten angegebenen channel
             var msg = message.content.toLowerCase();
             var url = message.content.split(' ')[1]; // gibt die url aus split prefix aus
@@ -236,10 +238,8 @@ bot.on("message",function(message){
                     });  
                 break;
             case prefix+set_playsong: // Music play 
-                    
-                    //console.log(bot_joint)
+
                     if (MaxQueue==MinQueue){ // ist das max der song aufnahme erreicht dann....
-                        //console.log(MaxQueue , MinQueue)
                         message.delete();// lösche die gepostete url messages  
                         message.channel.send(wrap(`Die Warteschlange ist voll`)); // message rückgabe
                         return; // if abfrage beenden
@@ -280,21 +280,20 @@ bot.on("message",function(message){
                             //---------------------------------------
                             SBM.ambedMessage("hinzugefügt :",BoTServer, MessChannel,RandomColor,BotName,botAuthorImage,QueueSong);
                             //--------------------------------------- 
-                            MinQueue++ // Song counder ++ 
-                            //console.log(MaxQueue , MinQueue)      
+                            MinQueue++ // Song counder ++    
                         };
                     });     
                 break;
-            case prefix+set_clean: // ich glaube es funktioniert soweit gut  cleanqueue      
+            case prefix+set_clean: // cleanqueue      
                 //---------------------------------------
                 var BoTServer = Warteschlange_Array[message.guild.id]; // initial bot server 
                 //console.log(BoTServer.interner_Titel+"  "+BoTServer.interne_Warteschlange)    
                 if(BoTServer.interner_Titel.length>0){
-                    bot_joint=false;
-                    MinQueue=0;                                      
-                    BoTServer.interne_Warteschlange=[];     
-                    BoTServer.interner_Titel=[];             
-                    if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect();
+                    bot_joint=false; // is bot join channel
+                    MinQueue=0;  // Queue auf null setzen                                 
+                    BoTServer.interne_Warteschlange=[];  // warteschlange leeren   
+                    BoTServer.interner_Titel=[]; // Song titel leeren leeren             
+                    if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect(); // disconect voice channel
                     SBM.ambedMessage("- SongListe wurde gelehrt :","der letzte Song läuft noch zu ende.", MessChannel,RandomColor,BotName,botAuthorImage,QueueClean);
                 }else SBM.ambedMessage("- SongListe ist leer","es gibt nichts zu cleanen.", MessChannel,RandomColor,BotName,botAuthorImage,QueueLeer);;            
                 break; 
@@ -307,12 +306,11 @@ bot.on("message",function(message){
                     SBM.ambedMessage("- in der Warteschlange  :",TrackTitel_Array, MessChannel,RandomColor,BotName,botAuthorImage,QueueListe);
                 }
                 break;
-            case prefix+set_skip: // geht soweit gut
+            case prefix+set_skip: // funktioniert
                 var BoTServer = Warteschlange_Array[message.guild.id]; // initial bot server
                 const voiceConnection = bot.voiceConnections.find(val => val.channel.guild.id == message.guild.id); 
                 //---------------------------------------        
-                if (BoTServer.interne_Warteschlange.length<1){   
-                    //SBM.ambedMessage(" - Warteschlange"," ist leer.", MessChannel,RandomColor,BotName,botAuthorImage,NoQueue);
+                if (BoTServer.interne_Warteschlange.length<1){
                     if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect();  // ist interner_Titel > 0 also leer  dann disconnect aus channel
                     return; // sonst RichEmbed error da er in else geht und InfoText1 oder InfoText2 keine info bekommt -- RichEmbed field values may not be empty.
                 }else if(BoTServer.dispatcher){ BoTServer.dispatcher.end()}; // geh zur funktion end
@@ -326,15 +324,15 @@ bot.on("message",function(message){
                 var BoTServer = Warteschlange_Array[message.guild.id]; // initial bot server    
                 
                 if(!bot_joint){
-                    bot_joint=false;
+                    bot_joint=false; // is bot joint channel
                     SBM.ambedMessage("- Bot ist in keinem :","Voice Channel.", MessChannel,RandomColor,BotName,botAuthorImage,NoVoiceCh);  
                 }else{
                     SBM.ambedMessage("- Man sieht sich wieder :","bestimmt.", MessChannel,RandomColor,BotName,botAuthorImage,Leave);
-                    bot_joint=false;
-                    MinQueue = 0; 
-                    BoTServer.interne_Warteschlange=[];    
-                    BoTServer.interner_Titel=[];
-                    if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect();
+                    bot_joint=false; // is bot joint channel
+                    MinQueue = 0; // Queue auf null setzen
+                    BoTServer.interne_Warteschlange=[];  // warteschlange leeren   
+                    BoTServer.interner_Titel=[]; // Song titel leeren leeren   
+                    if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect(); // disconect voice channel
                 }
                 break;
             case prefix+set_volume: //funktioniert
@@ -377,8 +375,8 @@ function volume(message, onlyNum){
     if (onlyNum < 11){ // ist max Volume kleiner als
         if (onlyNum > 0 ){ // ist max Volume größer als              
             dispatcher.setVolume(onlyNum/20);        
-        }else{return message.channel.send(wrap('Volume out of range!'))};  // message wenn beider darüber oder darunter ist      
-    }else{return message.channel.send(wrap('Volume out of range!'))};
+        }else{return message.channel.send(wrap('Volume out of range!'))};  // message wenn wert darüber oder darunter ist      
+    }else{return message.channel.send(wrap('Volume out of range!'))}; // message wenn wert darüber oder darunter ist 
 }
 //---------------------------------------
 function pause(message, prefix){
@@ -387,14 +385,14 @@ function pause(message, prefix){
     var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6)
     //---------------------------------------
     // Get the voice connection.
-    const voiceConnection = bot.voiceConnections.find(val => val.channel.guild.id == message.guild.id);
-    if (voiceConnection === null) return message.channel.send(wrap('Es spielt keine Musik.'));
+    const voiceConnection = bot.voiceConnections.find(val => val.channel.guild.id == message.guild.id); // initial voiceConnection
+    if (voiceConnection === null) return message.channel.send(wrap('Es spielt keine Musik.')); // ist voiceConnection = 0 return message
 
     // Pause.
     var MessChannel = bot.channels.find("name", ChatChannel);
     SBM.ambedMessage('Playback pause.'," - ", MessChannel,RandomColor,BotName,botAuthorImage,Pause);
     const dispatcher = voiceConnection.player.dispatcher;
-    if (!dispatcher.play) dispatcher.pause();
+    if (!dispatcher.play) dispatcher.pause(); // dispatcher pause
 } 
 function resume(message, prefix){
     //---------------------------------------
@@ -402,14 +400,14 @@ function resume(message, prefix){
     var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6)
     //---------------------------------------   
     // Get the voice connection.
-    const voiceConnection = bot.voiceConnections.find(val => val.channel.guild.id == message.guild.id);
-    if (voiceConnection === null) return message.channel.send(wrap('Es spielt keine Musik.'));
+    const voiceConnection = bot.voiceConnections.find(val => val.channel.guild.id == message.guild.id); // initial voiceConnection
+    if (voiceConnection === null) return message.channel.send(wrap('Es spielt keine Musik.')); // ist voiceConnection = 0 return message
 
     // Resume.
     var MessChannel = bot.channels.find("name", ChatChannel);
     SBM.ambedMessage('Playback resumed.'," - ", MessChannel,RandomColor,BotName,botAuthorImage,Resume);
     const dispatcher = voiceConnection.player.dispatcher;
-    if (dispatcher.pause) dispatcher.resume();
+    if (dispatcher.pause) dispatcher.resume(); // dispatcher resume
 }
 //---------------------------------------
 function play(connection, message){
@@ -436,27 +434,27 @@ function play(connection, message){
 
             if(BoTServer.interne_Warteschlange[0]){
                 play(connection,message);                
-                MinQueue--
-                BoTServer.interne_Warteschlange.shift();
-                BoTServer.interner_Titel.shift();
+                MinQueue-- // -- queue aus der warteschlange
+                BoTServer.interne_Warteschlange.shift(); //-- delete 1 aus warteschlange
+                BoTServer.interner_Titel.shift(); //-- delete 1 aus warteschlange
                 //---------------------------------------
                 TrackTitel_Array=BoTServer.interner_Titel;
                 SBM.ambedMessage('Warteschlange :',TrackTitel_Array, MessChannel,RandomColor,BotName,botAuthorImage,skip); // message ausgabe - Warteschlange TrackTitel_Array
             }else{connection.disconnect()
                 bot_joint=false;
                 bot_sound_option=true;
-                MinQueue=0; 
-                BoTServer.interne_Warteschlange=[];    
-                BoTServer.interner_Titel=[];
+                MinQueue=0; // setze queue auf null
+                BoTServer.interne_Warteschlange=[]; // setze die warteschlange zurück 
+                BoTServer.interner_Titel=[]; // setze die song titel zurück
                 SBM.ambedMessage(" - Warteschlange"," ist leer.", MessChannel,RandomColor,BotName,botAuthorImage,NoQueue);     
                 console.log("song end 1");}            
                 return;
         }else{connection.disconnect()
             bot_joint=false;
             bot_sound_option=true;
-            MinQueue=0; 
-            BoTServer.interne_Warteschlange=[];    
-            BoTServer.interner_Titel=[];
+            MinQueue=0; // setze queue auf null
+            BoTServer.interne_Warteschlange=[]; // setze die warteschlange zurück 
+            BoTServer.interner_Titel=[]; // setze die song titel zurück
             SBM.ambedMessage(" - Warteschlange"," ist leer.", MessChannel,RandomColor,BotName,botAuthorImage,NoQueue);     
             console.log("song end 2");
         }     
