@@ -127,7 +127,7 @@ server.post('/sendMessage', function(req,res){
 * Youtube Url Suche
 * @param {Object} getID - gibt die Youtube Id Aus
 * @param {Object} search_video - sucht nach der URL in Youtube
-* @param {Object} default URL NEUROFUNK DRUM&BASS MIX - JANUARY 2018 
+* @param {Object} default - URL NEUROFUNK DRUM&BASS MIX - JANUARY 2018 
 */
 function getID(str, cb) {
     search_video(str, function(id) {
