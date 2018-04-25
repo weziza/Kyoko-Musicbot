@@ -1,10 +1,10 @@
 {
 
-    "token"         : " your Token here ", 
+    "token"         : "token here", 
 
-    "yt_api_key"    : " your youtube api here ",
+    "yt_api_key"    : "youtube key here",
 
-    "botchannel"    : " your bot channel here",
+    "botchannel"    : "bot channel here",
 
     "defaultVolume" : 0.1,
 
@@ -18,7 +18,12 @@
 
     "serverId"      : "1000",
 
-    "prefix"        : "+",    
+    "songList_25"   : "false",
+    
+    "songList_50"   : "true",
+
+    "prefix"        : "+",
+        
     "set_ping"      : "ping",
     "set_mega"      : "mega",
     "set_witz"      : "witz",

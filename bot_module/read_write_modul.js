@@ -1,16 +1,26 @@
+const newbuff = require('buffer');
 const discord = require('discord.js');
 const ytdl = require("ytdl-core");
 var fs = require("fs");
 //------------------------------
-var url_text = [];
-var url_info = [];
-var url_info_2 = [];
-var url_input = [];
+//var url = [];
+//var url_info = [];
+//var url_input = [];
 //------------------------------
-const Songlisten_pfad='./bot_module/songlist/';
+const Songlisten_pfad ='./songlisten/';
 const urlInfo = '-url_info.json';
 const urlInput = '-url_input.json';
 //------------------------------
+const setting = require('../bot_setting/bot_setting.json');
+var smallSongList = setting.songList_25;
+var bigSongList = setting.songList_50;
+if (smallSongList=="true"){
+    var y = 76
+    bigSongList="false";}
+if (bigSongList=="true"){
+    var y = 39 
+    smallSongList="false";}
+
 /**
 * @param {Object} auth_id
 * @param {Object} message
@@ -35,7 +45,7 @@ exports.getsong = function(auth_id,message,bot,comando,slice,prefix,ChatChannel,
         var songlength= words.length;
         var getNumber = message.content.slice(slice);
         
-        //console.log(data.byteLength)        
+        //console.log(songlength)        
         
         if(!memberchannel){
             return bot.channels.find("name", ChatChannel).send(wrap('Du musst erst ein Voice channel betreten'));
@@ -49,14 +59,16 @@ exports.getsong = function(auth_id,message,bot,comando,slice,prefix,ChatChannel,
             else if(getNumber<songlength){
                 if(message.content.startsWith(comando)) {
                     var i = 0;
+                    var mess_url = 0;
                     var SongListVar = setInterval(SongListTimer, 1);  
                     function SongListTimer() 
                     { 
                         if(getNumber==i){                            
-                            var mess = words[i];
-                            //console.log(words[i])
+                            var mess_url = words[i];                            
                             memberchannel.join();
-                            bot.channels.find("name", ChatChannel).send(prefix + set_playsong + " " +mess);
+                            clearInterval(SongListVar),i=0;
+                            bot.channels.find("name", ChatChannel).send(prefix + set_playsong + " " +mess_url);
+                            
                         };
                         i ++
                     };                
@@ -79,21 +91,23 @@ exports.getsong = function(auth_id,message,bot,comando,slice,prefix,ChatChannel,
 */
 exports.getRandom = function(auth_id,message,bot,comando,prefix,ChatChannel,memberchannel,set_playsong) {
 
+    var url_mess = 0;
+    
     fs.exists(Songlisten_pfad+auth_id+urlInput,(exists)=> {
         if (!exists) {
             message.delete();
             return bot.channels.find("name", ChatChannel).send(wrap('Es wurde noch keine Liste angelegt'));  
         }
         else if (!memberchannel){
-            bot.channels.find("name", ChatChannel).send(wrap('Du musst erst ein Voice channel betreten'));
+            return bot.channels.find("name", ChatChannel).send(wrap('Du musst erst ein Voice channel betreten'));
         }else if(message.content.startsWith(comando)) {
             
             var data  = fs.readFileSync(Songlisten_pfad+auth_id+urlInput)     
             var words = JSON.parse(data)
-            var mess = words[Math.floor(Math.random() * words.length)];
+            var url_mess = words[Math.floor(Math.random() * words.length)];
             memberchannel.join();
-            bot.channels.find("name", ChatChannel).send(prefix + set_playsong + " " +mess);  
-        }return;
+            return bot.channels.find("name", ChatChannel).send(prefix + set_playsong + " " +url_mess);  
+        };
     });
 }
 //---------------------------------------
@@ -107,12 +121,16 @@ exports.getRandom = function(auth_id,message,bot,comando,prefix,ChatChannel,memb
 * @param {Object} ChatChannel
 */
 exports.savesong = function(auth,auth_id,message,bot,comando,slice,ChatChannel,msg){
-    
+
+    var url = [];
+    var url_info = [];
+    var url_input = [];
+
     fs.exists(Songlisten_pfad+auth_id+urlInput,(exists)=> {
         if (!exists) {
             message.delete();
             bot.channels.find("name", ChatChannel).send('```\n'+'file musste erst angelegt werden.'+'\n'+'bitte nochmal url eingeben'+'\n```');
-            fs.writeFile(Songlisten_pfad+auth_id+urlInput,JSON.stringify(url_text, null, 4), err => 
+            fs.writeFile(Songlisten_pfad+auth_id+urlInput,JSON.stringify(url, null, 4), err => 
             {
                 if (err)
                     throw err;
@@ -124,21 +142,23 @@ exports.savesong = function(auth,auth_id,message,bot,comando,slice,ChatChannel,m
             });
         } else {
             var i=0;
-            var data  = fs.readFileSync(Songlisten_pfad+auth_id+urlInput) 
-            var data_info  = fs.readFileSync(Songlisten_pfad+auth_id+urlInfo)    
-            var words_url = JSON.parse(data);
-            var words_info = JSON.parse(data_info);   
+            var url_buffer  = fs.readFileSync(Songlisten_pfad+auth_id+urlInput) 
+            var url_info_buffer  = fs.readFileSync(Songlisten_pfad+auth_id+urlInfo)    
+            var words_url = JSON.parse(url_buffer);
+            var words_info = JSON.parse(url_info_buffer);
+
             var url_message = message.content.slice(slice);
-            var maxBuffer=2000;
-            var bufferMath = maxBuffer/39;
+
+            var maxBuffer = 2000;
+            var bufferMath = maxBuffer/y;
+            var mathSlice = 40;
+
             var url_messageInfo = url_message;
 
             words_url[0] = auth;
             words_info[0] = auth;
 
-            //console.log(auth+" | "+data.byteLength)
-
-            if (data_info.byteLength>maxBuffer){
+            if (url_info_buffer.byteLength>maxBuffer){
                 return bot.channels.find("name", ChatChannel).send('```\n' +"overload buffer zise"+" - Max Buffer "+maxBuffer+ '\n```');
             }
             if (url_message.indexOf("h")>0){
@@ -152,7 +172,7 @@ exports.savesong = function(auth,auth_id,message,bot,comando,slice,ChatChannel,m
                     var SongListVar = setInterval(SongListTimer, 1);  
                     function SongListTimer() 
                     {             
-                        url_text.push(words_url[i]);
+                        url.push(words_url[i]);
                         url_info.push(words_info[i]);
 
                         if (i==words_url.length-1)
@@ -164,25 +184,20 @@ exports.savesong = function(auth,auth_id,message,bot,comando,slice,ChatChannel,m
                                     return message.channel.send(wrap("Error unvollständige url")); // error unvollständige url
                                 }
                                 else {
-
-                                    //console.log(videoInfo.keywords)
-                                    
                                     var time = videoInfo.length_seconds / 60; //viedeo Time  
-                                    url_messageInfo = videoInfo.title.slice(0,17)+" : "+time.toFixed(1)+ " min";                                
+                                    url_messageInfo = videoInfo.title.slice(0,mathSlice)+" : "+time.toFixed(1)+ " min";                                
                                     url_info.push(url_messageInfo);
-                                    url_text.push(url_message)              
-                                    //console.log(videoInfo)
-                                    var bufferMathNachricht = maxBuffer/40;
+                                    url.push(url_message);
+                                    var bufferMathNachricht = bufferMath;
                                 }    
-                                if (url_text.length>bufferMath.toFixed(0))
+                                if (url.length>bufferMath)
                                 {
                                     url_info = []; 
-                                    url_text = []; 
+                                    url = []; 
                                     message.delete();
-
-                                    return bot.channels.find("name", ChatChannel).send('```\n'+auth+" momentan sind nur "+bufferMathNachricht.toFixed(0)+" speicherungen erlaubt"+ '\n```');         
+                                    return bot.channels.find("name", ChatChannel).send('```\n'+auth+" Max Speicherplatz wurde erreicht.. es sind "+bufferMathNachricht.toFixed(0)+" speicherungen erlaubt"+ '\n```');         
                                 }else{
-                                    fs.writeFile(Songlisten_pfad+auth_id+urlInput,JSON.stringify(url_text, null, 4), err => 
+                                    fs.writeFile(Songlisten_pfad+auth_id+urlInput,JSON.stringify(url, null, 4), err => 
                                     {   
                                         if (err)
                                             throw err;
@@ -190,14 +205,13 @@ exports.savesong = function(auth,auth_id,message,bot,comando,slice,ChatChannel,m
                                         {
                                             if (err)
                                                 throw err;
+                                            message.delete();    
                                             url_info = []; 
-                                            url_text = [];          
-                                            message.delete();
+                                            url = [];
                                             return bot.channels.find("name", ChatChannel).send('```\n' +url_messageInfo+'\n'+">> wurde zur Liste hinzu gefügt" + '\n```');
                                         });
                                     });
-                                };
-                                
+                                };                                
                             }); 
                         };
                         i++ 
@@ -220,6 +234,15 @@ exports.savesong = function(auth,auth_id,message,bot,comando,slice,ChatChannel,m
 */
 exports.songliste = function(auth,auth_id,message,bot,ChatChannel){
 
+    var i=0; 
+
+    var url = [];
+    var url_info = [];
+    var url_input = [];
+    var url_info_1 = []  
+    var url_info_2 = []
+    var url_input_1 = []  
+    var url_input_2 = []
 
     fs.exists(Songlisten_pfad+auth_id+urlInfo,(exists)=> {
         if (!exists) {
@@ -227,33 +250,115 @@ exports.songliste = function(auth,auth_id,message,bot,ChatChannel){
             return bot.channels.find("name", ChatChannel).send(wrap('Es wurde noch keine Liste angelegt'));  
         }
 
-        var i=0;
-        var Info_buffer  = fs.readFileSync(Songlisten_pfad+auth_id+urlInfo);
-        //console.log(Info_buffer.byteLength);
-        var url_info = JSON.parse(Info_buffer);           
+        var Info_buffer = fs.readFileSync(Songlisten_pfad+auth_id+urlInfo);
+        var url_buffer  = fs.readFileSync(Songlisten_pfad+auth_id+urlInput);
 
-        url_info[0] = auth;
+        if (bigSongList=="true"){
 
-        var SongListVar = setInterval(SongListTimer, 1);  
-        function SongListTimer() 
-        {             
-            url_text.push(url_info[i]);
+            var words_info = JSON.parse(Info_buffer);
+            var arrayLength = words_info.length+1;
+            var fixedArrayLength = Math.ceil(arrayLength);
+            var MidWert = Math.ceil(fixedArrayLength/2-1);
+            var words_info1 = JSON.parse(Info_buffer).splice(0,MidWert+1);
+            var words_info2 = JSON.parse(Info_buffer).splice(MidWert,fixedArrayLength);
+            console.log(MidWert)
+            var SongListVar = setInterval(SongListTimer, 5);  
+            function SongListTimer() 
+            {                         
+                url_info_1.push(words_info1[i]);                
 
-            
-            if (i==url_info.length-1)
-            {
+                if (i==MidWert)
+                {            
+                    clearInterval(SongListVar),i=0;
 
-                clearInterval(SongListVar),i=0;                                    
-                nerv = url_text.map((url_text, z) => (z-1+ 1) + ' : ' + url_text).join('\n');
-                url_input.push(nerv)
-                //console.log(nerv)
-                bot.channels.find("name", ChatChannel).send('```\n' + url_input + '\n```')
-                url_input=[];  
-                url_text = [];   
-                return;                              
+                    var SongListVar2 = setInterval(SongListTimer2, 5);                   
+                    function SongListTimer2() 
+                    { 
+                           
+                        url_info_2.push(words_info2[i]);
+
+                        if (i==fixedArrayLength-MidWert-2)
+                        {
+                            clearInterval(SongListVar2),i=0;
+
+                            urlListe1 = url_info_1.map((url_info_1, z) => (z + 0) + ' : ' + url_info_1).join('\n');
+                            urlListe2 = url_info_2.map((url_info_2, z) => (z + MidWert+1) + ' : ' + url_info_2).join('\n');
+                    
+                            url_input_1.push(urlListe1)
+                            url_input_2.push(urlListe2)
+                            
+                            bot.channels.find("name", ChatChannel).send('```\n' + url_input_1 + '\n```')
+                            bot.channels.find("name", ChatChannel).send('```\n' + url_input_2 + '\n```')
+
+                            url_input_1=[]; 
+                            url_input_2=[]; 
+                            url_info_1 = [];
+                            url_info_2 = [];  
+                            return;
+                        };    
+                        i++
+                    };   
+                };  
+                i++
             };
-            i++
-        };       
+        }
+        
+        if (smallSongList=="true"){
+            
+            var words_info = JSON.parse(Info_buffer);
+            var words_url = JSON.parse(url_buffer);
+
+            var arrayLength_info = words_info.length;
+            var arrayLength_url = words_url.length;   
+
+            var SongListVar = setInterval(SongListTimer, 1);  
+            function SongListTimer() 
+            {                         
+                url.push(words_url[i]);
+                url_info.push(words_info[i]);
+
+                
+                if (i==words_info.length-1)
+                {
+                    clearInterval(SongListVar),i=0;
+                                    
+                    if (arrayLength_url>26){
+
+                        url.splice(26, arrayLength_url);
+                        url_info.splice(26, arrayLength_info);                   
+   
+                        fs.writeFile(Songlisten_pfad+auth_id+urlInput,JSON.stringify(url, null, 4), err => 
+                        {
+                            fs.writeFile(Songlisten_pfad+auth_id+urlInfo,JSON.stringify(url_info, null, 4), err => 
+                            {
+                                if (err)
+                                    throw err;
+
+                                urlListe = url_info.map((url_info, z) => (z + 0) + ' : ' + url_info).join('\n');
+                                url_input.push(urlListe)
+                                bot.channels.find("name", ChatChannel).send('```\n' + url_input + '\n```')
+
+                                url_input = [];
+                                url_info = []; 
+                                url = [];                                
+          
+                                return bot.channels.find("name", ChatChannel).send('```\n' +"Songliste wurde bis auf 25 Songs gelöscht"+ '\n```');
+                            });
+                        }); 
+                    }else{
+                        urlListe = url_info.map((url_info, z) => (z + 0) + ' : ' + url_info).join('\n');
+                        url_input.push(urlListe)
+                        bot.channels.find("name", ChatChannel).send('```\n' + url_input + '\n```')
+
+                        url_input = [];
+                        url_info = [];
+                        url = []; 
+                        return;
+                    }                           
+                };
+                i++
+            };
+        }       
     });
 };
 //------------------------------
@@ -267,56 +372,57 @@ exports.songliste = function(auth,auth_id,message,bot,ChatChannel){
 * @param {Object} ChatChannel
 */
 exports.deletesong = function(auth,auth_id,message,bot,comando,slice,ChatChannel) {
+
+    var url = [];
+    var url_info = [];
   
     fs.exists(Songlisten_pfad+auth_id+urlInput,(exists)=> {
         if (!exists) {
             message.delete();
             return bot.channels.find("name", ChatChannel).send(wrap('Es wurde noch keine Liste angelegt'));  
         }
-
-
         var i=0;
-
-        var data  = fs.readFileSync(Songlisten_pfad+auth_id+urlInput) 
-        var data_info  = fs.readFileSync(Songlisten_pfad+auth_id+urlInfo)    
-        var words = JSON.parse(data);
-        var words_info = JSON.parse(data_info);
+        var url_buffer  = fs.readFileSync(Songlisten_pfad+auth_id+urlInput) 
+        var info_buffer  = fs.readFileSync(Songlisten_pfad+auth_id+urlInfo)    
+        var words_url = JSON.parse(url_buffer);
+        var words_info = JSON.parse(info_buffer);
         var getNumber = message.content.slice(slice);
 
         console.log(comando)
 
-        words[0] = auth;
+        words_url[0] = auth;
+        words_info[0] = auth;
         //console.log(getNumber);
         if (message.content.startsWith(comando)) {
             var SongListVar = setInterval(SongListTimer, 1);  
             function SongListTimer() 
             {  
             
-                url_text.push(words[i]);
+                url.push(words_url[i]);
                 url_info.push(words_info[i]);
-                //console.log(url_text);
-                if (i==words.length-1)
+                //console.log(url);
+                if (i==words_url.length-1)
                 { 
-                    clearInterval(SongListVar),i=0;
-
+                    clearInterval(SongListVar),i=0;                    
                     var lead = url_info[getNumber];
                     if (getNumber==0){
+                        url_info = []; 
+                        url = [];
                         return bot.channels.find("name", ChatChannel).send('```\n' +"du kannst nicht deinen Namen löschen"+ '\n```');
                     }else{
 
-                        url_text.splice(getNumber, 1); //löscht 1 gewünschte zeile aus der array
+                        url.splice(getNumber, 1); //löscht 1 gewünschte zeile aus der array
                         url_info.splice(getNumber, 1); //löscht 1 gewünschte zeile aus der array
 
-
                         //console.log(url_info);
-                        fs.writeFile(Songlisten_pfad+auth_id+urlInput,JSON.stringify(url_text, null, 4), err => 
+                        fs.writeFile(Songlisten_pfad+auth_id+urlInput,JSON.stringify(url, null, 4), err => 
                         {
                             fs.writeFile(Songlisten_pfad+auth_id+urlInfo,JSON.stringify(url_info, null, 4), err => 
                             {
                                 if (err)
                                     throw err;
                                 url_info = []; 
-                                url_text = [];          
+                                url = [];          
                                 message.delete();
                                 return bot.channels.find("name", ChatChannel).send('```\n'+getNumber+" : "+lead+'\n'+" >> wurde gelöscht" + '\n```');
                             });
