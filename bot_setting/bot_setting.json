@@ -16,14 +16,12 @@
 
     "Delete_Message": "100",
 
-    "serverId"      : "1000",
-
     "songList_25"   : "false",
-    
+
     "songList_50"   : "true",
 
     "prefix"        : "+",
-        
+
     "set_ping"      : "ping",
     "set_mega"      : "mega",
     "set_witz"      : "witz",
@@ -39,7 +37,7 @@
     "set_purge"     : "purge",
     "set_getsong"   : "getsong",
     "set_randomsong": "randomsong",    
-    "set_songliste" : "songliste",
+    "set_songliste" : "songlist",
     "set_savesong"  : "savesong",
     "set_deletesong": "deletesong",
     "set_playsong"  : "playsong",

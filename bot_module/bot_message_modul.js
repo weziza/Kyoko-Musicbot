@@ -1,5 +1,15 @@
 const discord = require('discord.js');
 //------------------------------------
+const setting = require('../bot_setting/bot_setting.json');
+var smallSongList = setting.songList_25;
+var bigSongList = setting.songList_50;
+if (smallSongList=="true"){
+    var GrList = 25;
+    bigSongList="false";}
+if (bigSongList=="true"){
+    var GrList = 50;
+    smallSongList="false";}
+//------------------------------------
 /**
 * @param {Object} MessChannel // the message.channel
 * @param {Object} InfoSetImage // setImage Datenbank.json Math random
@@ -24,13 +34,13 @@ exports.InfoScreen = (set_playsong,set_searchsong,set_deletesong,set_savesong,se
       .addField("-----------------------------",prefix + set_leave+' | '+'schmeißt den Bot aus dem Voice Channel. ',false)
       .addField("-----------------------------",prefix + set_volume+' | '+'[ zahl ]  Lautstärke 0 bis 10 Max. ',false)
       .addField("-----------------------------",prefix + set_purge+' | '+'Löscht Maximal die letzten 100 Zeilen. ',false)
-      .addField("-----------------------------",'Maximale '+' Anzahl der Warteschlange liegt bei '+'[ '+MaxQueue+' ]',false)
+      .addField("-----------------------------",' die Maximale '+' Anzahl der Warteschlange liegt bei '+'[ '+MaxQueue+' ]',false)
       .addField("-----------------------------",prefix + set_getsong+' | '+'[ Nr ] Spiel genau den Song aus der Liste. ',false)
       .addField("-----------------------------",prefix + set_randomsong+' | '+'Spiel ein zufälligen Song aus der Liste. ',false)
       .addField("-----------------------------",prefix + set_playsong+' | '+'[ url ] : Füge ein Youtube Link hinzu ',false)
       .addField("-----------------------------",prefix + set_searchsong+' | '+'[ ??? ] : Suche Youtube Link ',false)      
       .addField("-----------------------------",prefix + set_songliste+' | '+'Zeige Songliste. ',false)
-      .addField("-----------------------------",prefix + set_savesong+' | '+'Füge Max 50 Song`s in deiner Liste hinzu. ',false)
+      .addField("-----------------------------",prefix + set_savesong+' | '+'Füge Max '+ GrList +' Song`s in deiner Liste hinzu. ',false)
       .addField("-----------------------------",prefix + set_deletesong+' | '+'[ Nr ] löscht ein Song aus deiner Liste. ',false)
       .setThumbnail(setThumbnail[Math.floor(Math.random()* setThumbnail.length)])
       .setImage(setImage[Math.floor(Math.random()* setImage.length)])
