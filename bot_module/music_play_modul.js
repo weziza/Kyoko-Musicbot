@@ -275,15 +275,12 @@ function play(connection,message,bot_MessChannel){
     };        
 
     dispatcher.on("end",function(){
-        var TrTitel = 0
         if(Warteschlange_Array[0]){           
             MinQueue-- // -- queue aus der warteschlange
             play(connection,message,bot_MessChannel),TrackTitel.shift();            
-            TrTitel = TrackTitel.map((TrackTitel, x) => ((x + 1) + ': ' + TrackTitel)).join('\n');
-            TrackTitel_Array=TrTitel;
-            //console.log(TrackTitel,"   ",TrTitel)                         
+            TrackTitel_Array = TrackTitel.map((TrackTitel, x) => ((x + 1) + ': ' + TrackTitel)).join('\n');                 
             //---------------------------------------         
-            return bmess.ambedMessage('Warteschlange :',TrTitel,bot_MessChannel,RandomColor,BotName,botAuthorImage,skip); // message ausgabe - Warteschlange TrackTitel_Array
+            return bmess.ambedMessage('Warteschlange :',TrackTitel_Array,bot_MessChannel,RandomColor,BotName,botAuthorImage,skip); // message ausgabe - Warteschlange TrackTitel_Array
         }else{connection.disconnect()            
             bot_playing=false;
             //--------            
