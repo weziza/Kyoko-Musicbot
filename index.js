@@ -81,7 +81,7 @@ bot.on("message",function(message){
         var url = message.content.split(' ')[1]; // gibt die url aus split prefix aus
         var case_args = message.content.substring("").split(" "); // für switch funktion erkenne prefix/text angabe 
         var VolumeNr = message.content.substring("").replace(/^[^0-9]+/, ''); //gibt nur zahlen anordnung aus
-        const sucheVideo = message.content.split(' ').slice(1).join(" ");
+        var sucheVideo = message.content.split(' ').slice(1).join(" ");
         //-----------------------------
         var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
         var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6)
@@ -143,7 +143,7 @@ bot.on("message",function(message){
         case prefix+set_clean: // funktioniert      
                 sgm.clean_queue(message,bot_MessChannel)
             break; 
-        case prefix+set_queue: //funktioniert gut
+        case prefix+set_queue: //funktioniert
                 sgm.queue_function(message,bot_MessChannel);
             break;
         case prefix+set_skip: // funktioniert 

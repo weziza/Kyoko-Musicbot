@@ -104,7 +104,6 @@ exports.play_song = function (memberchannel, message, RandomColor,bot_MessChanne
             play(connection,message,bot_MessChannel);  
         });
 
-
         Warteschlange_Array.push(url);
         ytdl.getInfo(url = String(url), (error, videoInfo) => { // url ausgabe information
             if (error) {
@@ -118,7 +117,6 @@ exports.play_song = function (memberchannel, message, RandomColor,bot_MessChanne
             MinQueue++; // Song counder ++
             //---------------------------------------
             bmess.ambedMessage("hinzugefügt :", TrackTitel_Array, bot_MessChannel, RandomColor, BotName, botAuthorImage, QueueSong);
-
         });
     };    
 };
@@ -157,7 +155,6 @@ exports.bot_leave = function(bot_MessChannel,message){
         TrackTitel = [];  
         if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect(); // disconect voice channel
     }
-
 };
 //---------------------------------------
 exports.clean_queue = function(message,bot_MessChannel){
@@ -224,7 +221,7 @@ exports.volume = function(message,VolumeNr,voiceConnection){
         if (VolumeNr > 0 ){ // ist max Volume größer als              
             dispatcher.setVolume(VolumeNr/20);
             vlNr = VolumeNr/20; 
-            console.log(vlNr);       
+            //console.log(vlNr);       
         }else{return message.channel.send(wrap('Volume out of range!'))};  // message wenn wert darüber oder darunter ist      
     }else{return message.channel.send(wrap('Volume out of range!'))}; // message wenn wert darüber oder darunter ist 
 };
@@ -264,8 +261,6 @@ exports.searchsong = function(memberchannel,message,sucheVideo,bot_MessChannel,p
 };
 //---------------------------------------
 function play(connection,message,bot_MessChannel){
-
-    var TrTitel = 0
     //-----------------------------
     var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
     var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6)
@@ -280,7 +275,7 @@ function play(connection,message,bot_MessChannel){
     };        
 
     dispatcher.on("end",function(){
-        console.log(Warteschlange_Array);
+        var TrTitel = 0
         if(Warteschlange_Array[0]){           
             MinQueue-- // -- queue aus der warteschlange
             play(connection,message,bot_MessChannel),TrackTitel.shift();            
