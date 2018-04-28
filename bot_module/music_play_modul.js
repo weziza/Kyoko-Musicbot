@@ -279,7 +279,9 @@ function play(connection,message,bot_MessChannel){
         if(Warteschlange_Array[0]){           
             MinQueue-- // -- queue aus der warteschlange
             play(connection,message,bot_MessChannel),TrackTitel.shift();            
-            TrTitel = TrackTitel.map((TrackTitel, x) => ((x + 1) + ': ' + TrackTitel)).join('\n');                          
+            TrTitel = TrackTitel.map((TrackTitel, x) => ((x + 1) + ': ' + TrackTitel)).join('\n');
+            TrackTitel_Array=TrTitel;
+            //console.log(TrackTitel,"   ",TrTitel)                         
             //---------------------------------------         
             return bmess.ambedMessage('Warteschlange :',TrTitel,bot_MessChannel,RandomColor,BotName,botAuthorImage,skip); // message ausgabe - Warteschlange TrackTitel_Array
         }else{connection.disconnect()            
