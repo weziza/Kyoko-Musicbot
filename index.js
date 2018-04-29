@@ -16,30 +16,30 @@ var BotName = setting.BotName;
 var MDelete = setting.Delete_Message;
 var MaxQueue = setting.MaxQueue;
 //------------------------------
-var set_ping = setting.set_ping
-var set_mega = setting.set_mega
-var set_witz = setting.set_witz
-var set_uhr = setting.set_uhr
-var set_hilfe = setting.set_hilfe
-var set_clean = setting.set_clean
-var set_queue = setting.set_queue
-var set_skip = setting.set_skip
-var set_volume = setting.set_volume
-var set_purge = setting.set_purge
-var set_pause = setting.set_pause
-var set_resume = setting.set_resume
-var set_leave = setting.set_leave
-var set_getsong = setting.set_getsong
-var set_randomsong = setting.set_randomsong
-var set_songliste = setting.set_songliste
-var set_savesong = setting.set_savesong
-var set_deletesong = setting.set_deletesong
-var set_searchsong = setting.set_searchsong
-var set_playsong = setting.set_playsong
+var set_ping = setting.set_ping;
+var set_mega = setting.set_mega;
+var set_witz = setting.set_witz;
+var set_uhr = setting.set_uhr;
+var set_hilfe = setting.set_hilfe;
+var set_clean = setting.set_clean;
+var set_queue = setting.set_queue;
+var set_skip = setting.set_skip;
+var set_volume = setting.set_volume;
+var set_purge = setting.set_purge;
+var set_pause = setting.set_pause;
+var set_resume = setting.set_resume;
+var set_leave = setting.set_leave;
+var set_getsong = setting.set_getsong;
+var set_randomsong = setting.set_randomsong;
+var set_songliste = setting.set_songliste;
+var set_savesong = setting.set_savesong;
+var set_deletesong = setting.set_deletesong;
+var set_searchsong = setting.set_searchsong;
+var set_playsong = setting.set_playsong;
 //------------------------------
 const eventMarkdown="```md";
 const eventhtml="```html";
-const eventpython="```python"
+const eventpython="```python";
 const eventcss="```css";
 const event= "#[ Event-Bot Nachricht ]"
 const teilN= ">--- für teilnahme click Emoji --->";
@@ -57,13 +57,11 @@ bot.on('ready', () => {
 bot.on("message",function(message){
     
     if(message.content.indexOf(prefix)){ //message begint mit prefix dann / wenn nicht return
-        //console.log("no prefix")
         return;
     }else{        
         if(!autodelete){
             autodelete=true;
             message.channel.fetchMessages({limit: MDelete}).then(messages => {
-                //console.log(`${messages.size} messages found`);
                 if(messages.size==MDelete){
                     bot.channels.find("name", botchannel).send("+purge"); //Auto delete 100 messages
                 }
@@ -84,7 +82,7 @@ bot.on("message",function(message){
         var sucheVideo = message.content.split(' ').slice(1).join(" ");
         //-----------------------------
         var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
-        var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6)
+        var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);
         //-----------------------------
         if(!message.content.includes("")) return;
         switch(case_args[0].toLowerCase()){
@@ -96,7 +94,6 @@ bot.on("message",function(message){
             .setFooter(BotName,"https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fsnapchat-download.net%2Fwp-content%2Fuploads%2F2015%2F10%2Fsnapchat-blue-double-arrow-icon-mean.png&f=1")  
             .setColor(RandomColor)
             bot_MessChannel.send(embed);
-            //console.log(Date.now())
             break;
         case prefix+set_mega: //funktioniert
             var embed = new discord.RichEmbed()
@@ -129,12 +126,10 @@ bot.on("message",function(message){
             }         
             break;
         case prefix+set_playsong: // funktioniert
-
                 if(!url){return bot_MessChannel.send(wrap(`Füge zuerst einen Songs zur Warteschlange hinzu mit `+prefix+`play https://`));}
                 else if(!msg.includes("https://")){ bot_MessChannel.send(wrap(`bitte Url einfügen mit `+prefix+`play https://`));}        
                 else if(!memberchannel){return bot_MessChannel.send(wrap('Du musst erst ein Voice channel betreten'));}
                 else if(!message.guild.voiceConnection) memberchannel.join().then(function(connection){
-
                     var https = message.content.slice(prefix.length+set_playsong.length+1);                   
                     sgm.play_song(memberchannel,message,RandomColor,bot_MessChannel,https);
 
@@ -167,7 +162,7 @@ bot.on("message",function(message){
             autodelete=false;
             message.channel.bulkDelete(100).then(() => { // lösche 100 chat zeilen
             var embed = new discord.RichEmbed() // message ausgabe
-            .addField(100+"Messages Gelöscht.","-----------------------------",true )
+            .addField(100+"Messages Gelöscht.","-----------------------------",true );
             bot_MessChannel.send(embed).then(m => m.delete(3000));
             });
             break;
@@ -177,19 +172,19 @@ bot.on("message",function(message){
             sgm.get_song(memberchannel, message, RandomColor,bot_MessChannel);
             break; 
         case prefix+set_randomsong: //funktioniert        
-            return rwm.getRandom(auth_id,message,bot,prefix+set_randomsong,prefix,botchannel,memberchannel,RandomColor,bot_MessChannel);    
+            return rwm.Random_song(auth_id,message,bot,prefix+set_randomsong,prefix,botchannel,memberchannel,RandomColor,bot_MessChannel);    
             break; 
         case prefix+set_songliste: //funktioniert  
             return rwm.songliste(auth,auth_id,message,bot,botchannel);
             break;
         case prefix+set_savesong: //funktionier               
-            rwm.savesong(auth,auth_id,message,bot,prefix+set_savesong,set_savesong.length+2,botchannel,msg);
+            rwm.save_song(auth,auth_id,message,bot,prefix+set_savesong,set_savesong.length+2,botchannel,msg);
             break;
         case prefix+set_deletesong: //funktionier               
-            rwm.deletesong(auth,auth_id,message,bot,prefix+set_deletesong,set_deletesong.length+2,botchannel);
+            rwm.delete_song(auth,auth_id,message,bot,prefix+set_deletesong,set_deletesong.length+2,botchannel);
             break;    
-        }
-    }            
+        };
+    };            
 });
 bot.login(token); // bot token
 //---------------------------------------
