@@ -146,10 +146,10 @@ bot.on("message",function(message){
             sgm.song_skip(message,bot_MessChannel,voiceConnection);
             break;
         case prefix+set_pause: // geh zu funktion pause / galube das spinnt noch etwas
-            sgm.pause(message,prefix,voiceConnection); 
+            sgm.pause(message,prefix,voiceConnection,bot_MessChannel); 
             break;
         case prefix+set_resume: // geh zu funktion resume  / galube das spinnt noch etwas
-            sgm.resume(message,prefix,voiceConnection);
+            sgm.resume(message,prefix,voiceConnection,bot_MessChannel);
             break;    
         case prefix+set_leave: //funktioniert
                 sgm.bot_leave(bot_MessChannel,message);

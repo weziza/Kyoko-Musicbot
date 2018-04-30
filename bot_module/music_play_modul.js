@@ -186,7 +186,7 @@ exports.song_skip = function(message,bot_MessChannel,voiceConnection){
         dispatcher.end()}; // geh zur funktion end
 };
 //---------------------------------------
-exports.pause = function(message,prefix,voiceConnection){
+exports.pause = function(message,prefix,voiceConnection,bot_MessChannel){
     //---------------------------------------
     var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
     var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);
@@ -195,13 +195,12 @@ exports.pause = function(message,prefix,voiceConnection){
     if (voiceConnection === null) return message.channel.send(wrap('Es spielt keine Musik.')); // ist voiceConnection = 0 return message
 
     // Pause.
-    var bot_MessChannel = bot.channels.find("name", botchannel);
     bmess.ambedMessage('Playback pause.'," - ", bot_MessChannel,RandomColor,BotName,botAuthorImage,Pause);
     const dispatcher = voiceConnection.player.dispatcher;
     if (!dispatcher.play) dispatcher.pause(); // dispatcher pause
 }; 
 //---------------------------------------
-exports.resume = function(message,prefix,voiceConnection){
+exports.resume = function(message,prefix,voiceConnection,bot_MessChannel){
     //---------------------------------------
     var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
     var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);
@@ -210,7 +209,6 @@ exports.resume = function(message,prefix,voiceConnection){
     if (voiceConnection === null) return message.channel.send(wrap('Es spielt keine Musik.')); // ist voiceConnection = 0 return message
 
     // Resume.
-    var bot_MessChannel = bot.channels.find("name", botchannel);
     bmess.ambedMessage('Playback resumed.'," - ", bot_MessChannel,RandomColor,BotName,botAuthorImage,Resume);
     const dispatcher = voiceConnection.player.dispatcher;
     if (dispatcher.pause) dispatcher.resume(); // dispatcher resume
