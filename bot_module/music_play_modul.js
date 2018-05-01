@@ -156,7 +156,7 @@ exports.bot_leave = function(bot_MessChannel,message){
         MinQueue = 0; // Queue auf null setzen
         Warteschlange_Array=[];  // Warteschlange_Array leeren   
         SongTitel_Array=[]; // SongTitel_Array leeren leeren
-        SongTitel_Buffer = []; // SongTitel_Buffer leeren leeren  
+        SongTitel_Buffer = []; // SongTitel_Buffer leeren leeren
         if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect(); // disconect voice channel
     }
 };
@@ -285,7 +285,8 @@ function play(connection,message,bot_MessChannel){
         if(Warteschlange_Array[0]){           
             MinQueue-- // -- queue aus der warteschlange
             play(connection,message,bot_MessChannel),SongTitel_Buffer.shift();            
-            SongTitel_Array = SongTitel_Buffer.map((SongTitel_Buffer, x) => ((x + 1) + ': ' + SongTitel_Buffer)).join('\n');                     
+            SongTitel_Array = SongTitel_Buffer.map((SongTitel_Buffer, x) => ((x + 1) + ': ' + SongTitel_Buffer)).join('\n');
+            //console.log(!bot_MessChannel);                        
             //---------------------------------------         
             return bmess.ambedMessage('Warteschlange :',SongTitel_Array,bot_MessChannel,RandomColor,BotName,botAuthorImage,skip); // message ausgabe - Warteschlange SongTitel_Array
         }else{connection.disconnect()            

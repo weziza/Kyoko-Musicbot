@@ -37,14 +37,6 @@ var set_deletesong = setting.set_deletesong;
 var set_searchsong = setting.set_searchsong;
 var set_playsong = setting.set_playsong;
 //------------------------------
-const eventMarkdown="```md";
-const eventhtml="```html";
-const eventpython="```python";
-const eventcss="```css";
-const event= "#[ Event-Bot Nachricht ]"
-const teilN= ">--- für teilnahme click Emoji --->";
-const eventclosed= "```";
-//------------------------------
 var autodelete=false;
 //------------------------------
 var botname = bot;
@@ -137,10 +129,10 @@ bot.on("message",function(message){
                 });
             break;
         case prefix+set_clean: // funktioniert      
-                sgm.clean_queue(message,bot_MessChannel)
+            sgm.clean_queue(message,bot_MessChannel)
             break; 
         case prefix+set_queue: //funktioniert
-                sgm.queue_function(message,bot_MessChannel);
+            sgm.queue_function(message,bot_MessChannel);
             break;
         case prefix+set_skip: // funktioniert 
             //const voiceConnection = bot.voiceConnections.find(val => val.channel.guild.id == message.guild.id);
@@ -153,7 +145,7 @@ bot.on("message",function(message){
             sgm.resume(message,prefix,voiceConnection,bot_MessChannel);
             break;    
         case prefix+set_leave: //funktioniert
-                sgm.bot_leave(bot_MessChannel,message);
+            sgm.bot_leave(bot_MessChannel,message);
             break;
         case prefix+set_volume: //funktioniert
             //const voiceConnection = bot.voiceConnections.find(val => val.channel.guild.id == message.guild.id); // initial voiceConnection
