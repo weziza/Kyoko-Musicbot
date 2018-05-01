@@ -24,7 +24,6 @@
 
     "set_ping"      : "ping",
     "set_mega"      : "mega",
-    "set_witz"      : "witz",
     "set_uhr"       : "uhr",
     "set_hilfe"     : "hilfe",
     "set_clean"     : "clean",
