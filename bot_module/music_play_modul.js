@@ -141,7 +141,7 @@ exports.bot_leave = function(bot_MessChannel,message){
     if(!bot_playing){
         bot_playing=false; // is bot joint channel
         bmess.ambedMessage("- Bot ist in keinem :","Voice Channel.", bot_MessChannel,RandomColor,BotName,botAuthorImage,NoVoiceCh);  
-        if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect(bot_MessChannel); // disconect voice channel
+        if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect(); // disconect voice channel
     }else{
         bmess.ambedMessage("- Man sieht sich wieder :","bestimmt.", bot_MessChannel,RandomColor,BotName,botAuthorImage,Leave);
         bot_playing=false; // is bot joint channel
@@ -149,7 +149,7 @@ exports.bot_leave = function(bot_MessChannel,message){
         Warteschlange_Array = []; 
         SongTitel_Array = []
         SongTitel_Buffer = [];  
-        if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect(bot_MessChannel); // disconect voice channel
+        if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect(); // disconect voice channel
     }
 };
 //---------------------------------------
@@ -180,7 +180,7 @@ exports.song_skip = function(message,bot_MessChannel,voiceConnection){
     if(!voiceConnection){
         bmess.ambedMessage('es gibt nicht zum skipen.'," - ", bot_MessChannel,RandomColor,BotName,botAuthorImage,NoVoiceCh);
     }else if(!bot_playing){        
-        if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect(bot_MessChannel);  // ist interner_Titel > 0 also leer  dann disconnect aus channel
+        if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect();  // ist interner_Titel > 0 also leer  dann disconnect aus channel
         return; // sonst RichEmbed error da er in else geht und InfoText1 oder InfoText2 keine info bekommt -- RichEmbed field values may not be empty.
     }else if(dispatcher){
         dispatcher.end()}; // geh zur funktion end
@@ -281,7 +281,7 @@ function play(connection,message,bot_MessChannel){
             //console.log(!bot_MessChannel);                        
             //---------------------------------------         
             return bmess.ambedMessage('Warteschlange :',SongTitel_Array,bot_MessChannel,RandomColor,BotName,botAuthorImage,skip); // message ausgabe - Warteschlange SongTitel_Array
-        }else{connection.disconnect(bot_MessChannel)            
+        }else{connection.disconnect()            
             bot_playing=false;
             //--------            
             MinQueue=0; // setze queue auf null
