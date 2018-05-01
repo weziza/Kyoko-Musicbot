@@ -154,9 +154,9 @@ exports.bot_leave = function(bot_MessChannel,message){
         bmess.ambedMessage("- Man sieht sich wieder :","bestimmt.", bot_MessChannel,RandomColor,BotName,botAuthorImage,Leave);
         bot_playing=false; // is bot joint channel
         MinQueue = 0; // Queue auf null setzen
-        Warteschlange_Array = []; 
-        SongTitel_Array = []
-        SongTitel_Buffer = [];  
+        Warteschlange_Array=[];  // Warteschlange_Array leeren   
+        SongTitel_Array=[]; // SongTitel_Array leeren leeren
+        SongTitel_Buffer = []; // SongTitel_Buffer leeren leeren  
         if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect(); // disconect voice channel
     }
 };
@@ -170,9 +170,9 @@ exports.clean_queue = function(message,bot_MessChannel){
     if(SongTitel_Array.length>0){
         bot_defaultVolume_option=true; 
         MinQueue=0;  // Queue auf null setzen                                 
-        Warteschlange_Array=[];  // warteschlange leeren   
-        SongTitel_Array=[]; // Song titel leeren leeren
-        SongTitel_Buffer = [];
+        Warteschlange_Array=[];  // Warteschlange_Array leeren   
+        SongTitel_Array=[]; // SongTitel_Array leeren leeren
+        SongTitel_Buffer = []; // SongTitel_Buffer leeren leeren
         message.guild.voiceConnection.player.dispatcher.destroyed = true // destroy das laufende lied 
         message.guild.voiceConnection.player.dispatcher.resume() // resume stream funktion sonst bleibt der bot bei destroy 
         bot_playing=false; // sag dem script musik play = false.
@@ -285,8 +285,7 @@ function play(connection,message,bot_MessChannel){
         if(Warteschlange_Array[0]){           
             MinQueue-- // -- queue aus der warteschlange
             play(connection,message,bot_MessChannel),SongTitel_Buffer.shift();            
-            SongTitel_Array = SongTitel_Buffer.map((SongTitel_Buffer, x) => ((x + 1) + ': ' + SongTitel_Buffer)).join('\n');
-            //console.log(!bot_MessChannel);                        
+            SongTitel_Array = SongTitel_Buffer.map((SongTitel_Buffer, x) => ((x + 1) + ': ' + SongTitel_Buffer)).join('\n');                     
             //---------------------------------------         
             return bmess.ambedMessage('Warteschlange :',SongTitel_Array,bot_MessChannel,RandomColor,BotName,botAuthorImage,skip); // message ausgabe - Warteschlange SongTitel_Array
         }else{connection.disconnect()            
@@ -301,8 +300,6 @@ function play(connection,message,bot_MessChannel){
             return bmess.ambedMessage(" - Warteschlange"," ist leer.", bot_MessChannel,RandomColor,BotName,botAuthorImage,NoQueue);                
         }  
     }).on('error', (error) => {
-        // Skip to the next song.
-        console.log(!bot_MessChannel);
         console.log(error, " connection");
     }); 
 };
