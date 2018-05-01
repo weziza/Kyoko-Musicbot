@@ -24,6 +24,7 @@ if (bigSongList=="true"){
 * @param {Object} prefix
 * @param {Object} ChatChannel
 * @param {Object} memberchannel
+* @param {Object} set_playsong
 */
 exports.get_song_at_list = function(auth_id,message,bot,comando,slice,prefix,ChatChannel,memberchannel,set_playsong) {
 
@@ -84,11 +85,16 @@ exports.get_song_at_list = function(auth_id,message,bot,comando,slice,prefix,Cha
 * @param {Object} prefix
 * @param {Object} ChatChannel
 * @param {Object} memberchannel
+* @param {Object} bot_MessChannel
 */
-exports.Random_song = function(auth_id,message,bot,comando,prefix,ChatChannel,memberchannel,RandomColor,bot_MessChannel) {
+exports.Random_song = function(auth_id,message,bot,comando,prefix,ChatChannel,memberchannel,bot_MessChannel) {
 
     var url_mess = 0;
-    
+
+    //---------------------------------------
+    var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
+    var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);
+    //---------------------------------------      
     fs.exists(Songlisten_pfad+auth_id+urlInput,(exists)=> {
         if (!exists) {
             message.delete();
@@ -102,7 +108,7 @@ exports.Random_song = function(auth_id,message,bot,comando,prefix,ChatChannel,me
             var words = JSON.parse(data)
             var url_mess = words[Math.floor(Math.random() * words.length)];
             memberchannel.join();
-            return mpm.play_song(memberchannel, message, RandomColor,bot_MessChannel,url_mess)
+            mpm.play_song(memberchannel, message, RandomColor,bot_MessChannel,url_mess)
         };
     });
 };
@@ -115,6 +121,7 @@ exports.Random_song = function(auth_id,message,bot,comando,prefix,ChatChannel,me
 * @param {Object} comando
 * @param {Object} slice
 * @param {Object} ChatChannel
+* @param {Object} msg
 */
 exports.save_song = function(auth,auth_id,message,bot,comando,slice,ChatChannel,msg){
 

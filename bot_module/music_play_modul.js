@@ -47,8 +47,12 @@ var URLArray=[ // zufall url ergenzung wenn die suche fehlschlägt
     "3_-a9nVZYjk",
     "Mgfe5tIwOj0"]
 //------------------------------
-exports.get_song = function (memberchannel, message, RandomColor,bot_MessChannel,voiceConnection) {
 
+exports.get_song = function (memberchannel, message,bot_MessChannel,voiceConnection) {
+
+    //-----------------------------
+    var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
+    var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);
     //-----------------------------
     if (MinQueue<0){MinQueue=0  // der song counter kann nicht unter 0 fallen
         return};
@@ -64,7 +68,7 @@ exports.get_song = function (memberchannel, message, RandomColor,bot_MessChannel
                 bot_playing=true;
                 //--------------------------------------- 
                 // connect message
-                bmess.ambedMessage("connect to Voice Channel :",message.member.voiceChannel,bot_MessChannel,RandomColor,BotName,botAuthorImage,ConnectToVoiceCh);
+                bmess.ambedMessage("connect to Voice Channel :",message.member.voiceChannel.name,bot_MessChannel,RandomColor,BotName,botAuthorImage,ConnectToVoiceCh);
                 //---------------------------------------                                           
                 play(connection,message,bot_MessChannel);  
             }); 
@@ -79,9 +83,13 @@ exports.get_song = function (memberchannel, message, RandomColor,bot_MessChannel
     };
 };
 //---------------------------------------
-exports.play_song = function (memberchannel, message, RandomColor,bot_MessChannel,url){
+exports.play_song = function (memberchannel, message,bot_MessChannel,url){
 
     var time = 0;
+
+    //-----------------------------
+    var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
+    var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);
     //-----------------------------
     if (MinQueue<0){MinQueue=0  // der song counter kann nicht unter 0 fallen
         return};
@@ -96,7 +104,7 @@ exports.play_song = function (memberchannel, message, RandomColor,bot_MessChanne
             bot_playing=true;                             
             //--------------------------------------- 
             // connect message
-            bmess.ambedMessage("connect to Voice Channel :",message.member.voiceChannel,bot_MessChannel,RandomColor,BotName,botAuthorImage,ConnectToVoiceCh);
+            bmess.ambedMessage("connect to Voice Channel :",message.member.voiceChannel.name,bot_MessChannel,RandomColor,BotName,botAuthorImage,ConnectToVoiceCh);
             //---------------------------------------
             play(connection,message,bot_MessChannel);  
         });
@@ -215,7 +223,7 @@ exports.resume = function(message,prefix,voiceConnection,bot_MessChannel){
 };
 //---------------------------------------
 exports.volume = function(message,VolumeNr,voiceConnection){    
-    if (voiceConnection === null) return message.channel.send(wrap('Es spielt kein Musik.')); // ist voiceConnection = 0 return message
+    if (voiceConnection === null) return message.channel.send(wrap('Es spielt keine Musik.')); // ist voiceConnection = 0 return message
     const dispatcher = voiceConnection.player.dispatcher; // initial dispatcher
     if (VolumeNr < 11){ // ist max Volume kleiner als
         if (VolumeNr > 0 ){ // ist max Volume größer als              

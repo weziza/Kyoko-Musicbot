@@ -69,6 +69,7 @@ bot.on("message",function(message){
         }; 
         //-----------------------------
         const voiceConnection = bot.voiceConnections.find(val => val.channel.guild.id == message.guild.id);
+        //console.log(voiceConnection)
         //-----------------------------
         var memberchannel = message.member.voiceChannel;     
         //-----------------------------
@@ -121,7 +122,7 @@ bot.on("message",function(message){
             }else{
                 sgm.searchsong(memberchannel,message,sucheVideo,bot_MessChannel,prefix);
                 exports.get_url = function(url){
-                    sgm.play_song(memberchannel,message,RandomColor,bot_MessChannel,url); 
+                    sgm.play_song(memberchannel,message,bot_MessChannel,url); 
                 } 
             }         
             break;
@@ -131,7 +132,7 @@ bot.on("message",function(message){
                 else if(!memberchannel){return bot_MessChannel.send(wrap('Du musst erst ein Voice channel betreten'));}
                 else if(!message.guild.voiceConnection) memberchannel.join().then(function(connection){
                     var https = message.content.slice(prefix.length+set_playsong.length+1);                   
-                    sgm.play_song(memberchannel,message,RandomColor,bot_MessChannel,https);
+                    sgm.play_song(memberchannel,message,bot_MessChannel,https);
 
                 });
             break;
@@ -169,10 +170,10 @@ bot.on("message",function(message){
             //----------------------------
         case prefix+set_getsong: //funktioniert
             rwm.get_song_at_list(auth_id,message,bot,prefix+set_getsong,set_getsong.length+2,prefix,botchannel,memberchannel,set_playsong);
-            sgm.get_song(memberchannel, message, RandomColor,bot_MessChannel);
+            sgm.get_song(memberchannel, message,bot_MessChannel);
             break; 
         case prefix+set_randomsong: //funktioniert        
-            return rwm.Random_song(auth_id,message,bot,prefix+set_randomsong,prefix,botchannel,memberchannel,RandomColor,bot_MessChannel);    
+            return rwm.Random_song(auth_id,message,bot,prefix+set_randomsong,prefix,botchannel,memberchannel,bot_MessChannel);    
             break; 
         case prefix+set_songliste: //funktioniert  
             return rwm.songliste(auth,auth_id,message,bot,botchannel);
@@ -184,8 +185,9 @@ bot.on("message",function(message){
             rwm.delete_song(auth,auth_id,message,bot,prefix+set_deletesong,set_deletesong.length+2,botchannel);
             break;    
         };
-    };            
+    };
 });
+
 bot.login(token); // bot token
 //---------------------------------------
 function wrap(text) {
