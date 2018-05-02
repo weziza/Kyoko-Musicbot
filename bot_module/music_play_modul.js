@@ -47,7 +47,6 @@ var URLArray=[ // zufall url ergenzung wenn die suche fehlschlägt
     "3_-a9nVZYjk",
     "Mgfe5tIwOj0"]
 //------------------------------
-
 exports.get_song = function (memberchannel, message,bot_MessChannel,voiceConnection) {
 
     //-----------------------------
@@ -78,6 +77,7 @@ exports.get_song = function (memberchannel, message,bot_MessChannel,voiceConnect
             //---------------------------------------
             MinQueue++; // Song counder ++
             //---------------------------------------
+            message.delete();// lösche die gepostete url messages  
             return bmess.ambedMessage("hinzugefügt :", SongTitel_Array, bot_MessChannel, RandomColor, BotName, botAuthorImage, QueueSong);
         };
     };
@@ -105,7 +105,7 @@ exports.play_song = function (memberchannel, message,bot_MessChannel,url){
             //--------------------------------------- 
             // connect message
             bmess.ambedMessage("connect to Voice Channel :",message.member.voiceChannel.name,bot_MessChannel,RandomColor,BotName,botAuthorImage,ConnectToVoiceCh);
-            //---------------------------------------
+            //---------------------------------------            
             play(connection,message,bot_MessChannel);  
         });
 
@@ -121,6 +121,7 @@ exports.play_song = function (memberchannel, message,bot_MessChannel,url){
             //---------------------------------------
             MinQueue++; // Song counder ++
             //---------------------------------------
+            message.delete();// lösche die gepostete url messages 
             return bmess.ambedMessage("hinzugefügt :", SongTitel_Array, bot_MessChannel, RandomColor, BotName, botAuthorImage, QueueSong);
         });
     };    

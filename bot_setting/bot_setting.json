@@ -17,7 +17,7 @@
     "Delete_Message": "100",
 
     "songList_25"   : "false",
-
+    
     "songList_50"   : "true",
 
     "prefix"        : "+",
@@ -34,11 +34,10 @@
     "set_leave"     : "leave",
     "set_volume"    : "volume",
     "set_purge"     : "purge",
-    "set_getsong"   : "getsong",
-    "set_randomsong": "randomsong",    
+    "set_randomsong": "random",    
     "set_songliste" : "songlist",
-    "set_savesong"  : "savesong",
-    "set_deletesong": "deletesong",
-    "set_playsong"  : "playsong",
-    "set_searchsong": "searchsong"
+    "set_savesong"  : "save",
+    "set_deletesong": "delete",
+    "set_playsong"  : "play",
+    "set_searchsong": "search"
 }

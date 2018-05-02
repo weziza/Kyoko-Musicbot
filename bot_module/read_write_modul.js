@@ -108,7 +108,7 @@ exports.Random_song = function(auth_id,message,bot,comando,prefix,ChatChannel,me
             var words = JSON.parse(data)
             var url_mess = words[Math.floor(Math.random() * words.length)];
             memberchannel.join();
-            mpm.play_song(memberchannel, message, RandomColor,bot_MessChannel,url_mess)
+            mpm.play_song(memberchannel, message,bot_MessChannel,url_mess)
         };
     });
 };

@@ -29,7 +29,6 @@ var set_purge = setting.set_purge;
 var set_pause = setting.set_pause;
 var set_resume = setting.set_resume;
 var set_leave = setting.set_leave;
-var set_getsong = setting.set_getsong;
 var set_randomsong = setting.set_randomsong;
 var set_songliste = setting.set_songliste;
 var set_savesong = setting.set_savesong;
@@ -106,7 +105,7 @@ bot.on("message",function(message){
             bot_MessChannel.send(embed);
             break;    
         case prefix+set_hilfe: // funktioniert  
-            bmess.InfoScreen(set_playsong,set_searchsong,set_deletesong,set_savesong,set_songliste,set_randomsong,set_getsong,set_purge,set_volume,set_leave,set_resume,set_pause,set_skip,set_queue,set_clean,set_hilfe,set_uhr,set_witz,set_mega,set_ping,bot_MessChannel,setImage,setThumbnail,prefix,RandomColor,MaxQueue); //info ausgabe
+            bmess.InfoScreen(set_playsong,set_searchsong,set_deletesong,set_savesong,set_songliste,set_randomsong,set_purge,set_volume,set_leave,set_resume,set_pause,set_skip,set_queue,set_clean,set_hilfe,set_uhr,set_witz,set_mega,set_ping,bot_MessChannel,setImage,setThumbnail,prefix,RandomColor,MaxQueue); //info ausgabe
             break;
         case prefix+set_searchsong: // funktioniert
             if (!memberchannel) {
@@ -119,14 +118,21 @@ bot.on("message",function(message){
             }         
             break;
         case prefix+set_playsong: // funktioniert
-                if(!url){return bot_MessChannel.send(wrap(`Füge zuerst einen Songs zur Warteschlange hinzu mit `+prefix+`play https://`));}
-                else if(!msg.includes("https://")){ bot_MessChannel.send(wrap(`bitte Url einfügen mit `+prefix+`play https://`));}        
-                else if(!memberchannel){return bot_MessChannel.send(wrap('Du musst erst ein Voice channel betreten'));}
-                else if(!message.guild.voiceConnection) memberchannel.join().then(function(connection){
-                    var https = message.content.slice(prefix.length+set_playsong.length+1);                   
-                    sgm.play_song(memberchannel,message,bot_MessChannel,https);
-
-                });
+            if(!memberchannel){return bot_MessChannel.send(wrap('Du musst erst ein Voice channel betreten'));}
+            else if(!message.content.slice(prefix.length+set_playsong.length+1).startsWith("https://www.youtube.com")){
+                var getNumber = message.content.slice(set_playsong.length+2);
+                if(getNumber.search(/^[^a-z]+/)){
+                    return;
+                }else{
+                    rwm.get_song_at_list(auth_id,message,bot,prefix+set_playsong,set_playsong.length+2,prefix,botchannel,memberchannel,set_playsong);
+                    sgm.get_song(memberchannel, message,bot_MessChannel);
+                    return;
+                };               
+            }else{                
+                var https = message.content.slice(prefix.length+set_playsong.length+1);                   
+                sgm.play_song(memberchannel,message,bot_MessChannel,https);
+                return;   
+            };
             break;
         case prefix+set_clean: // funktioniert      
             sgm.clean_queue(message,bot_MessChannel)
@@ -158,11 +164,6 @@ bot.on("message",function(message){
             .addField(100+"Messages Gelöscht.","-----------------------------",true );
             bot_MessChannel.send(embed).then(m => m.delete(3000));
             });
-            break;
-            //----------------------------
-        case prefix+set_getsong: //funktioniert
-            rwm.get_song_at_list(auth_id,message,bot,prefix+set_getsong,set_getsong.length+2,prefix,botchannel,memberchannel,set_playsong);
-            sgm.get_song(memberchannel, message,bot_MessChannel);
             break; 
         case prefix+set_randomsong: //funktioniert        
             return rwm.Random_song(auth_id,message,bot,prefix+set_randomsong,prefix,botchannel,memberchannel,bot_MessChannel);    
