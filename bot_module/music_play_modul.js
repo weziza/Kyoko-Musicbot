@@ -59,34 +59,37 @@ exports.get_song = function (memberchannel, message,bot_MessChannel,voiceConnect
     if (MinQueue<0){MinQueue=0  // der song counter kann nicht unter 0 fallen
         return};
 
-    exports.getsbi = function (urlmess, info_url){ 
+    exports.getsbi = function (url_mess, info_url){
 
         if (MaxQueue==MinQueue){ // ist das max der song aufnahme erreicht dann....
             message.delete();// lösche die gepostete url messages  
-            bot_MessChannel.send(wrap(`Die Warteschlange ist voll`)); // message rückgabe
-            return; // if abfrage beenden
+            return bot_MessChannel.send(wrap(`Die Warteschlange ist voll`)); // message rückgabe
         }else{            
-            if(!bot_playing) memberchannel.join().then(function(connection){
-                bot_playing=true;
-                //--------------------------------------- 
-                // connect message
-                bmess.ambedMessage("connect to Voice Channel :",'```HTTP'+'\n' + message.member.voiceChannel.name + '\n```',bot_MessChannel,RandomColor,BotName,connect_channel);
-                //---------------------------------------                                           
-                play(connection,message,bot_MessChannel);  
-            }); 
-            Warteschlange_Array.push(urlmess);
+
+            Warteschlange_Array.push(url_mess);
             SongTitel_Buffer.push(info_url);
             SongTitel_Array = SongTitel_Buffer.map((SongTitel_Buffer, x) => (( x +  1  ) + ': ' + SongTitel_Buffer)).join('\n');            
             //---------------------------------------
             MinQueue++; // Song counder ++
             //---------------------------------------
-            message.delete();// lösche die gepostete url messages  
-            return bmess.ambedMessage("hinzugefügt :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, BotName, play_music);    
+
+            if(!bot_playing) memberchannel.join().then(function(connection){
+                bot_playing=true;
+                //--------------------------------------- 
+                // connect message
+                bmess.ambedMessage("connect to Voice Channel :",'```HTTP'+'\n' + message.member.voiceChannel.name + '\n```',bot_MessChannel,RandomColor,BotName,connect_channel);               
+                //---------------------------------------                                           
+                play(connection,message,bot_MessChannel);
+                return bmess.ambedMessage("hinzugefügt :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, BotName, play_music);  
+            });
+            else if(bot_playing){
+                return bmess.ambedMessage("hinzugefügt :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, BotName, play_music);
+            }; 
         };
     };
 };
 //---------------------------------------
-exports.play_song = function (memberchannel, message,bot_MessChannel,url){
+exports.play_song = function (memberchannel,message,bot_MessChannel,url){
 
     var time = 0;
 
@@ -99,15 +102,14 @@ exports.play_song = function (memberchannel, message,bot_MessChannel,url){
 
     if (MaxQueue==MinQueue){ // ist das max der song aufnahme erreicht dann....
         message.delete();// lösche die gepostete url messages  
-        bot_MessChannel.send(wrap(`Die Warteschlange ist voll`)); // message rückgabe
-        return; // if abfrage beenden
+        return bot_MessChannel.send(wrap(`Die Warteschlange ist voll`)); // message rückgabe
     }else{            
 
         if(!bot_playing) memberchannel.join().then(function(connection){
             bot_playing=true;                             
             //--------------------------------------- 
             // connect message
-            bmess.ambedMessage("connect to Voice Channel :",'```HTTP'+'\n' +message.member.voiceChannel.name + '\n```'.name,bot_MessChannel,RandomColor,BotName,connect_channel);
+            bmess.ambedMessage("connect to Voice Channel :",'```HTTP'+'\n' + message.member.voiceChannel.name + '\n```',bot_MessChannel,RandomColor,BotName,connect_channel);
             //---------------------------------------            
             play(connection,message,bot_MessChannel);  
         });
@@ -133,10 +135,6 @@ exports.play_song = function (memberchannel, message,bot_MessChannel,url){
 //---------------------------------------
 exports.searchsong = function(memberchannel,message,sucheVideo,bot_MessChannel,prefix) {
 
-    var url = 0;
-    //-----------------------------
-    var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
-    var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6)
     //-----------------------------
     /**
     * Youtube Url Suche

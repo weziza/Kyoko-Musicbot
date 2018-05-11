@@ -123,7 +123,7 @@ bot.on("message",function(message){
                     return;
                 }else{
                     rwm.get_song_at_list(auth_id,message,bot,prefix+set_playsong,set_playsong.length+2,prefix,botchannel,memberchannel,set_playsong);
-                    sgm.get_song(memberchannel, message,bot_MessChannel);
+                    sgm.get_song(memberchannel,message,bot_MessChannel);
                     return;
                 };               
             }else{                
