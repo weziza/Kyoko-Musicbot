@@ -1,15 +1,16 @@
 {
-    "Pause" : "https://cdn.discordapp.com/attachments/431961728054722571/431962384941187073/play_pause.png",
-    "Resume" : "https://cdn.discordapp.com/attachments/431961728054722571/431962351432892417/play_resume.png",
-    "Leave" : "https://cdn.discordapp.com/attachments/431961728054722571/431961840478715914/bot_leave.png",
-    "NoVoiceCh" : "https://brandtkrueger.files.wordpress.com/2012/08/no-s-voice1.png?w=300&h=300",
-    "QueueSong" : "http://lh6.ggpht.com/f5PfyElwOb8-2v8Pb2DW3NYBTUSjuk18MnofZG-QrkSn86-TS0WAgQFalg0lvSCsSEb3=w300",
-    "QueueClean" : "https://cdn.discordapp.com/attachments/431961728054722571/431961948779708456/diskclean.png",
-    "QueueLeer" : "https://cdn.discordapp.com/attachments/431961728054722571/431962013707796480/Music_not_Playing.png",
-    "NoQueue" : "https://cdn.discordapp.com/attachments/431961728054722571/431962701690830859/No_Music_Image.png",
-    "skip" : "https://cdn.discordapp.com/attachments/431961728054722571/431962521419776002/Play_Forward.png",
-    "ConnectToVoiceCh" : "https://cdn.discordapp.com/attachments/431961728054722571/431962296911134721/Player_Connect.png",
-    "NoQueueListe" : "https://cdn.discordapp.com/attachments/431961728054722571/431962170654326795/no_play_Liste.png",
-    "QueueListe" : "https://cdn.discordapp.com/attachments/431961728054722571/431962234009419786/play_Liste.png"
+    "bot_leave":"https://cdn.discordapp.com/attachments/431961728054722571/444488940091736074/bot_leave.png",
+    "music_not_playing":"https://cdn.discordapp.com/attachments/431961728054722571/444489181004300288/music_not_playing.png",
+    "no_voice_connect":"https://cdn.discordapp.com/attachments/431961728054722571/444489222066405387/no_voice_connect.png",
+    "play_music":"https://cdn.discordapp.com/attachments/431961728054722571/444489345450115073/play_music.png",
+    "pause":"https://cdn.discordapp.com/attachments/431961728054722571/444489263367847936/pause.png",
+    "resume":"https://cdn.discordapp.com/attachments/431961728054722571/444489515332009995/resume.png",
+    "play_forward":"https://cdn.discordapp.com/attachments/431961728054722571/444489302618013707/play_forward.png",
+    "queue_clean":"https://cdn.discordapp.com/attachments/431961728054722571/444489477810028549/queue_clean.png",
+    "skip_fail":"https://cdn.discordapp.com/attachments/431961728054722571/444512739143188481/skip_fail.png",
+    "no_music_image":"https://cdn.discordapp.com/attachments/431961728054722571/431962701690830859/No_Music_Image.png",
+    "connect_channel":"https://cdn.discordapp.com/attachments/431961728054722571/431962296911134721/Player_Connect.png",
+    "no_playlist":"https://cdn.discordapp.com/attachments/431961728054722571/431962170654326795/no_play_Liste.png",
+    "playlist":"https://cdn.discordapp.com/attachments/431961728054722571/431962234009419786/play_Liste.png"
 }
 

@@ -1,4 +1,10 @@
 const fs = require("fs");
+const bmess = require('./bot_message_modul');
+//------------------------------
+const setting = require('../bot_setting/bot_setting.json');
+const botchannel = setting.botchannel;
+//------------------------------
+var text = "〘 Songliste ♫ 〙➣ Abschnitt: ";
 //------------------------------
 /**
 * @param {Object} ChatChannel
@@ -7,10 +13,14 @@ const fs = require("fs");
 * @param {Object} Liste_int
 * @param {Object} bot
 */
-exports.modul = function(ChatChannel,words_info,words_info_length,Liste_int,bot){
+exports.sl_modul = function(ChatChannel,words_info,words_info_length,Liste_int,bot,liste_Nr){
 
-    //console.log(words_info_length)
-    var i = 0; 
+    var bot_MessChannel = bot.channels.find("name", botchannel);
+    //-----------------------------
+    var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
+    var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);
+    //-----------------------------
+    var i = 0;
     
     var url_info = [];
     var url_input = [];
@@ -25,12 +35,14 @@ exports.modul = function(ChatChannel,words_info,words_info_length,Liste_int,bot)
         {
             clearInterval(SongListVar),i=0;
     
-            urlListe = url_info.map((url_info, x) => (x + Liste_int) + ' : ' + url_info).join('\n');
+            urlListe = url_info.map((url_info, x) => (x + Liste_int) + ': ' + url_info).join('\n');
             url_input.push(urlListe)
-            bot.channels.find("name", ChatChannel).send('```\n' + url_input + '\n```') 
+            bmess.sl_ambedMessage(text + liste_Nr, '```HTTP'+'\n' + url_input + '\n```', bot_MessChannel, RandomColor); 
             
             url_info = [];
             url_input = [];
+
+            return;
         };
         i++;
     };          

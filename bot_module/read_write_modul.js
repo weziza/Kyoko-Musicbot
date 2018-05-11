@@ -14,7 +14,9 @@ if (smallSongList=="true"){
     bigSongList="false";};
 if (bigSongList=="true"){
     smallSongList="false";};
-//------------------------------------
+//------------------------------
+bot_playing=false;
+//------------------------------
 /**
 * @param {Object} auth_id
 * @param {Object} message
@@ -182,7 +184,7 @@ exports.save_song = function(auth,auth_id,message,bot,comando,slice,ChatChannel,
                                 else {
                                     var time = videoInfo.length_seconds / 60; //viedeo Time  
                                     //url_messageInfo = videoInfo.title.slice(0,mathSlice)+" : "+time.toFixed(1)+ " min";
-                                    url_messageInfo = videoInfo.title+" : "+time.toFixed(1)+ " min";                                
+                                    url_messageInfo = +time.toFixed(1)+" min"+" - "+videoInfo.title;                                
                                     url_info.push(url_messageInfo);
                                     url.push(url_message);
                                 };
@@ -238,12 +240,12 @@ exports.songliste = function(auth,auth_id,message,bot,ChatChannel){
         viertel_f = Math.ceil(arrayLength/4)-arrayLength/4+1; // gibt dem wert aus 1, 1.25, 1.5, 1.75        
         
         if(viertel_f==1){
-            halb_f = Math.ceil(arrayLength/2)-arrayLength/2; console.log("1")} //ist wert bei 1 = 0
+            halb_f = Math.ceil(arrayLength/2)-arrayLength/2;} //ist wert bei 1 = 0
         else if(viertel_f==1.5){
-            halb_f = Math.ceil(arrayLength/2)-arrayLength/2; console.log("2")} //ist wert bei 1.5 = 0
+            halb_f = Math.ceil(arrayLength/2)-arrayLength/2;} //ist wert bei 1.5 = 0
         else if(viertel_f==1.75){
-            halb_f = Math.ceil(arrayLength/2)-arrayLength/2; console.log("3")} //ist wert bei 1.75 = 0
-        else {halb_f = Math.ceil(arrayLength/2)-arrayLength/2-0.5; console.log("4")}; //ist wert bei 1.25 = -0.5
+            halb_f = Math.ceil(arrayLength/2)-arrayLength/2;} //ist wert bei 1.75 = 0
+        else {halb_f = Math.ceil(arrayLength/2)-arrayLength/2-0.5;}; //ist wert bei 1.25 = -0.5
            
         dreiv_f = viertel_f+halb_f; // ausabe = viertel_f + halb_f
         //------------------------------ 
@@ -265,19 +267,19 @@ exports.songliste = function(auth,auth_id,message,bot,ChatChannel){
         {
             if (i==0)
             {
-                sm.modul(ChatChannel,words_info_1,words_info_1.length,0,bot);
+                sm.sl_modul(ChatChannel,words_info_1,words_info_1.length,0,bot,1);
             }
             if (i==10)
             {
-                sm.modul(ChatChannel,words_info_2,words_info_2.length,viertel,bot);
+                sm.sl_modul(ChatChannel,words_info_2,words_info_2.length,viertel,bot,2);
             }
             if (i==20)
             {
-                 sm.modul(ChatChannel,words_info_3,words_info_3.length,halb,bot);
+                 sm.sl_modul(ChatChannel,words_info_3,words_info_3.length,halb,bot,3);
             }
             if (i==30)
             {
-                 sm.modul(ChatChannel,words_info_4,words_info_4.length,dreiv,bot)
+                 sm.sl_modul(ChatChannel,words_info_4,words_info_4.length,dreiv,bot,4)
                  clearInterval(dosome),i=0;
             }
             i++;

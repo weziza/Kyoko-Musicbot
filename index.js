@@ -1,12 +1,9 @@
 const discord = require('discord.js');
 const bmess = require('./bot_module/bot_message_modul');
 const rwm = require('./bot_module/read_write_modul');
-const sgm = require('./bot_module/music_play_modul')
+const sgm = require('./bot_module/music_play_modul');
 //------------------------------
 const bot = new discord.Client();
-//------------------------------
-var setImage = require('./bot_images/InfoEmbedImage');
-var setThumbnail = require('./bot_images/InfoEmbedThumbnail');
 //------------------------------
 const setting = require('./bot_setting/bot_setting.json');
 const token = setting.token;
@@ -45,8 +42,10 @@ bot.on('ready', () => {
     console.log(`[Start] ${new Date()}`," ----> ready");    
 });
 //------------------------------
+bot.on('error', console.error);
+//------------------------------
 bot.on("message",function(message){
-    
+
     if(message.content.indexOf(prefix)){ //message begint mit prefix dann / wenn nicht return
         return;
     }else{        
@@ -72,18 +71,17 @@ bot.on("message",function(message){
         var case_args = message.content.substring("").split(" "); // für switch funktion erkenne prefix/text angabe 
         var VolumeNr = message.content.substring("").replace(/^[^0-9]+/, ''); //gibt nur zahlen anordnung aus
         var sucheVideo = message.content.split(' ').slice(1).join(" ");
-        //-----------------------------
+        //------------------------------
         var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
         var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);
         //-----------------------------
         if(!message.content.includes("")) return;
         switch(case_args[0].toLowerCase()){
         case prefix+set_ping: //funktioniert
-            SusiiPing = `${bot.ping.toFixed(0)}`;
             var embed = new discord.RichEmbed()
-            .addField(BotName+`Ping`+" = "+bot.ping+` ms`,'Dein Ping'+" "+auth+" "+'ist'+" = "+`${Date.now() - message.createdTimestamp}`+' ms', true)
+            .addField(BotName+` Ping ist `+` = `+`${(bot.ping)/10}`+` ms`,'Dein Ping'+" "+auth+" "+'ist'+" = "+`${(message.createdTimestamp-new Date().getTime())/100}`+' ms', true)
             .setTimestamp()
-            .setFooter(BotName,"https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fsnapchat-download.net%2Fwp-content%2Fuploads%2F2015%2F10%2Fsnapchat-blue-double-arrow-icon-mean.png&f=1")  
+            .setFooter(BotName,"https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png")  
             .setColor(RandomColor)
             bot_MessChannel.send(embed);
             break;
@@ -92,7 +90,7 @@ bot.on("message",function(message){
             .setTitle(`Ich bin der super duba Mega heftig `+BotName)
             .setImage("https://cdn.discordapp.com/attachments/386866941849239555/430671085235732490/DanceBot.gif")
             .setTimestamp()        
-            .setFooter(BotName,"https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fsnapchat-download.net%2Fwp-content%2Fuploads%2F2015%2F10%2Fsnapchat-blue-double-arrow-icon-mean.png&f=1")  
+            .setFooter(BotName,"https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png")  
             .setColor(RandomColor)
             bot_MessChannel.send(embed);
             break;
@@ -100,12 +98,12 @@ bot.on("message",function(message){
             var embed = new discord.RichEmbed()
             .addField(`Uhrzeit - Datum - Zeitzone`,`${new Date()}`, true)
             .setTimestamp()
-            .setFooter(BotName,"https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fsnapchat-download.net%2Fwp-content%2Fuploads%2F2015%2F10%2Fsnapchat-blue-double-arrow-icon-mean.png&f=1")  
+            .setFooter(BotName,"https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png")  
             .setColor(RandomColor)
             bot_MessChannel.send(embed);
             break;    
         case prefix+set_hilfe: // funktioniert  
-            bmess.InfoScreen(set_playsong,set_searchsong,set_deletesong,set_savesong,set_songliste,set_randomsong,set_purge,set_volume,set_leave,set_resume,set_pause,set_skip,set_queue,set_clean,set_hilfe,set_uhr,set_witz,set_mega,set_ping,bot_MessChannel,setImage,setThumbnail,prefix,RandomColor,MaxQueue); //info ausgabe
+            bmess.InfoScreen(set_playsong,set_searchsong,set_deletesong,set_savesong,set_songliste,set_randomsong,set_purge,set_volume,set_leave,set_resume,set_pause,set_skip,set_queue,set_clean,set_hilfe,set_uhr,set_witz,set_mega,set_ping,bot_MessChannel,prefix,RandomColor,MaxQueue,BotName); //info ausgabe
             break;
         case prefix+set_searchsong: // funktioniert
             if (!memberchannel) {
@@ -176,7 +174,7 @@ bot.on("message",function(message){
             break;
         case prefix+set_deletesong: //funktionier               
             rwm.delete_song(auth,auth_id,message,bot,prefix+set_deletesong,set_deletesong.length+2,botchannel);
-            break;    
+            break;     
         };
     };
 });
