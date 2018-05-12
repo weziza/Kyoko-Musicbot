@@ -15,7 +15,7 @@ if (smallSongList=="true"){
 if (bigSongList=="true"){
     smallSongList="false";};
 //------------------------------
-bot_playing=false;
+var bot_playing=false;
 //------------------------------
 /**
 * @param {Object} auth_id

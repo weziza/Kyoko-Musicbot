@@ -1,9 +1,9 @@
 const discord = require('discord.js');
 //------------------------------------
-var BotImages = require('../bot_images/botAuthor');
-var bot_author_Image = BotImages.bot_author_Image;
-var setThumbnail = require('../bot_images/InfoEmbedThumbnail');
-var setImage = require('../bot_images/InfoEmbedImage');
+const BotImages = require('../bot_images/botAuthor');
+const bot_author_Image = BotImages.bot_author_Image;
+const setThumbnail = require('../bot_images/InfoEmbedThumbnail');
+const setImage = require('../bot_images/InfoEmbedImage');
 //------------------------------
 const setting = require('../bot_setting/bot_setting.json');
 var smallSongList = setting.songList_25;
@@ -24,7 +24,6 @@ if (bigSongList=="true"){
 * @param {Object} MaxQueue // Max Lead Nummer
 */
 exports.InfoScreen = (set_playsong,set_searchsong,set_deletesong,set_savesong,set_songliste,set_randomsong,set_purge,set_volume,set_leave,set_resume,set_pause,set_skip,set_queue,set_clean,set_hilfe,set_uhr,set_witz,set_mega,set_ping,MessChannel,prefix,RandomColor,MaxQueue,BotName) => {
-  //console.log(MaxQueue)
   var embed = new discord.RichEmbed()
       .setTitle("《 "+" super duba hilfe, vom mega heftig " + BotName + " 》" )
       .setAuthor(BotName +"〔 (∩｀-´)⊃━━☆･•.*･•*.♫♪℘❧ 〕", bot_author_Image)

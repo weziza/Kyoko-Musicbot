@@ -6,9 +6,9 @@ const sgm = require('./bot_module/music_play_modul');
 const bot = new discord.Client();
 //------------------------------
 const setting = require('./bot_setting/bot_setting.json');
-const token = setting.token;
-const botchannel = setting.botchannel;
-const prefix = setting.prefix;
+var token = setting.token;
+var botchannel = setting.botchannel;
+var prefix = setting.prefix;
 var BotName = setting.BotName;
 var MDelete = setting.Delete_Message;
 var MaxQueue = setting.MaxQueue;

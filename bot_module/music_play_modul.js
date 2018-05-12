@@ -7,17 +7,17 @@ const fetchVideoInfo = require("youtube-info");
 const request = require("request");
 //---------------------------------------
 const setting = require('../bot_setting/bot_setting.json');
-const defaultVolume = setting.defaultVolume;
-const botchannel = setting.botchannel;
-const yt_api_key = setting.yt_api_key;
-const set_skip = setting.set_skip;
-const BotName = setting.BotName;
+var defaultVolume = setting.defaultVolume;
+var botchannel = setting.botchannel;
+var yt_api_key = setting.yt_api_key;
+var set_skip = setting.set_skip;
+var BotName = setting.BotName;
 var MaxQueue = setting.MaxQueue;
 var MinQueue = 0;
 //---------------------------------------
-var BotImages = require('../bot_images/botAuthor.json');
+const BotImages = require('../bot_images/botAuthor.json');
 var bot_author_Image = BotImages.bot_author_Image;
-var Thumbimage = require('../bot_images/Thumbimage.json');
+const Thumbimage = require('../bot_images/Thumbimage.json');
 var bot_leave = Thumbimage.bot_leave;
 var music_not_playing = Thumbimage.music_not_playing;
 var no_voice_connect = Thumbimage.no_voice_connect;
@@ -32,9 +32,14 @@ var connect_channel = Thumbimage.connect_channel;
 var no_playlist = Thumbimage.no_playlist;
 var playlist = Thumbimage.playlist;
 //---------------------------------------
-var bot_playing=false;
+var URLArray=[ // zufall url ergenzung wenn die suche fehlschlägt
+    "FlmToFkw9W0",
+    "LLB39g0ix1A",
+    "3_-a9nVZYjk",
+    "Mgfe5tIwOj0"]
+//------------------------------
 var bot_pause=false;
-var bot_resume=false;
+var bot_playing=false;
 var bot_in_channel=false;
 //------------------------------
 var Warteschlange_Array = []; 
@@ -44,12 +49,6 @@ var SongTitel_Buffer = [];
 var bot = index.bot; //import var bot aus script index.js
 //------------------------------
 var vlNr = defaultVolume;
-//------------------------------
-var URLArray=[ // zufall url ergenzung wenn die suche fehlschlägt
-    "FlmToFkw9W0",
-    "LLB39g0ix1A",
-    "3_-a9nVZYjk",
-    "Mgfe5tIwOj0"]
 //------------------------------
 exports.get_song = function (memberchannel, message,bot_MessChannel,voiceConnection) {
     //-----------------------------
@@ -197,7 +196,7 @@ exports.clean_queue = function(memberchannel,message,bot_MessChannel){
         bot_defaultVolume_option=true; //ist die warteschlane geleert geht der bot auf default volume 
         MinQueue=0; // Queue auf null setzen, warteschlange ist leer                              
         bmess.ambedMessage("SongListe wurde gelehrt :",'```HTTP'+'\n' + "du kannst neue Songs in die Liste laden." + '```', bot_MessChannel,RandomColor,BotName,queue_clean);
-    }else bmess.ambedMessage("SongListe ist leer :",'```HTTP'+'\n' + "es gibt nichts zu cleanen." + '```', bot_MessChannel,RandomColor,BotName,no_playlist);
+    }else bmess.ambedMessage("SongListe ist leer :",'```HTTP'+'\n' + "es gibt nichts zu cleanen." + '```', bot_MessChannel,RandomColor,BotName,skip_fail);
 };
 //---------------------------------------
 exports.leave = function(bot_MessChannel,message){
@@ -206,11 +205,10 @@ exports.leave = function(bot_MessChannel,message){
     var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
     var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);
     //-----------------------------
-
-    if(!bot_playing&&!bot_in_channel){
-        bmess.ambedMessage(" Bot ist in keinem :",'```HTTP'+'\n' + "Voicechannel." + '```', bot_MessChannel,RandomColor,BotName,no_voice_connect);  
-        if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect(); // disconect voice channel
+    if(!message.guild.voiceConnection){
+        bmess.ambedMessage(" Bot ist in keinem :",'```HTTP'+'\n' + "Voicechannel." + '```', bot_MessChannel,RandomColor,BotName,no_voice_connect);
     }else{
+        bot_pause=false; //wert muss hier resetet werden, probleme mit clean und leave in unterschiedlichen reihefolgen        
         bmess.ambedMessage(" Man sieht sich wieder :",'```HTTP'+'\n' + "bestimmt." + '```', bot_MessChannel,RandomColor,BotName,bot_leave);
         if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect(); // disconect voice channel
     }
@@ -244,7 +242,6 @@ exports.pause = function(message,prefix,voiceConnection,bot_MessChannel){
     if (!dispatcher.play&&!bot_pause) {
         dispatcher.pause(bmess.ambedMessage("-",'```HTTP'+'\n' + 'Stream Pause.' + '```', bot_MessChannel,RandomColor,BotName,pause));
         bot_pause=true;
-        bot_resume=true;
     }else{return bmess.ambedMessage("-",'```HTTP'+'\n' + 'player ist in der Pause' + '```', bot_MessChannel,RandomColor,BotName,music_not_playing);}
 }; 
 //---------------------------------------
@@ -258,10 +255,9 @@ exports.resume = function(message,prefix,voiceConnection,bot_MessChannel){
 
     // Resume.    
     const dispatcher = voiceConnection.player.dispatcher;
-    if (dispatcher.pause&&bot_resume) {
+    if (dispatcher.pause&&bot_pause) {
         dispatcher.resume(bmess.ambedMessage("-",'```HTTP'+'\n' + 'Resume Stream.' + '```', bot_MessChannel,RandomColor,BotName,resume));
         bot_pause=false;
-        bot_resume=false;
     }else{return;};
 };
 //---------------------------------------
@@ -300,11 +296,10 @@ function play(connection,message,bot_MessChannel){
             SongTitel_Array = SongTitel_Buffer.map((SongTitel_Buffer, x) => ((x + 1) + ': ' + SongTitel_Buffer)).join('\n'); //füge nummerierung zur SongTitel_Array hinzu                    
             //--------         
             return bmess.ambedMessage('Warteschlange :','```HTTP'+'\n' + SongTitel_Array + '```',bot_MessChannel,RandomColor,BotName,play_forward); // message ausgabe - Warteschlange SongTitel_Array
-        }else{connection.disconnect() //ist Warteschlange_Array leer disconnect und setze alles zurück.
-            bot_playing=false; //reset bot_playing
-            bot_in_channel=false; //reset bot_in_channel
+        }else{connection.disconnect() //ist Warteschlange_Array leer disconnect und setze alles zurück
+            bot_playing=false, bot_in_channel=false, bot_pause=false; //reset bot_playing, bot_in_channel, bot_pause
             //--------            
-            MinQueue=0; // setze queue auf null
+            MinQueue=0; // reset queue
             Warteschlange_Array = [],SongTitel_Array = [],SongTitel_Buffer = []; // setze alle arrays auf null fals noch etwas darin sein sollze         
             //--------
             vlNr=defaultVolume; // default volume  
