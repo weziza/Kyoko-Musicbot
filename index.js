@@ -109,7 +109,7 @@ bot.on("message",function(message){
             if (!memberchannel) {
                 return bot_MessChannel.send(wrap('Du musst erst ein Voice channel betreten'));
             }else{
-                sgm.searchsong(memberchannel,message,sucheVideo,bot_MessChannel,prefix);
+                sgm.search_song(memberchannel,message,sucheVideo,bot_MessChannel,prefix);
                 exports.get_url = function(url){
                     sgm.play_song(memberchannel,message,bot_MessChannel,url); 
                 } 
@@ -133,14 +133,14 @@ bot.on("message",function(message){
             };
             break;
         case prefix+set_clean: // funktioniert      
-            sgm.clean_queue(message,bot_MessChannel)
+            sgm.clean_queue(memberchannel,message,bot_MessChannel)
             break; 
         case prefix+set_queue: //funktioniert
-            sgm.queue_function(message,bot_MessChannel);
+            sgm.queue(message,bot_MessChannel);
             break;
         case prefix+set_skip: // funktioniert 
             //const voiceConnection = bot.voiceConnections.find(val => val.channel.guild.id == message.guild.id);
-            sgm.song_skip(message,bot_MessChannel,voiceConnection);
+            sgm.skip(message,bot_MessChannel,voiceConnection);
             break;
         case prefix+set_pause: // geh zu funktion pause / galube das spinnt noch etwas
             sgm.pause(message,prefix,voiceConnection,bot_MessChannel); 
@@ -149,7 +149,7 @@ bot.on("message",function(message){
             sgm.resume(message,prefix,voiceConnection,bot_MessChannel);
             break;    
         case prefix+set_leave: //funktioniert
-            sgm.bot_leave(bot_MessChannel,message);
+            sgm.leave(bot_MessChannel,message);
             break;
         case prefix+set_volume: //funktioniert
             //const voiceConnection = bot.voiceConnections.find(val => val.channel.guild.id == message.guild.id); // initial voiceConnection
