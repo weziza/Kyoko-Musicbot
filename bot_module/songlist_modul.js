@@ -12,6 +12,7 @@ var text = "〘 Songliste ♫ 〙➣ Abschnitt: ";
 * @param {Object} words_info_length
 * @param {Object} Liste_int
 * @param {Object} bot
+* @param {Object} liste_Nr
 */
 exports.sl_modul = function(ChatChannel,words_info,words_info_length,Liste_int,bot,liste_Nr){
 
