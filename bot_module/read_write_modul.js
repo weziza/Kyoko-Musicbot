@@ -275,12 +275,12 @@ exports.songliste = function(auth,auth_id,message,bot,ChatChannel){
             }
             if (i==20)
             {
-                 sm.sl_modul(ChatChannel,words_info_3,words_info_3.length,halb,bot,3);
+                sm.sl_modul(ChatChannel,words_info_3,words_info_3.length,halb,bot,3);
             }
             if (i==30)
             {
-                 sm.sl_modul(ChatChannel,words_info_4,words_info_4.length,dreiv,bot,4)
-                 clearInterval(dosome),i=0;
+                sm.sl_modul(ChatChannel,words_info_4,words_info_4.length,dreiv,bot,4)
+                clearInterval(dosome),i=0;
             }
             i++;
         };

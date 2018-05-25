@@ -15,7 +15,6 @@ var MaxQueue = setting.MaxQueue;
 //------------------------------
 var set_ping = setting.set_ping;
 var set_mega = setting.set_mega;
-var set_witz = setting.set_witz;
 var set_uhr = setting.set_uhr;
 var set_hilfe = setting.set_hilfe;
 var set_clean = setting.set_clean;
@@ -38,15 +37,95 @@ var autodelete=false;
 var botname = bot;
 exports.bot = botname;
 //------------------------------
+var VolumeNr = 1
+//------------------------------
 bot.on('ready', () => {
-    console.log(`[Start] ${new Date()}`," ----> ready");    
+    bot.user.setActivity("Auskunft mit -->  "+ prefix + set_hilfe); 
+    console.log(`[Start] ${new Date()}`," ----> ready");   
 });
 //------------------------------
-bot.on('error', console.error);
+bot.on('messageReactionAdd', (reaction, user, message) => {
+
+    //console.log(reaction.emoji.name);
+
+    if(reaction.emoji.name === "pauseEmoji") {
+        if(user.username==BotName){
+            return;
+        }else{
+            //console.log(user.id,user.username);
+            reaction.remove(user.id)
+            bot.channels.find("name", botchannel).send(prefix+set_pause);
+        }
+    }
+    if(reaction.emoji.name === "playEmoji") {
+        if(user.username==BotName){
+            return;
+        }else{
+            //console.log(user.id,user.username);
+            reaction.remove(user.id)
+            bot.channels.find("name", botchannel).send(prefix+set_resume);
+        }
+    }
+    if(reaction.emoji.name === "cleanEmoji") {
+        if(user.username==BotName){
+            return;
+        }else{
+            //console.log(user.id,user.username);
+            reaction.remove(user.id)
+            bot.channels.find("name", botchannel).send(prefix+set_clean);
+        }
+    }
+    if(reaction.emoji.name === "skipEmoji") {
+       if(user.username==BotName){
+            return;
+       }else{
+            //console.log(user.id,user.username);
+            reaction.remove(user.id)
+            bot.channels.find("name", botchannel).send(prefix+set_skip);
+        }
+    }
+    if(reaction.emoji.name === "kickEmoji") {
+        if(user.username==BotName){
+            return;
+        }else{
+            //console.log(user.id,user.username);
+            reaction.remove(user.id)
+            bot.channels.find("name", botchannel).send(prefix+set_leave);
+        }
+    }
+    if(reaction.emoji.name === "volumeupEmoji") {
+        if(user.username==BotName){
+            return;
+        }else{
+            if(VolumeNr>9){
+                VolumeNr=10;
+                return reaction.remove(user.id);
+            }else{
+                VolumeNr++
+                reaction.remove(user.id);
+                return bot.channels.find("name", botchannel).send(prefix+set_volume+" "+VolumeNr);
+            }
+        }
+    }
+    if(reaction.emoji.name === "volumedownEmoji") {
+        if(user.username==BotName){
+            return;
+        }else{          
+            if(VolumeNr<2){
+                VolumeNr=1;
+                return reaction.remove(user.id); 
+            }else{
+                VolumeNr--
+                reaction.remove(user.id)
+                return bot.channels.find("name", botchannel).send(prefix+set_volume+" "+VolumeNr);
+            }
+        }
+    }
+});
 //------------------------------
 bot.on("message",function(message){
 
-    if(message.content.indexOf(prefix)){ //message begint mit prefix dann / wenn nicht return
+    if(message.content.indexOf(prefix)){ //message beginnt mit prefix dann / wenn nicht return
         return;
     }else{        
         if(!autodelete){
@@ -69,12 +148,19 @@ bot.on("message",function(message){
         var msg = message.content.toLowerCase();
         var url = message.content.split(' ')[1]; // gibt die url aus split prefix aus
         var case_args = message.content.substring("").split(" "); // für switch funktion erkenne prefix/text angabe 
-        var VolumeNr = message.content.substring("").replace(/^[^0-9]+/, ''); //gibt nur zahlen anordnung aus
+        var VolNr = message.content.substring("").replace(/^[^0-9]+/, ''); //gibt nur zahlen anordnung aus
         var sucheVideo = message.content.split(' ').slice(1).join(" ");
+        //------------------------------
+
+        if(message.content.startsWith(prefix+set_volume+" ")){
+            VolumeNr = VolNr
+        };
+
         //------------------------------
         var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
         var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);
         //-----------------------------
+
         if(!message.content.includes("")) return;
         switch(case_args[0].toLowerCase()){
         case prefix+set_ping: //funktioniert
@@ -103,7 +189,7 @@ bot.on("message",function(message){
             bot_MessChannel.send(embed);
             break;    
         case prefix+set_hilfe: // funktioniert  
-            bmess.InfoScreen(set_playsong,set_searchsong,set_deletesong,set_savesong,set_songliste,set_randomsong,set_purge,set_volume,set_leave,set_resume,set_pause,set_skip,set_queue,set_clean,set_hilfe,set_uhr,set_witz,set_mega,set_ping,bot_MessChannel,prefix,RandomColor,MaxQueue,BotName); //info ausgabe
+            bmess.InfoScreen(set_playsong,set_searchsong,set_deletesong,set_savesong,set_songliste,set_randomsong,set_purge,set_volume,set_leave,set_resume,set_pause,set_skip,set_queue,set_clean,set_hilfe,set_uhr,set_mega,set_ping,bot_MessChannel,prefix,RandomColor,MaxQueue,BotName); //info ausgabe
             break;
         case prefix+set_searchsong: // funktioniert
             if (!memberchannel) {
@@ -178,10 +264,10 @@ bot.on("message",function(message){
         };
     };
 });
-
+//------------------------------
 bot.login(token); // bot token
-//---------------------------------------
+//------------------------------
 function wrap(text) {
     return '```\n' + text.replace(/`/g, '`' + String.fromCharCode(8203)) + '\n```';
 }
-//---------------------------------------
+//------------------------------

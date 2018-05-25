@@ -1,5 +1,13 @@
 const discord = require('discord.js');
 //------------------------------------
+const playerEmoji = require('../bot_images/player_emoji');
+var playEmoji = playerEmoji.playEmoji;
+var pauseEmoji = playerEmoji.pauseEmoji;
+var skipEmoji = playerEmoji.skipEmoji;
+var kickEmoji = playerEmoji.kickEmoji;
+var volumeupEmoji = playerEmoji.volumeupEmoji;
+var volumedownEmoji = playerEmoji.volumedownEmoji;
+var cleanEmoji = playerEmoji.cleanEmoji;
 const BotImages = require('../bot_images/botAuthor');
 const bot_author_Image = BotImages.bot_author_Image;
 const setThumbnail = require('../bot_images/InfoEmbedThumbnail');
@@ -23,7 +31,7 @@ if (bigSongList=="true"){
 * @param {Object} color // Math Color
 * @param {Object} MaxQueue // Max Lead Nummer
 */
-exports.InfoScreen = (set_playsong,set_searchsong,set_deletesong,set_savesong,set_songliste,set_randomsong,set_purge,set_volume,set_leave,set_resume,set_pause,set_skip,set_queue,set_clean,set_hilfe,set_uhr,set_witz,set_mega,set_ping,MessChannel,prefix,RandomColor,MaxQueue,BotName) => {
+exports.InfoScreen = (set_playsong,set_searchsong,set_deletesong,set_savesong,set_songliste,set_randomsong,set_purge,set_volume,set_leave,set_resume,set_pause,set_skip,set_queue,set_clean,set_hilfe,set_uhr,set_mega,set_ping,MessChannel,prefix,RandomColor,MaxQueue,BotName) => {
   var embed = new discord.RichEmbed()
       .setTitle("《 "+" super duba hilfe, vom mega heftig " + BotName + " 》" )
       .setAuthor(BotName +"〔 (∩｀-´)⊃━━☆･•.*･•*.♫♪℘❧ 〕", bot_author_Image)
@@ -72,6 +80,65 @@ exports.ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor,BotName,Thu
       .setFooter(BotName, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png");
       MessChannel.send(embed);
   return embed;
+};
+//-----------------------------
+/**
+* @param {Object} InfoText1 // Info Text zeile 1
+* @param {Object} InfoText2 // Info Text zeile 2
+* @param {Object} MessChannel // the message.channel
+* @param {Object} RandomColor // Math color
+* @param {Object} BotName // Bot Name
+* @param {Object} Thumbimage // Thumb Image
+*/
+exports.vers_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor,BotName,Thumbimage) => {
+    var embed = new discord.RichEmbed()
+        .setAuthor("〔"+BotName + "™ 〕", bot_author_Image)
+        .addField(InfoText1,InfoText2,  false )
+        .setThumbnail(Thumbimage)
+        .setColor(RandomColor)
+        .setTimestamp()
+        .setFooter(BotName, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png")
+        MessChannel.send(embed).then(function(message){
+            var i =0 
+            var dosome = setInterval(dosomeTimer, 100);  
+            function dosomeTimer() 
+            {   
+                //console.log(i)        
+                if(i == 0){message.react(pauseEmoji)}; 
+                if(i == 5){message.react(playEmoji)}; 
+                if(i == 10){message.react(cleanEmoji)}; 
+                if(i == 15){message.react(skipEmoji)};
+                if(i == 20){message.react(kickEmoji)};
+                if(i == 25){message.react(volumeupEmoji)};
+                if(i == 30){message.react(volumedownEmoji)
+                    clearInterval(dosome),i=0;};
+                i++; 
+            }
+                   
+        });
+        return embed;
+};
+//-----------------------------
+/**
+* @param {Object} InfoText1 // Info Text zeile 1
+* @param {Object} InfoText2 // Info Text zeile 2
+* @param {Object} MessChannel // the message.channel
+* @param {Object} RandomColor // Math color
+* @param {Object} BotName // Bot Name
+* @param {Object} Thumbimage // Thumb Image
+*/
+exports.pause_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor,BotName,Thumbimage) => {
+    var embed = new discord.RichEmbed()
+        .setAuthor("〔"+BotName + "™ 〕", bot_author_Image)
+        .addField(InfoText1,InfoText2,  false )
+        .setThumbnail(Thumbimage)
+        .setColor(RandomColor)
+        .setTimestamp()
+        .setFooter(BotName, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png");
+        MessChannel.send(embed).then(function (message) {
+            message.react(playEmoji);  
+        });
+    return embed;
 };
 //-----------------------------
 /**
