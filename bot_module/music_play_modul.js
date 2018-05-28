@@ -79,16 +79,22 @@ exports.get_song = function (memberchannel, message,bot_MessChannel,voiceConnect
                 // connect message
                 if(!bot_in_channel){ //ist der bot nicht im Voicechannel dann mach die connect message
                     bmess.ambedMessage("connect to Voice Channel :",'```HTTP'+'\n' + message.member.voiceChannel.name + '\n```',bot_MessChannel,RandomColor,BotName,connect_channel);               
-                }                               
-                //---------------------------------------                                           
-                play(connection,message,bot_MessChannel); //connect to voicechannel 
-                bot_MessChannel.bulkDelete(100);
-                return bmess.vers_ambedMessage("hinzugefügt :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, BotName, play_music);
-                //ist der bot nicht im voicechannel send SongTitel_Array message
+                }                                                                                   
+                play(connection,message,bot_MessChannel); //connect to voicechannel
+                //----------
+                setTimeout(function(){ 
+                    bot_MessChannel.bulkDelete(100);
+                    return bmess.vers_ambedMessage("hinzugefügt :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, BotName, play_music);
+                    //ist der bot nicht im voicechannel send SongTitel_Array message
+                }, 1000);
+               //---------------------------------------  
+
             });
             
             else if(bot_playing){ //ist der bot im voicechannel send SongTitel_Array message
+                //----------
                 bot_MessChannel.bulkDelete(100);
+                //---------- 
                 return bmess.vers_ambedMessage("hinzugefügt :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, BotName, play_music);
                 //ist der bot nicht im voicechannel send SongTitel_Array message
             }; 
@@ -114,11 +120,11 @@ exports.play_song = function (memberchannel,message,bot_MessChannel,url){
 
         if(!bot_playing) memberchannel.join().then(function(connection){
             bot_playing=true;                         
-            //--------------------------------------- 
+             //--------------------------------------- 
             // connect message
             bmess.ambedMessage("connect to Voice Channel :",'```HTTP'+'\n' + message.member.voiceChannel.name + '\n```',bot_MessChannel,RandomColor,BotName,connect_channel);
             //---------------------------------------            
-            play(connection,message,bot_MessChannel);  
+            play(connection,message,bot_MessChannel); 
         });
 
         Warteschlange_Array.push(url);
@@ -131,11 +137,11 @@ exports.play_song = function (memberchannel,message,bot_MessChannel,url){
             SongTitel_Buffer.push(time.toFixed(2) + " min" +" - "+ videoInfo.title); 
             SongTitel_Array = SongTitel_Buffer.map((SongTitel_Buffer, x) => (( x +  1  ) + ': ' + SongTitel_Buffer)).join('\n');            
             //---------------------------------------
-            MinQueue++; // Song counder ++
-            //-----------------------------
+            MinQueue++; // Song counder ++            
+            //----------
             bot_MessChannel.bulkDelete(100);
-            //-----------------------------
             return bmess.vers_ambedMessage("hinzugefügt :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, BotName, play_music);
+            //--------------------------------------- 
 
         });
     };    
@@ -218,9 +224,10 @@ exports.leave = function(bot_MessChannel,message){
     if(!message.guild.voiceConnection){
         bmess.ambedMessage(" Bot ist in keinem :",'```HTTP'+'\n' + "Voicechannel." + '```', bot_MessChannel,RandomColor,BotName,no_voice_connect);
     }else{
-        bot_pause=false; //wert muss hier resetet werden, probleme mit clean und leave in unterschiedlichen reihefolgen        
+        bot_pause=false; //wert muss hier resetet werden, probleme mit clean und leave in unterschiedlichen reihenfolge        
         bmess.ambedMessage(" Man sieht sich wieder :",'```HTTP'+'\n' + "bestimmt." + '```', bot_MessChannel,RandomColor,BotName,bot_leave);
-        if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect(); // disconect voice channel
+        //-----------------------------
+        message.guild.voiceConnection.disconnect(); // disconect voice channel
     }
 };
 //---------------------------------------
@@ -236,6 +243,7 @@ exports.skip = function(message,bot_MessChannel,voiceConnection){
     }else if(!bot_playing){
         return bmess.ambedMessage(" Warteschlange :",'```HTTP'+'\n' + "ist leer." + '```', bot_MessChannel,RandomColor,BotName,skip_fail); 
     }else if(dispatcher){
+        bmess.ambedMessage(" Man sieht sich wieder :",'```HTTP'+'\n' + "bestimmt." + '```', bot_MessChannel,RandomColor,BotName,bot_leave);
         dispatcher.end(); // geh zur funktion end
     }; 
 };
@@ -336,11 +344,14 @@ function play(connection,message,bot_MessChannel){
             //--------
             Warteschlange_Array = [],SongTitel_Array = [],SongTitel_Buffer = []; // setze alle arrays auf null fals noch etwas darin sein sollze         
             //--------
-            vlNr=defaultVolume; // default volume  
-            //-----------------------------
-            bot_MessChannel.bulkDelete(100);
-            //-----------------------------            
-            return bot_MessChannel.send({files: ["./Images/no_music_image.png"]});  // send leave image                   
+            vlNr=defaultVolume; // default volume
+            //--------
+            setTimeout(function(){ 
+                bot_MessChannel.bulkDelete(100);
+                //--------    
+                return bot_MessChannel.send({files: ["./Images/no_music_image.png"]});  // send leave image
+            }, 2000); 
+            //-----------------------------                                       
         }  
     }).on('error', (error) => {
         console.log(error, " connection");

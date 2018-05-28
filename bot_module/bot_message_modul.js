@@ -1,5 +1,6 @@
 const discord = require('discord.js');
-//------------------------------------
+const index = require("../index");
+//---------------------------------------
 const playerEmoji = require('../bot_images/player_emoji');
 var playEmoji = playerEmoji.playEmoji;
 var pauseEmoji = playerEmoji.pauseEmoji;
@@ -22,7 +23,9 @@ if (smallSongList=="true"){
 if (bigSongList=="true"){
     var GrList = 50;
     smallSongList="false";};
-//------------------------------------
+//------------------------------
+var bot = index.bot; //import var bot aus script index.js
+//------------------------------
 /**
 * @param {Object} MessChannel // the message.channel
 * @param {Object} InfoSetImage // setImage Datenbank.json Math random
@@ -93,17 +96,19 @@ exports.ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor,BotName,Thu
 exports.vers_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor,BotName,Thumbimage) => {
     var embed = new discord.RichEmbed()
         .setAuthor("〔"+BotName + "™ 〕", bot_author_Image)
-        .addField(InfoText1,InfoText2,  false )
+        .addField(InfoText1,InfoText2, false )
         .setThumbnail(Thumbimage)
         .setColor(RandomColor)
         .setTimestamp()
         .setFooter(BotName, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png")
         MessChannel.send(embed).then(function(message){
+
+            console.log(bot)
+            //console.log(bot.emojis.concat.name.concat(pauseEmoji))  
             var i =0 
             var dosome = setInterval(dosomeTimer, 100);  
             function dosomeTimer() 
-            {   
-                //console.log(i)        
+            {                       
                 if(i == 0){message.react(pauseEmoji)}; 
                 if(i == 5){message.react(playEmoji)}; 
                 if(i == 10){message.react(cleanEmoji)}; 
@@ -114,7 +119,7 @@ exports.vers_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor,BotNam
                     clearInterval(dosome),i=0;};
                 i++; 
             }
-                   
+                  
         });
         return embed;
 };
@@ -130,7 +135,7 @@ exports.vers_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor,BotNam
 exports.pause_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor,BotName,Thumbimage) => {
     var embed = new discord.RichEmbed()
         .setAuthor("〔"+BotName + "™ 〕", bot_author_Image)
-        .addField(InfoText1,InfoText2,  false )
+        .addField(InfoText1,InfoText2, false )
         .setThumbnail(Thumbimage)
         .setColor(RandomColor)
         .setTimestamp()

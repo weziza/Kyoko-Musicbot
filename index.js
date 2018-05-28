@@ -39,16 +39,35 @@ exports.bot = botname;
 //------------------------------
 var VolumeNr = 1
 //------------------------------
+const playerEmoji = require('./bot_images/player_emoji');
+var playEmoji = playerEmoji.playEmoji;
+var pauseEmoji = playerEmoji.pauseEmoji;
+var skipEmoji = playerEmoji.skipEmoji;
+var kickEmoji = playerEmoji.kickEmoji;
+var volumeupEmoji = playerEmoji.volumeupEmoji;
+var volumedownEmoji = playerEmoji.volumedownEmoji;
+var cleanEmoji = playerEmoji.cleanEmoji;
+//------------------------------
 bot.on('ready', () => {
     bot.user.setActivity("Auskunft mit -->  "+ prefix + set_hilfe); 
     console.log(`[Start] ${new Date()}`," ----> ready");   
 });
 //------------------------------
+bot.on('emojiCreate', emoji => {
+  console.log(`${emoji.name} created`); // Does not get called!
+});
+//------------------------------
 bot.on('messageReactionAdd', (reaction, user, message) => {
 
-    //console.log(reaction.emoji.name);
+    //console.log(reaction.emoji.id);
+    /*if(reaction.emoji.id==null){
 
-    if(reaction.emoji.name === "pauseEmoji") {
+    }else{
+        bot.channels.find("name", botchannel).send(reaction.emoji.name+" = "+reaction.emoji.id);
+        return;
+    }*/
+
+    if(reaction.emoji.id === pauseEmoji) {
         if(user.username==BotName){
             return;
         }else{
@@ -57,7 +76,7 @@ bot.on('messageReactionAdd', (reaction, user, message) => {
             bot.channels.find("name", botchannel).send(prefix+set_pause);
         }
     }
-    if(reaction.emoji.name === "playEmoji") {
+    if(reaction.emoji.id === playEmoji) {
         if(user.username==BotName){
             return;
         }else{
@@ -66,7 +85,7 @@ bot.on('messageReactionAdd', (reaction, user, message) => {
             bot.channels.find("name", botchannel).send(prefix+set_resume);
         }
     }
-    if(reaction.emoji.name === "cleanEmoji") {
+    if(reaction.emoji.id === cleanEmoji) {
         if(user.username==BotName){
             return;
         }else{
@@ -75,7 +94,7 @@ bot.on('messageReactionAdd', (reaction, user, message) => {
             bot.channels.find("name", botchannel).send(prefix+set_clean);
         }
     }
-    if(reaction.emoji.name === "skipEmoji") {
+    if(reaction.emoji.id === skipEmoji) {
        if(user.username==BotName){
             return;
        }else{
@@ -84,7 +103,7 @@ bot.on('messageReactionAdd', (reaction, user, message) => {
             bot.channels.find("name", botchannel).send(prefix+set_skip);
         }
     }
-    if(reaction.emoji.name === "kickEmoji") {
+    if(reaction.emoji.id === kickEmoji) {
         if(user.username==BotName){
             return;
         }else{
@@ -93,7 +112,7 @@ bot.on('messageReactionAdd', (reaction, user, message) => {
             bot.channels.find("name", botchannel).send(prefix+set_leave);
         }
     }
-    if(reaction.emoji.name === "volumeupEmoji") {
+    if(reaction.emoji.id === volumeupEmoji) {
         if(user.username==BotName){
             return;
         }else{
@@ -107,7 +126,7 @@ bot.on('messageReactionAdd', (reaction, user, message) => {
             }
         }
     }
-    if(reaction.emoji.name === "volumedownEmoji") {
+    if(reaction.emoji.id === volumedownEmoji) {
         if(user.username==BotName){
             return;
         }else{          
@@ -124,6 +143,12 @@ bot.on('messageReactionAdd', (reaction, user, message) => {
 });
 //------------------------------
 bot.on("message",function(message){
+ 
+    if(message.content.startsWith("emoji_id"+"<:")){
+        console.log(message.content);
+        var messagenumber=message.content.substring("").replace(/^[^0-9]+/, '')
+        return bot.channels.find("name", botchannel).send(messagenumber.slice(messagenumber,messagenumber.length-1));        
+    };
 
     if(message.content.indexOf(prefix)){ //message beginnt mit prefix dann / wenn nicht return
         return;
@@ -260,8 +285,8 @@ bot.on("message",function(message){
             break;
         case prefix+set_deletesong: //funktionier               
             rwm.delete_song(auth,auth_id,message,bot,prefix+set_deletesong,set_deletesong.length+2,botchannel);
-            break;     
-        };
+            break;
+        };  
     };
 });
 //------------------------------
