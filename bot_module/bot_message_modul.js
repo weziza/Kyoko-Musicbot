@@ -111,13 +111,13 @@ exports.play_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor,BotNam
             {                       
                 if(i == 0){message.react(pauseEmoji)}; 
                 if(i == 5){message.react(playEmoji)}; 
-                if(i == 10){message.react(cleanEmoji)}; 
-                if(i == 15){message.react(skipEmoji)};
+                if(i == 10){message.react(skipEmoji)}; 
+                if(i == 15){message.react(cleanEmoji)};
                 if(i == 20){message.react(kickEmoji)};
                 if(i == 25){message.react(volumeupEmoji)};
                 if(i == 30){message.react(volumedownEmoji)
                     clearInterval(dosome),i=0;};
-                i++; 
+                i++;
             }
                   
         });
