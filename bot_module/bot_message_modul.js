@@ -40,7 +40,7 @@ exports.InfoScreen = (set_playsong,set_searchsong,set_deletesong,set_savesong,se
       .setAuthor(BotName +"〔 (∩｀-´)⊃━━☆･•.*･•*.♫♪℘❧ 〕", bot_author_Image)
       .setDescription("[ command`s ]")
       .setColor(RandomColor)
-      .addField("-----------------------------",'```Markdown'+'\n< ' + prefix + set_hilfe+" | "+prefix+set_mega+" | "+prefix+set_ping + ' >```', true)
+      .addField("-----------------------------",'```Markdown'+'\n< ' + prefix + set_hilfe+" | "+prefix+set_mega+" | "+prefix+set_ping +" | "+prefix+"send_id" + ' >```', true)
       .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_purge+' | '+'Löscht 100 Zeilen im Channel. ' + '```',false)       
       .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_queue+' | '+'Zeige Song`s in der Warteschlange. ' + '```',false)
       .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_skip+' | '+'Überspringt das spielende Lied. ' + '```',false)
@@ -158,5 +158,5 @@ exports.sl_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor) => {
         .setColor(RandomColor)
         MessChannel.send(embed);
     return embed;
-  };
-  //-----------------------------
+};
+//-----------------------------

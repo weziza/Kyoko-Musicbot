@@ -4,6 +4,8 @@
 
     "yt_api_key"    : "youtube key here",
 
+    "admin_id"      : "your id",
+
     "botchannel"    : "bot channel here",
 
     "defaultVolume" : 0.1,

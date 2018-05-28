@@ -21,6 +21,7 @@ var prefix = setting.prefix;
 var BotName = setting.BotName;
 var MDelete = setting.Delete_Message;
 var MaxQueue = setting.MaxQueue;
+var admin_id = setting.admin_id;
 //------------------------------
 var set_ping = setting.set_ping;
 var set_mega = setting.set_mega;
@@ -139,12 +140,18 @@ bot.on('messageReactionAdd', (reaction, user, message) => {
 });
 //------------------------------
 bot.on("message",function(message){
- 
-    if(message.content.startsWith("emoji_id"+"<:")){
+
+    //console.log(message.author.id);
+    if(message.content==prefix+"send_id"){
+        return message.author.send("deine Account Id "+message.author+" ist: "+message.author.id);
+    }
+    if(message.author.id==admin_id&&message.content==prefix+"admin"){
+        return message.author.send("```"+"1: emoji_id"+'\n'+"weitere kommen noch"+"```");     
+    };
+    if(message.author.id==admin_id&&message.content.startsWith("emoji_id"+"<:")){
         console.log(message.content);
         var messagenumber=message.content.replace(/^[^0-9]+/,' '); //suche nach zahlen und replace alles davor mit nichts
-        return bot.channels.find("name", botchannel).send(messagenumber.slice(messagenumber,messagenumber.length-1)); 
-        //return bot.channels.find("name", botchannel).send(messagenumber);       
+        return bot.channels.find("name", botchannel).send(messagenumber.slice(messagenumber,messagenumber.length-1));      
     };
 
     if(message.content.indexOf(prefix)){ //message beginnt mit prefix dann / wenn nicht return
