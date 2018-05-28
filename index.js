@@ -5,6 +5,15 @@ const sgm = require('./bot_module/music_play_modul');
 //------------------------------
 const bot = new discord.Client();
 //------------------------------
+const playerEmoji = require('./bot_images/player_emoji');
+var playEmoji = playerEmoji.playEmoji;
+var pauseEmoji = playerEmoji.pauseEmoji;
+var skipEmoji = playerEmoji.skipEmoji;
+var kickEmoji = playerEmoji.kickEmoji;
+var volumeupEmoji = playerEmoji.volumeupEmoji;
+var volumedownEmoji = playerEmoji.volumedownEmoji;
+var cleanEmoji = playerEmoji.cleanEmoji;
+//------------------------------
 const setting = require('./bot_setting/bot_setting.json');
 var token = setting.token;
 var botchannel = setting.botchannel;
@@ -39,22 +48,9 @@ exports.bot = botname;
 //------------------------------
 var VolumeNr = 1
 //------------------------------
-const playerEmoji = require('./bot_images/player_emoji');
-var playEmoji = playerEmoji.playEmoji;
-var pauseEmoji = playerEmoji.pauseEmoji;
-var skipEmoji = playerEmoji.skipEmoji;
-var kickEmoji = playerEmoji.kickEmoji;
-var volumeupEmoji = playerEmoji.volumeupEmoji;
-var volumedownEmoji = playerEmoji.volumedownEmoji;
-var cleanEmoji = playerEmoji.cleanEmoji;
-//------------------------------
 bot.on('ready', () => {
     bot.user.setActivity("Auskunft mit -->  "+ prefix + set_hilfe); 
     console.log(`[Start] ${new Date()}`," ----> ready");   
-});
-//------------------------------
-bot.on('emojiCreate', emoji => {
-  console.log(`${emoji.name} created`); // Does not get called!
 });
 //------------------------------
 bot.on('messageReactionAdd', (reaction, user, message) => {
@@ -146,8 +142,9 @@ bot.on("message",function(message){
  
     if(message.content.startsWith("emoji_id"+"<:")){
         console.log(message.content);
-        var messagenumber=message.content.substring("").replace(/^[^0-9]+/, '')
-        return bot.channels.find("name", botchannel).send(messagenumber.slice(messagenumber,messagenumber.length-1));        
+        var messagenumber=message.content.replace(/^[^0-9]+/,' '); //suche nach zahlen und replace alles davor mit nichts
+        return bot.channels.find("name", botchannel).send(messagenumber.slice(messagenumber,messagenumber.length-1)); 
+        //return bot.channels.find("name", botchannel).send(messagenumber);       
     };
 
     if(message.content.indexOf(prefix)){ //message beginnt mit prefix dann / wenn nicht return
@@ -173,7 +170,7 @@ bot.on("message",function(message){
         var msg = message.content.toLowerCase();
         var url = message.content.split(' ')[1]; // gibt die url aus split prefix aus
         var case_args = message.content.substring("").split(" "); // für switch funktion erkenne prefix/text angabe 
-        var VolNr = message.content.substring("").replace(/^[^0-9]+/, ''); //gibt nur zahlen anordnung aus
+        var VolNr = message.content.replace(/^[^0-9]+/,' '); //gibt nur zahlen anordnung aus
         var sucheVideo = message.content.split(' ').slice(1).join(" ");
         //------------------------------
 

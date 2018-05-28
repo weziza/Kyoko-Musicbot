@@ -93,7 +93,7 @@ exports.ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor,BotName,Thu
 * @param {Object} BotName // Bot Name
 * @param {Object} Thumbimage // Thumb Image
 */
-exports.vers_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor,BotName,Thumbimage) => {
+exports.play_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor,BotName,Thumbimage) => {
     var embed = new discord.RichEmbed()
         .setAuthor("〔"+BotName + "™ 〕", bot_author_Image)
         .addField(InfoText1,InfoText2, false )
