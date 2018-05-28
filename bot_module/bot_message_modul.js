@@ -1,5 +1,4 @@
 const discord = require('discord.js');
-const index = require("../index");
 //---------------------------------------
 const playerEmoji = require('../bot_images/player_emoji');
 var playEmoji = playerEmoji.playEmoji;
@@ -23,8 +22,6 @@ if (smallSongList=="true"){
 if (bigSongList=="true"){
     var GrList = 50;
     smallSongList="false";};
-//------------------------------
-var bot = index.bot; //import var bot aus script index.js
 //------------------------------
 /**
 * @param {Object} MessChannel // the message.channel
@@ -102,9 +99,6 @@ exports.play_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor,BotNam
         .setTimestamp()
         .setFooter(BotName, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png")
         MessChannel.send(embed).then(function(message){
-
-            console.log(bot)
-            //console.log(bot.emojis.concat.name.concat(pauseEmoji))  
             var i =0 
             var dosome = setInterval(dosomeTimer, 100);  
             function dosomeTimer() 
@@ -117,7 +111,7 @@ exports.play_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor,BotNam
                 if(i == 25){message.react(volumeupEmoji)};
                 if(i == 30){message.react(volumedownEmoji)
                     clearInterval(dosome),i=0;};
-                i++;
+                i++; 
             }
                   
         });
