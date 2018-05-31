@@ -1,9 +1,9 @@
 { 
-    "volumeupEmoji" : "450661466929102855",
-    "volumedownEmoji" : "450661466786365450",
-    "skipEmoji" : "450661467654717441",
-    "playEmoji" : "450661467533082637",
-    "pauseEmoji" : "450661467008663555",
-    "kickEmoji" : "450661466287112204",
-    "cleanEmoji" : "450661467533082624"
+    "volumeupEmoji" : "emoji id",
+    "volumedownEmoji" : "emoji id",
+    "skipEmoji" : "emoji id",
+    "playEmoji" : "emoji id",
+    "pauseEmoji" : "emoji id",
+    "kickEmoji" : "emoji id",
+    "cleanEmoji" : "emoji id"
 }

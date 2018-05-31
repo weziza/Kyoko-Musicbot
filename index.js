@@ -25,6 +25,7 @@ var set_skip = setting.set_skip;
 var set_volume = setting.set_volume;
 var set_pause = setting.set_pause;
 var set_resume = setting.set_resume;
+var set_leave = setting.set_leave;
 //------------------------------
 var autode = require('./bot_commands/set_purge');
 var autodelete=false;

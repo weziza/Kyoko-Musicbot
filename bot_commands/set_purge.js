@@ -12,7 +12,7 @@ exports.run = async (bot,message)=>{
 
     message.channel.bulkDelete(100).then(() => { // lösche 100 chat zeilen
         var embed = new discord.RichEmbed() // message ausgabe
-        .addField(100+"Messages werden Gelöscht.","-----------------------------",true );
+        .addField("löscht bis zu > "+100+" < Messages.","-----------------------------",true );
         bot_MessChannel.send(embed).then(m => m.delete(3000));
     });
 }
