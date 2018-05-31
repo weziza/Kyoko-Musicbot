@@ -1,5 +1,4 @@
 const bmess = require('./bot_message_modul');
-const index = require("../index");
 //---------------------------------------
 const ytdl = require("ytdl-core");
 const youtubedl = require('youtube-dl');
@@ -47,11 +46,15 @@ var Warteschlange_Array = [];
 var SongTitel_Array = [];
 var SongTitel_Buffer = [];
 //------------------------------
+const index = require("../index");
 var bot = index.bot; //import var bot aus script index.js
+
+const ssea = require("../bot_commands/set_searchsong");
 //------------------------------
 var vlNr = defaultVolume;
 //------------------------------
-exports.get_song = function (memberchannel, message,bot_MessChannel,voiceConnection) {
+exports.get_song = function (memberchannel,message,bot_MessChannel,voiceConnection) {
+
     //-----------------------------
     var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
     var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);
@@ -82,20 +85,16 @@ exports.get_song = function (memberchannel, message,bot_MessChannel,voiceConnect
                 }                                                                                   
                 play(connection,message,bot_MessChannel); //connect to voicechannel
                 //----------
-                setTimeout(function(){ 
-                    bot_MessChannel.bulkDelete(100);
-                    return bmess.play_ambedMessage("hinzugefügt :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, BotName, play_music);
+                setTimeout(function(){                    
+                    return bmess.play_ambedMessage("hinzugefügt :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, BotName, play_music,message,5000);
                     //ist der bot nicht im voicechannel send SongTitel_Array message
-                }, 1000);
+                }, 0);
                //---------------------------------------  
 
             });
             
             else if(bot_playing){ //ist der bot im voicechannel send SongTitel_Array message
-                //----------
-                bot_MessChannel.bulkDelete(100);
-                //---------- 
-                return bmess.play_ambedMessage("hinzugefügt :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, BotName, play_music);
+                return bmess.play_ambedMessage("hinzugefügt :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, BotName, play_music,message,5000);
                 //ist der bot nicht im voicechannel send SongTitel_Array message
             }; 
         };
@@ -139,8 +138,7 @@ exports.play_song = function (memberchannel,message,bot_MessChannel,url){
             //---------------------------------------
             MinQueue++; // Song counder ++            
             //----------
-            bot_MessChannel.bulkDelete(100);
-            return bmess.play_ambedMessage("hinzugefügt :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, BotName, play_music);
+            return bmess.play_ambedMessage("hinzugefügt :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, BotName, play_music,message,5000);
             //--------------------------------------- 
 
         });
@@ -172,7 +170,9 @@ exports.search_song = function(memberchannel,message,sucheVideo,bot_MessChannel,
 
     getID(sucheVideo, function (id) {
         fetchVideoInfo(id, function (err, videoInfo) {
-            index.get_url(videoInfo.url);            
+            //index.get_url(videoInfo.url);
+            ssea.get_url(videoInfo.url);
+            //console.log(videoInfo.url)            
         });
     });
 };
@@ -188,7 +188,7 @@ exports.queue =  function(message,bot_MessChannel){
         return bmess.ambedMessage("-",'```HTTP'+'\n' + "Kein Song: in der Warteschlange" + '```', bot_MessChannel, RandomColor, BotName, no_playlist);
     }
     else {
-        return bmess.play_ambedMessage("in der Warteschlange :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, BotName, playlist)
+        return bmess.play_ambedMessage("in der Warteschlange :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, BotName, playlist,message,500)
     }
 };
 //---------------------------------------
@@ -219,11 +219,14 @@ exports.leave = function(bot_MessChannel,message){
     var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
     var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);
     //----------------------------- 
-    bot_MessChannel.bulkDelete(100);
+    //bot_MessChannel.bulkDelete(100);
     //-----------------------------
     if(!message.guild.voiceConnection){
         bmess.ambedMessage(" Bot ist in keinem :",'```HTTP'+'\n' + "Voicechannel." + '```', bot_MessChannel,RandomColor,BotName,no_voice_connect);
     }else{
+        Warteschlange_Array = [];
+        // wird an der stelle die Warteschlange_Array nicht zurück gesetzt dann TypeError: Cannot read property 'encode' of null ??
+        // player bekommt disconnect, hat aber noch ein wert in der Warteschlange_Array.
         bot_pause=false; //wert muss hier resetet werden, probleme mit clean und leave in unterschiedlichen reihenfolge        
         bmess.ambedMessage(" Man sieht sich wieder :",'```HTTP'+'\n' + "bestimmt." + '```', bot_MessChannel,RandomColor,BotName,bot_leave);
         //-----------------------------
@@ -243,7 +246,6 @@ exports.skip = function(message,bot_MessChannel,voiceConnection){
     }else if(!bot_playing){
         return bmess.ambedMessage(" Warteschlange :",'```HTTP'+'\n' + "ist leer." + '```', bot_MessChannel,RandomColor,BotName,skip_fail); 
     }else if(dispatcher){
-        bmess.ambedMessage(" Man sieht sich wieder :",'```HTTP'+'\n' + "bestimmt." + '```', bot_MessChannel,RandomColor,BotName,bot_leave);
         dispatcher.end(); // geh zur funktion end
     }; 
 };
@@ -311,6 +313,7 @@ exports.volume = function(message,VolumeNr,voiceConnection){
 };
 //---------------------------------------
 function play(connection,message,bot_MessChannel){
+
     //-----------------------------
     var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
     var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6)
@@ -321,7 +324,7 @@ function play(connection,message,bot_MessChannel){
     Warteschlange_Array.shift(); //shift gleich die erste stelle in der array...  
     // bei einem lead ist der bot eigentlich schon bei disconnect nach dem abspielen des ersten liedes
     //-----------------------------
-    if (vlNr>defaultVolume){
+    if (vlNr>defaultVolume){        
         dispatcher.setVolume(vlNr); // vlNr volume solange kein - disconnect gemacht wurde
     }else{
         dispatcher.setVolume(defaultVolume); // defaultVolume volume wenn play stream resetet wird - disconnect
@@ -336,8 +339,8 @@ function play(connection,message,bot_MessChannel){
             play(connection,message,bot_MessChannel),SongTitel_Buffer.shift();  // replay and shift SongTitel_Buffer um eine stelle       
             SongTitel_Array = SongTitel_Buffer.map((SongTitel_Buffer, x) => ((x + 1) + ': ' + SongTitel_Buffer)).join('\n'); //füge nummerierung zur SongTitel_Array hinzu                    
             //--------         
-            return bmess.play_ambedMessage('Warteschlange :','```HTTP'+'\n' + SongTitel_Array + '```',bot_MessChannel,RandomColor,BotName,play_forward); // message ausgabe - Warteschlange SongTitel_Array
-        }else{connection.disconnect() //ist Warteschlange_Array leer disconnect und setze alles zurück
+            return bmess.play_ambedMessage('Warteschlange :','```HTTP'+'\n' + SongTitel_Array + '```',bot_MessChannel,RandomColor,BotName,play_forward,message,500); // message ausgabe - Warteschlange SongTitel_Array
+        }else{connection.disconnect() //ist Warteschlange_Array leer disconnect und setze alles zurück  
             bot_playing=false, bot_in_channel=false, bot_pause=false; //reset bot_playing, bot_in_channel, bot_pause
             //--------            
             MinQueue=0; // reset queue
@@ -346,11 +349,7 @@ function play(connection,message,bot_MessChannel){
             //--------
             vlNr=defaultVolume; // default volume
             //--------
-            setTimeout(function(){ 
-                bot_MessChannel.bulkDelete(100);
-                //--------    
-                return bot_MessChannel.send({files: ["./Images/no_music_image.png"]});  // send leave image
-            }, 2000); 
+            return bot_MessChannel.send({files: ["./Images/no_music_image.png"]});  // send leave image
             //-----------------------------                                       
         }  
     }).on('error', (error) => {

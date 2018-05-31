@@ -1,4 +1,5 @@
 const discord = require('discord.js');
+//const emojib = require("./emoji_bar");
 //---------------------------------------
 const playerEmoji = require('../bot_images/player_emoji');
 var playEmoji = playerEmoji.playEmoji;
@@ -14,6 +15,7 @@ const setThumbnail = require('../bot_images/InfoEmbedThumbnail');
 const setImage = require('../bot_images/InfoEmbedImage');
 //------------------------------
 const setting = require('../bot_setting/bot_setting.json');
+var prefix = setting.prefix;
 var smallSongList = setting.songList_25;
 var bigSongList = setting.songList_50;
 if (smallSongList=="true"){
@@ -22,6 +24,11 @@ if (smallSongList=="true"){
 if (bigSongList=="true"){
     var GrList = 50;
     smallSongList="false";};
+//------------------------------
+const index = require("../index");
+var bot = index.bot; //import var bot aus script index.js
+//------------------------------
+var dosome = false;
 //------------------------------
 /**
 * @param {Object} MessChannel // the message.channel
@@ -37,7 +44,7 @@ exports.InfoScreen = (set_playsong,set_searchsong,set_deletesong,set_savesong,se
       .setAuthor(BotName +"〔 (∩｀-´)⊃━━☆･•.*･•*.♫♪℘❧ 〕", bot_author_Image)
       .setDescription("[ command`s ]")
       .setColor(RandomColor)
-      .addField("-----------------------------",'```Markdown'+'\n< ' + prefix + set_hilfe+" | "+prefix+set_mega+" | "+prefix+set_ping +" | "+prefix+"send_id" + ' >```', true)
+      .addField("-----------------------------",'```Markdown'+'\n< ' + prefix + set_hilfe+" | "+prefix+set_mega+" | "+prefix+set_ping +" | "+prefix+"admin" + ' >```', true)
       .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_purge+' | '+'Löscht 100 Zeilen im Channel. ' + '```',false)       
       .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_queue+' | '+'Zeige Song`s in der Warteschlange. ' + '```',false)
       .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_skip+' | '+'Überspringt das spielende Lied. ' + '```',false)
@@ -70,7 +77,7 @@ exports.InfoScreen = (set_playsong,set_searchsong,set_deletesong,set_savesong,se
 * @param {Object} BotName // Bot Name
 * @param {Object} Thumbimage // Thumb Image
 */
-exports.ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor,BotName,Thumbimage) => {
+exports.ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,BotName,Thumbimage) => {
   var embed = new discord.RichEmbed()
       .setAuthor("〔"+BotName + "™ 〕", bot_author_Image)
       .addField(InfoText1,InfoText2,  false )
@@ -89,33 +96,26 @@ exports.ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor,BotName,Thu
 * @param {Object} RandomColor // Math color
 * @param {Object} BotName // Bot Name
 * @param {Object} Thumbimage // Thumb Image
+* @param {Object} message // Thumb Image
 */
-exports.play_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor,BotName,Thumbimage) => {
+exports.play_ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,BotName,Thumbimage,message,sendEmojiTime) => {
+
+    MessChannel.bulkDelete(10);
+
     var embed = new discord.RichEmbed()
-        .setAuthor("〔"+BotName + "™ 〕", bot_author_Image)
-        .addField(InfoText1,InfoText2, false )
-        .setThumbnail(Thumbimage)
-        .setColor(RandomColor)
-        .setTimestamp()
-        .setFooter(BotName, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png")
-        MessChannel.send(embed).then(function(message){
-            var i =0 
-            var dosome = setInterval(dosomeTimer, 100);  
-            function dosomeTimer() 
-            {                       
-                if(i == 0){message.react(pauseEmoji)}; 
-                if(i == 5){message.react(playEmoji)}; 
-                if(i == 10){message.react(skipEmoji)}; 
-                if(i == 15){message.react(cleanEmoji)};
-                if(i == 20){message.react(kickEmoji)};
-                if(i == 25){message.react(volumeupEmoji)};
-                if(i == 30){message.react(volumedownEmoji)
-                    clearInterval(dosome),i=0;};
-                i++; 
-            }
-                  
-        });
-        return embed;
+    .setAuthor("〔"+BotName + "™ 〕", bot_author_Image)
+    .addField(InfoText1,InfoText2, false )
+    .addField("Info:",'```HTTP'+'\n'+`Emoji Bar send in:`+'\n'+'----| '+ sendEmojiTime/1000 +`.sec`+' |----'+'```', false )
+    .setThumbnail(Thumbimage)
+    .setColor(RandomColor)
+    .setTimestamp()
+    .setFooter(BotName, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png")
+    MessChannel.send(embed);
+    if(!dosome){
+        dosome=true;
+        run(MessChannel,message,sendEmojiTime);
+    };
+    return embed;
 };
 //-----------------------------
 /**
@@ -152,5 +152,50 @@ exports.sl_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor) => {
         .setColor(RandomColor)
         MessChannel.send(embed);
     return embed;
+};
+//-----------------------------
+run = async (MessChannel,message,sendEmojiTime)=>{
+
+    //MessChannel.send('```'+`Emoji Bar send in :`+'\n'+'-----| '+ sendEmojiTime/1000 +`.sec`+' |-----'+'```'); 
+    const msgs = await MessChannel.awaitMessages(msg => msg.content.includes("play"),{time: sendEmojiTime});
+    MessChannel.send(`Emoji Bar!`)
+        .then(function(message){emoji_bar(message)
+        dosome=false})
+        .catch(function() {
+        console.log("error Unhandled Promise Rejection Warning:");
+        dosome=false
+        emoji_bar(message);
+    });
+}
+
+function emoji_bar(message) {
+
+    var i = 0;
+    var dosome = setInterval(dosomeTimer, 100);
+    function dosomeTimer() {
+        if (i == 0) {
+            message.react(pauseEmoji);
+        };
+        if (i == 5) {
+            message.react(playEmoji);
+        };
+        if (i == 10) {
+            message.react(skipEmoji);
+        };
+        if (i == 15) {
+            message.react(cleanEmoji);
+        };
+        if (i == 20) {
+            message.react(kickEmoji);
+        };
+        if (i == 25) {
+            message.react(volumeupEmoji);
+        };
+        if (i == 30) {
+            message.react(volumedownEmoji);
+            clearInterval(dosome), i = 0;
+        };
+        i++;
+    };
 };
 //-----------------------------
