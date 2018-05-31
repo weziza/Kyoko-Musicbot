@@ -34,6 +34,11 @@ exports.run = async (bot,message)=>{
         return;   
     };
 }
+//------------------------------
+function wrap(text) {
+    return '```\n' + text.replace(/`/g, '`' + String.fromCharCode(8203)) + '\n```';
+}
+//------------------------------
 
 exports.help = {
     name: set_playsong
