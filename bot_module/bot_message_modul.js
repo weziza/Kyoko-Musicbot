@@ -79,14 +79,13 @@ exports.InfoScreen = (set_playsong,set_searchsong,set_deletesong,set_savesong,se
 */
 exports.ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,BotName,Thumbimage) => {
   var embed = new discord.RichEmbed()
-      .setAuthor("〔"+BotName + "™ 〕", bot_author_Image)
-      .addField(InfoText1,InfoText2,  false )
-      .setThumbnail(Thumbimage)
-      .setColor(RandomColor)
-      .setTimestamp()
-      .setFooter(BotName, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png");
-      MessChannel.send(embed);
-  return embed;
+    .setAuthor("〔"+BotName + "™ 〕", bot_author_Image)
+    .addField(InfoText1,InfoText2,  false )
+    .setThumbnail(Thumbimage)
+    .setColor(RandomColor)
+    .setTimestamp()
+    .setFooter(BotName, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png");
+    MessChannel.send(embed);
 };
 //-----------------------------
 /**
@@ -115,7 +114,6 @@ exports.play_ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,BotName
         dosome=true;
         run(MessChannel,message,sendEmojiTime);
     };
-    return embed;
 };
 //-----------------------------
 /**
@@ -128,16 +126,18 @@ exports.play_ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,BotName
 */
 exports.pause_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor,BotName,Thumbimage) => {
     var embed = new discord.RichEmbed()
-        .setAuthor("〔"+BotName + "™ 〕", bot_author_Image)
-        .addField(InfoText1,InfoText2, false )
-        .setThumbnail(Thumbimage)
-        .setColor(RandomColor)
-        .setTimestamp()
-        .setFooter(BotName, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png");
-        MessChannel.send(embed).then(function (message) {
-            message.react(playEmoji);  
-        });
-    return embed;
+    .setAuthor("〔"+BotName + "™ 〕", bot_author_Image)
+    .addField(InfoText1,InfoText2, false )
+    .setThumbnail(Thumbimage)
+    .setColor(RandomColor)
+    .setTimestamp()
+    .setFooter(BotName, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png");
+    MessChannel.send(embed).then(function (message) {
+        message.react(playEmoji);  
+    }).catch(function(error){
+        //console.log(error);
+        return;
+    });
 };
 //-----------------------------
 /**
@@ -154,48 +154,23 @@ exports.sl_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor) => {
     return embed;
 };
 //-----------------------------
-run = async (MessChannel,message,sendEmojiTime)=>{
-
-    //MessChannel.send('```'+`Emoji Bar send in :`+'\n'+'-----| '+ sendEmojiTime/1000 +`.sec`+' |-----'+'```'); 
-    const msgs = await MessChannel.awaitMessages(msg => msg.content.includes("play"),{time: sendEmojiTime});
+async function run(MessChannel,message,sendEmojiTime){
+ 
+    await MessChannel.awaitMessages(msg => msg.content.includes("play"),{time: sendEmojiTime});
     MessChannel.send(`Emoji Bar!`)
-        .then(function(message){emoji_bar(message)
-        dosome=false})
-        .catch(function() {
-        console.log("error Unhandled Promise Rejection Warning:");
+    .then(async function(message){
         dosome=false
-        emoji_bar(message);
-    });
-}
-
-function emoji_bar(message) {
-
-    var i = 0;
-    var dosome = setInterval(dosomeTimer, 100);
-    function dosomeTimer() {
-        if (i == 0) {
-            message.react(pauseEmoji);
-        };
-        if (i == 5) {
-            message.react(playEmoji);
-        };
-        if (i == 10) {
-            message.react(skipEmoji);
-        };
-        if (i == 15) {
-            message.react(cleanEmoji);
-        };
-        if (i == 20) {
-            message.react(kickEmoji);
-        };
-        if (i == 25) {
-            message.react(volumeupEmoji);
-        };
-        if (i == 30) {
-            message.react(volumedownEmoji);
-            clearInterval(dosome), i = 0;
-        };
-        i++;
-    };
+        await message.react(pauseEmoji);
+        await message.react(playEmoji);
+        await message.react(skipEmoji);
+        await message.react(cleanEmoji);
+        await message.react(kickEmoji);
+        await message.react(volumeupEmoji);
+        await message.react(volumedownEmoji);  
+    }).catch(function(error){
+        //console.log(error);
+        console.log(`Fehler beim laden der Emoji Bar!`+`\n`+`DiscordAPIError`+`\n`+`message: Unknown Message`);
+        return;
+    });          
 };
 //-----------------------------

@@ -17,7 +17,7 @@ exports.run = async (bot,message)=>{
     var bot_MessChannel = bot.channels.find("name", botchannel); // bot schreibt in einen bestimmten angegebenen channel
 
     var embed = new discord.RichEmbed()
-    .addField(BotName+` Ping ist `+` = `+`${(bot.ping)/10}`+` ms`,'Dein Ping'+" "+auth+" "+'ist'+" = "+`${(message.createdTimestamp-new Date().getTime())/100}`+' ms', true)
+    .addField(BotName+` Ping ist `+` = `+`${(bot.ping)}`+` ms`,'Dein Ping'+" "+auth+" "+'ist'+" = "+`${new Date().getTime() - message.createdTimestamp}`+' ms', true)
     .setTimestamp()
     .setFooter(BotName,"https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png")  
     .setColor(RandomColor)

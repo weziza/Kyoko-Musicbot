@@ -24,6 +24,8 @@
 
     "prefix"        : "+",
 
+    "debugBot"      : "false",
+
     "set_ping"      : "ping",
     "set_mega"      : "mega",
     "set_uhr"       : "uhr",
@@ -41,5 +43,5 @@
     "set_savesong"  : "save",
     "set_deletesong": "delete",
     "set_playsong"  : "play",
-    "set_searchsong": "search"
+    "set_searchsong": "suche"
 }

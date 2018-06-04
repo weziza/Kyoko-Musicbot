@@ -18,6 +18,9 @@ var botchannel = setting.botchannel;
 var prefix = setting.prefix;
 var BotName = setting.BotName;
 var MDelete = setting.Delete_Message;
+
+var botchannel = setting.botchannel;
+var debugBot = setting.debugBot;
 //------------------------------
 var set_hilfe = setting.set_hilfe;
 var set_clean = setting.set_clean;
@@ -134,10 +137,10 @@ bot.on('messageReactionAdd', (reaction, user, message) => {
             }
         }
     }
-});
+}); 
 //------------------------------
 bot.on("message",function(message){
-    
+
     if(message.channel.name==undefined){ 
         /*verhindert ein error wenn man den bot privat anschreibt zb +play[Nr]
         (ist message.channel.name undefined) dann return.*/
@@ -160,7 +163,6 @@ bot.on("message",function(message){
             }; 
             //-----------------------------
             var VolNr = message.content.replace(/^[^0-9]+/,' '); //gibt nur zahlen anordnung aus
-            //------------------------------
             if(message.content.startsWith(prefix+set_volume+" ")){ //music volume controll
                 VolumeNr = VolNr
             };
@@ -178,7 +180,35 @@ bot.on("message",function(message){
 //------------------------------
 bot.login(token); // bot token
 //------------------------------
-function wrap(text) {
-    return '```\n' + text.replace(/`/g, '`' + String.fromCharCode(8203)) + '\n```';
-}
+bot.on("error",function(error){
+    console.log(error.message);
+});
+
+bot.on("debug",function(debug){
+    if(debugBot=="true"){
+    console.log(debug);}
+}); 
+//------------------------------
+bot.on('voiceStateUpdate',function(oldMember,Member,message){
+
+    //console.log(Member);
+    const channel = bot.channels.find("name", botchannel);
+
+    //channel.send(Member.user.username);
+
+    if(!Member.selfMute){
+        return;
+    }else{
+       // channel.send(Member.user.username+"\n"+"du hast dein micro gemutet");
+    }
+});
+
+bot.on('guildMemberSpeaking',function(GuildMember,speaking){    
+    const channel = bot.channels.find("name", botchannel);
+    if(!speaking){
+        return;
+    }else{
+        //channel.send(GuildMember.user.username+"\n"+"spricht die anderen müssen ruig sein");
+    }
+});
 //------------------------------
