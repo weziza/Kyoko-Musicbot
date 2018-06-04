@@ -10,8 +10,6 @@
 
     "defaultVolume" : 0.1,
 
-    "passes"        : 1,
-
     "MaxQueue"      : 5,
 
     "BotName"       : "Kyoko",
