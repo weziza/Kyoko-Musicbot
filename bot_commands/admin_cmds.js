@@ -1,6 +1,7 @@
 const discord = require('discord.js');
 const setting = require('../bot_setting/bot_setting.json');
 var admin_id = setting.admin_id;
+var prefix = setting.prefix;
 
 exports.run = async (bot,message)=>{
 
@@ -9,8 +10,8 @@ exports.run = async (bot,message)=>{
     var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);
     //-----------------------------
 
-    var cmds = ("```"   +"1: +emojis"+'\n'
-                        +"2: +user_info"+'\n'
+    var cmds = ("```"   +"1: "+prefix+"emojis"+'\n'
+                        +"2: "+prefix+"user_info"+'\n'
                         +"weitere befehle kommen noch"+'\n'
                         +"```");  
       
