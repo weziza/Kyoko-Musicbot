@@ -21,7 +21,9 @@ exports.run = async (bot,message)=>{
     //console.log(bot_MessChannel)
 
     if(!memberchannel){return bot_MessChannel.send(wrap('Du musst erst ein Voice channel betreten'));}
-    else if (bot_MessChannel==null){return message.channel.send(wrap("bot channel not config"))}
+    else if (bot_MessChannel==null){
+        message.delete();// lösche die gepostete url messages  
+        return message.channel.send(wrap("bot channel not config"))}
     else if(message.channel.name!=botchannel){
         message.delete();// lösche die gepostete url messages  
         return message.channel.send(wrap("please write in the bot channel"));}
