@@ -18,7 +18,13 @@ exports.run = async (bot,message)=>{
     var url = message.content.split(' ')[1]; // gibt die url aus split prefix aus
     //------------------------------
 
+    //console.log(bot_MessChannel)
+
     if(!memberchannel){return bot_MessChannel.send(wrap('Du musst erst ein Voice channel betreten'));}
+    else if (bot_MessChannel==null){return message.channel.send(wrap("bot channel not config"))}
+    else if(message.channel.name!=botchannel){
+        message.delete();// lösche die gepostete url messages  
+        return message.channel.send(wrap("please write in the bot channel"));}
     else if(!message.content.slice(prefix.length+set_playsong.length+1).startsWith("https://www.youtube.com")){
         var getNumber = message.content.slice(set_playsong.length+2);
         if(getNumber.search(/^[^a-z]+/)){

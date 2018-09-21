@@ -52,14 +52,14 @@ fs.readdir("./bot_commands/",(err, files)=>{
     jsfiles.forEach((f,i)=>{
         let props = require(`./bot_commands/${f}`);
         console.log(`${i+1} : ${f} loaded!`);
-        bot.commands.set(props.help.name,props);         
+        bot.commands.set(props.help.name,props);
     });
 });
 //------------------------------
 bot.on('ready', () => {
-    bot.user.setActivity("Auskunft mit -->  "+ prefix + set_hilfe); 
+    bot.user.setActivity("Auskunft mit -->  "+ prefix + set_hilfe);
     console.log(`[Start] ${new Date()}`," ----> ready");
-    console.log(bot.commands);  
+    console.log(bot.commands);
 });
 //------------------------------
 bot.on('messageReactionAdd', (reaction, user, message) => {
@@ -126,10 +126,10 @@ bot.on('messageReactionAdd', (reaction, user, message) => {
     if(reaction.emoji.id === volumedownEmoji) {
         if(user.username==BotName){
             return;
-        }else{          
+        }else{
             if(VolumeNr<2){
                 VolumeNr=1;
-                return reaction.remove(user.id); 
+                return reaction.remove(user.id);
             }else{
                 VolumeNr--
                 reaction.remove(user.id)
@@ -137,22 +137,22 @@ bot.on('messageReactionAdd', (reaction, user, message) => {
             }
         }
     }
-}); 
+});
 //------------------------------
 bot.on("message",function(message){
 
-    if(message.channel.name==undefined){ 
+    if(message.channel.name==undefined){
         /*verhindert ein error wenn man den bot privat anschreibt zb +play[Nr]
         (ist message.channel.name undefined) dann return.*/
         return;
-    }else{         
-                
+    }else{
+
         VolumeNr = volu.VolumeNr;
         autodelete = autode.autodelete;
 
         if(message.content.indexOf(prefix)){ //message beginnt mit prefix dann / wenn nicht return
             return;
-        }else{        
+        }else{
             if(!autodelete){
                 autodelete=true;
                 message.channel.fetchMessages({limit: MDelete}).then(messages => {
@@ -160,22 +160,22 @@ bot.on("message",function(message){
                         bot.channels.find("name", botchannel).send("+purge"); //Auto delete 100 messages
                     }
                 });
-            }; 
+            };
             //-----------------------------
             var VolNr = message.content.replace(/^[^0-9]+/,' '); //gibt nur zahlen anordnung aus
             if(message.content.startsWith(prefix+set_volume+" ")){ //music volume controll
                 VolumeNr = VolNr
             };
             var VolumeNr =  VolumeNr;
-            exports.VolumeNr = VolumeNr;            
+            exports.VolumeNr = VolumeNr;
             //------------------------------
             let messageArray = message.content.split(/\s+/g);
             let command = messageArray[0];
             let cmd = bot.commands.get(command.slice(prefix.length))
             if(cmd) cmd.run(bot,message);
-            //------------------------------  
+            //------------------------------
         };
-    }; 
+    };
 });
 //------------------------------
 bot.login(token); // bot token
@@ -187,7 +187,7 @@ bot.on("error",function(error){
 bot.on("debug",function(debug){
     if(debugBot=="true"){
     console.log(debug);}
-}); 
+});
 //------------------------------
 bot.on('voiceStateUpdate',function(oldMember,Member,message){
 
@@ -203,7 +203,7 @@ bot.on('voiceStateUpdate',function(oldMember,Member,message){
     }
 });
 
-bot.on('guildMemberSpeaking',function(GuildMember,speaking){    
+bot.on('guildMemberSpeaking',function(GuildMember,speaking){
     const channel = bot.channels.find("name", botchannel);
     if(!speaking){
         return;

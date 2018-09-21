@@ -99,7 +99,7 @@ exports.ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,BotName,Thum
 */
 exports.play_ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,BotName,Thumbimage,message,sendEmojiTime) => {
 
-    MessChannel.bulkDelete(10);
+    MessChannel.bulkDelete(100);
 
     var embed = new discord.RichEmbed()
     .setAuthor("〔"+BotName + "™ 〕", bot_author_Image)
