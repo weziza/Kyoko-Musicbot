@@ -1,7 +1,6 @@
 const discord = require('discord.js');
-//const emojib = require("./emoji_bar");
 //---------------------------------------
-const playerEmoji = require('../bot_images/player_emoji');
+const playerEmoji = require('../bot_setting/emoji_setting');
 var playEmoji = playerEmoji.playEmoji;
 var pauseEmoji = playerEmoji.pauseEmoji;
 var skipEmoji = playerEmoji.skipEmoji;
@@ -9,10 +8,14 @@ var kickEmoji = playerEmoji.kickEmoji;
 var volumeupEmoji = playerEmoji.volumeupEmoji;
 var volumedownEmoji = playerEmoji.volumedownEmoji;
 var cleanEmoji = playerEmoji.cleanEmoji;
+//------------------------------
 const BotImages = require('../bot_images/botAuthor');
 const bot_author_Image = BotImages.bot_author_Image;
 const setThumbnail = require('../bot_images/InfoEmbedThumbnail');
 const setImage = require('../bot_images/InfoEmbedImage');
+//------------------------------
+const description = require('../bot_setting/description.json');
+var help_text_heading = description.help_text_heading;
 //------------------------------
 const setting = require('../bot_setting/bot_setting.json');
 var prefix = setting.prefix;
@@ -40,7 +43,7 @@ var dosome = false;
 */
 exports.InfoScreen = (set_playsong,set_searchsong,set_deletesong,set_savesong,set_songliste,set_randomsong,set_purge,set_volume,set_leave,set_resume,set_pause,set_skip,set_queue,set_clean,set_hilfe,set_uhr,set_mega,set_ping,MessChannel,prefix,RandomColor,MaxQueue,BotName) => {
   var embed = new discord.RichEmbed()
-      .setTitle("《 "+" super duba hilfe, vom mega heftig " + BotName + " 》" )
+      .setTitle("《 "+ help_text_heading+" - "+ BotName + " 》" )
       .setAuthor(BotName +"〔 (∩｀-´)⊃━━☆･•.*･•*.♫♪℘❧ 〕", bot_author_Image)
       .setDescription("[ command`s ]")
       .setColor(RandomColor)

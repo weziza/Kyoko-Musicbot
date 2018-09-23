@@ -2,8 +2,10 @@
 const sgm = require('../bot_module/music_play_modul');
 //-----------------------------
 const setting = require('../bot_setting/bot_setting.json');
-var set_clean = setting.set_clean;
 var botchannel = setting.botchannel;
+//-----------------------------
+const commands_setting = require('../bot_setting/commands_setting.json');
+var set_clean = commands_setting.set_clean;
 //-----------------------------
 exports.run = async (bot,message)=>{
 

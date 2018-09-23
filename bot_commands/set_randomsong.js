@@ -1,10 +1,12 @@
 const rwm = require('../bot_module/read_write_modul');
 //-----------------------------
 const setting = require('../bot_setting/bot_setting.json');
-var set_randomsong = setting.set_randomsong;
 var botchannel = setting.botchannel;
 var prefix = setting.prefix;
-//-----------------------------
+//------------------------------
+const commands_setting = require('../bot_setting/commands_setting.json');
+var set_randomsong = commands_setting.set_randomsong;
+//------------------------------
 exports.run = async (bot,message)=>{
                   
     //-----------------------------

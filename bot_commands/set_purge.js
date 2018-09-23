@@ -1,8 +1,10 @@
 const discord = require('discord.js');
 const setting = require('../bot_setting/bot_setting.json');
 var botchannel = setting.botchannel;
-var set_purge = setting.set_purge;
-
+//------------------------------
+const commands_setting = require('../bot_setting/commands_setting.json');
+var set_purge = commands_setting.set_purge;
+//------------------------------
 exports.run = async (bot,message)=>{
     //-----------------------------
     var bot_MessChannel = bot.channels.find("name", botchannel); // bot schreibt in einen bestimmten angegebenen channel

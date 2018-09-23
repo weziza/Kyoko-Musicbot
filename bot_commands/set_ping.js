@@ -1,11 +1,12 @@
 const discord = require('discord.js');
 //------------------------------
 const setting = require('../bot_setting/bot_setting.json');
-var set_ping = setting.set_ping;
 var BotName = setting.BotName;
 var botchannel = setting.botchannel;
 //------------------------------
-
+const commands_setting = require('../bot_setting/commands_setting.json');
+var set_ping = commands_setting.set_ping;
+//------------------------------
 exports.run = async (bot,message)=>{
 
     //------------------------------

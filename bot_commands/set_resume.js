@@ -4,7 +4,8 @@ const setting = require('../bot_setting/bot_setting.json');
 var botchannel = setting.botchannel;
 var prefix = setting.prefix;
 //------------------------------
-var set_resume = setting.set_resume;
+const commands_setting = require('../bot_setting/commands_setting.json');
+var set_resume = commands_setting.set_resume;
 //------------------------------
 
 

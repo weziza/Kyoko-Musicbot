@@ -1,9 +1,11 @@
 const sgm = require('../bot_module/music_play_modul');
 //-----------------------------
 const setting = require('../bot_setting/bot_setting.json');
-var set_queue = setting.set_queue;
 var botchannel = setting.botchannel;
-//-----------------------------
+//------------------------------
+const commands_setting = require('../bot_setting/commands_setting.json');
+var set_queue = commands_setting.set_queue;
+//------------------------------
 exports.run = async (bot,message)=>{
                   
     //-----------------------------

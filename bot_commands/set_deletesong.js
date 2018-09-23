@@ -1,9 +1,11 @@
 const rwm = require('../bot_module/read_write_modul');
 //-----------------------------
 const setting = require('../bot_setting/bot_setting.json');
-var set_deletesong = setting.set_deletesong;
 var botchannel = setting.botchannel;
 var prefix = setting.prefix;
+//-----------------------------
+const commands_setting = require('../bot_setting/commands_setting.json');
+var set_deletesong = commands_setting.set_deletesong;
 //-----------------------------
 exports.run = async (bot,message)=>{
                   

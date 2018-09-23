@@ -1,0 +1,20 @@
+{
+    "set_ping"      : "ping",
+    "set_mega"      : "mega",
+    "set_uhr"       : "uhr",
+    "set_hilfe"     : "hilfe",
+    "set_clean"     : "clean",
+    "set_queue"     : "queue",
+    "set_skip"      : "skip",
+    "set_pause"     : "pause",
+    "set_resume"    : "resume",
+    "set_leave"     : "leave",
+    "set_volume"    : "volume",
+    "set_purge"     : "purge",
+    "set_randomsong": "random",    
+    "set_songliste" : "songlist",
+    "set_savesong"  : "save",
+    "set_deletesong": "delete",
+    "set_playsong"  : "play",
+    "set_searchsong": "suche"  
+}

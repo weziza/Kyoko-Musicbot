@@ -1,12 +1,11 @@
-
-
 const sgm = require('../bot_module/music_play_modul');
-
 const setting = require('../bot_setting/bot_setting.json');
-var set_searchsong = setting.set_searchsong;
 var botchannel = setting.botchannel;
 var prefix = setting.prefix;
-
+//------------------------------
+const commands_setting = require('../bot_setting/commands_setting.json');
+var set_searchsong = commands_setting.set_searchsong;
+//------------------------------
 exports.run = async (bot,message)=>{
 
     //-----------------------------
@@ -20,13 +19,17 @@ exports.run = async (bot,message)=>{
     if (!memberchannel) {
         return bot_MessChannel.send(wrap('Du musst erst ein Voice channel betreten'));
     }else{
-        sgm.search_song(memberchannel,message,sucheVideo,bot_MessChannel,prefix);                    
-        exports.get_url = function (url) {
-            console.log("videoInfo.url")
-            sgm.play_song(memberchannel, message, bot_MessChannel, url);
+        if (!sucheVideo){
+            return bot_MessChannel.send(wrap('bitte schreib dazu nach was du suchst'));
+        }else{   
+            sgm.search_song(memberchannel,message,sucheVideo,bot_MessChannel,prefix);                    
+            exports.get_url = function (url) {
+                //console.log("videoInfo.url")
+                sgm.play_song(memberchannel, message, bot_MessChannel, url);
+            }; 
         }; 
-    }  
-}
+    };  
+};
 
 exports.help = {
     name: set_searchsong

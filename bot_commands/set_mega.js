@@ -5,7 +5,8 @@ var botchannel = setting.botchannel;
 var BotName = setting.BotName;
 var botchannel = setting.botchannel;
 //------------------------------
-var set_mega = setting.set_mega;
+const commands_setting = require('../bot_setting/commands_setting.json');
+var set_mega = commands_setting.set_mega;
 //------------------------------
 
 exports.run = async (bot,message)=>{

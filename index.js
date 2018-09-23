@@ -3,7 +3,7 @@ const fs = require('fs');
 //------------------------------
 const bot = new discord.Client();
 //------------------------------
-const playerEmoji = require('./bot_images/player_emoji');
+const playerEmoji = require('./bot_setting/emoji_setting');
 var playEmoji = playerEmoji.playEmoji;
 var pauseEmoji = playerEmoji.pauseEmoji;
 var skipEmoji = playerEmoji.skipEmoji;
@@ -18,17 +18,17 @@ var botchannel = setting.botchannel;
 var prefix = setting.prefix;
 var BotName = setting.BotName;
 var MDelete = setting.Delete_Message;
-
 var botchannel = setting.botchannel;
 var debugBot = setting.debugBot;
 //------------------------------
-var set_hilfe = setting.set_hilfe;
-var set_clean = setting.set_clean;
-var set_skip = setting.set_skip;
-var set_volume = setting.set_volume;
-var set_pause = setting.set_pause;
-var set_resume = setting.set_resume;
-var set_leave = setting.set_leave;
+const commands_setting = require('./bot_setting/commands_setting.json');
+var set_hilfe = commands_setting.set_hilfe;
+var set_clean = commands_setting.set_clean;
+var set_skip = commands_setting.set_skip;
+var set_volume = commands_setting.set_volume;
+var set_pause = commands_setting.set_pause;
+var set_resume = commands_setting.set_resume;
+var set_leave = commands_setting.set_leave;
 //------------------------------
 var autode = require('./bot_commands/set_purge');
 var autodelete=false;
@@ -57,7 +57,7 @@ fs.readdir("./bot_commands/",(err, files)=>{
 });
 //------------------------------
 bot.on('ready', () => {
-    bot.user.setActivity("Auskunft mit -->  "+ prefix + set_hilfe);
+    bot.user.setActivity("-->  "+ prefix + set_hilfe +"  <--");
     console.log(`[Start] ${new Date()}`," ----> ready");
     console.log(bot.commands);
 });

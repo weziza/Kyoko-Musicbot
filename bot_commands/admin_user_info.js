@@ -1,7 +1,10 @@
 const discord = require('discord.js');
 const setting = require('../bot_setting/bot_setting.json');
 var admin_id = setting.admin_id;
-
+//-----------------------------
+const description = require('../bot_setting/description.json');
+var admin_message = description.admin_message;
+//-----------------------------
 exports.run = async (bot,message)=>{
 
     //-----------------------------
@@ -10,15 +13,16 @@ exports.run = async (bot,message)=>{
     //-----------------------------
     var getalluser = bot.users.map((e, x) => (x + ' | ' + e)).join('\n')   
     if (message.author.id==admin_id) {
-        let embed = new discord.RichEmbed()
+        /*let embed = new discord.RichEmbed()
             .setAuthor(message.author.username)
             .setDescription("Users Info!")
             .setColor(RandomColor)
             .addField("User Id | User Name :", getalluser)
-            .setTimestamp()
         message.author.send({embed: embed});
+        */
+        message.author.send(getalluser);
     }else{
-        message.author.send("```"+"du hast keine admin rechte"+"```");
+        message.author.send("```"+admin_message+"```");
     };
 }
 

@@ -2,6 +2,10 @@ const discord = require('discord.js');
 const setting = require('../bot_setting/bot_setting.json');
 var admin_id = setting.admin_id;
 var prefix = setting.prefix;
+//-----------------------------
+const description = require('../bot_setting/description.json');
+var admin_message = description.admin_message;
+//-----------------------------
 
 exports.run = async (bot,message)=>{
 
@@ -12,7 +16,6 @@ exports.run = async (bot,message)=>{
 
     var cmds = ("```"   +"1: "+prefix+"emojis"+'\n'
                         +"2: "+prefix+"user_info"+'\n'
-                        +"weitere befehle kommen noch"+'\n'
                         +"```");  
       
     if (message.author.id==admin_id) {
@@ -23,7 +26,7 @@ exports.run = async (bot,message)=>{
             .setTimestamp()
         message.author.send({embed: embed});
     }else{
-        message.author.send("```"+"du hast keine admin rechte"+"```");
+        message.author.send("```"+admin_message+"```");
     };  
 
 }

@@ -5,7 +5,8 @@ var botchannel = setting.botchannel;
 var BotName = setting.BotName;
 var botchannel = setting.botchannel;
 //------------------------------
-var set_uhr = setting.set_uhr;
+const commands_setting = require('../bot_setting/commands_setting.json');
+var set_uhr = commands_setting.set_uhr;
 //------------------------------
 
 

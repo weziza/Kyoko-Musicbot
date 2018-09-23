@@ -1,9 +1,9 @@
 const sgm = require('../bot_module/music_play_modul');
 const index = require('../index');
 //------------------------------
-const setting = require('../bot_setting/bot_setting.json');
-var set_volume = setting.set_volume;
-
+const commands_setting = require('../bot_setting/commands_setting.json');
+var set_volume = commands_setting.set_volume;
+//------------------------------
 
 exports.run = async (bot,message)=>{
     //------------------------------    

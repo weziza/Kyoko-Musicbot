@@ -4,7 +4,7 @@ const bmess = require('./bot_message_modul');
 const setting = require('../bot_setting/bot_setting.json');
 var botchannel = setting.botchannel;
 //------------------------------
-var text = "〘 Songliste ♫ 〙➣ Abschnitt: ";
+var text = "〘♬♫♪.〙➣ Section: ";
 //------------------------------
 /**
 * @param {Object} ChatChannel
@@ -14,9 +14,10 @@ var text = "〘 Songliste ♫ 〙➣ Abschnitt: ";
 * @param {Object} bot
 * @param {Object} liste_Nr
 */
-exports.sl_modul = function(ChatChannel,words_info,words_info_length,Liste_int,bot,liste_Nr){
+exports.sl_modul = function(ChatChannel,words_info,words_info_length,Liste_int,bot,liste_Nr,message){
 
-    var bot_MessChannel = bot.channels.find("name", botchannel);
+    //var bot_MessChannel = bot.channels.find("name", botchannel);
+    var bot_MessChannel = message.author
     //-----------------------------
     var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
     var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);

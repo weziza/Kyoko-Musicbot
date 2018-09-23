@@ -5,7 +5,8 @@ const setting = require('../bot_setting/bot_setting.json');
 var botchannel = setting.botchannel;
 var prefix = setting.prefix;
 //------------------------------
-var set_playsong = setting.set_playsong;
+const commands_setting = require('../bot_setting/commands_setting.json');
+var set_playsong = commands_setting.set_playsong;
 //------------------------------
 
 exports.run = async (bot,message)=>{
