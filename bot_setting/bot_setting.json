@@ -1,26 +1,30 @@
 {
 
-    "token"         : "token here", 
+    "token"                 : "NDM2ODQwNjkzNzcyNTgyOTEy.DbtXJQ.kxOsE9OG78l22wSaeyGRb_uJEeE", 
 
-    "yt_api_key"    : "youtube key here",
+    "yt_api_key"            : "AIzaSyDYYYpENtHhanDjM1PJb1UuCQhhT9KrxLw",
 
-    "admin_id"      : "your id",
+    "admin_id"              : "353972375584374784",
 
-    "botchannel"    : "bot channel here",
+    "botchannel"            : "bot-eingabe",
 
-    "defaultVolume" : 0.1,
+    "defaultVolume"         : 0.1,
 
-    "MaxQueue"      : 5,
+    "MaxQueue"              : 5,
 
-    "BotName"       : "Kyoko",
+    "BotName"               : "Kyoko",
 
-    "Delete_Message": "100",
+    "Delete_Message"        : "100",
 
-    "songList_25"   : "false",
+    "songList_25"           : "false",
     
-    "songList_50"   : "true",
+    "songList_50"           : "true",
 
-    "prefix"        : "+",
+    "prefix"                : "+",
 
-    "debugBot"      : "false"
+    "debugBot"              : "false",
+
+    "help_send_privat"      : "yes",
+
+    "songlist_send_privat"  : "yes"
 }

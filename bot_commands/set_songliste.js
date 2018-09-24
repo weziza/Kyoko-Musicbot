@@ -10,10 +10,11 @@ var set_songliste = commands_setting.set_songliste;
 exports.run = async (bot,message)=>{
     message.delete();// lösche die gepostete messages               
     //-----------------------------
-    var auth = message.author.username; // ist message author
+    var auth = message.author.username; // ist message author    
     var auth_id = message.author.id; // ist message author id
+    var bot_MessChannel = bot.channels.find("name", botchannel); // bot schreibt in einen bestimmten angegebenen channel
     //-----------------------------
-    return rwm.songliste(auth,auth_id,message,bot,botchannel);    
+    return rwm.songliste(auth,auth_id,message,bot,botchannel);       
 }
 
 exports.help = {

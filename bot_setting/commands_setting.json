@@ -12,7 +12,7 @@
     "set_volume"    : "volume",
     "set_purge"     : "purge",
     "set_randomsong": "random",    
-    "set_songliste" : "songlist",
+    "set_songliste" : "songliste",
     "set_savesong"  : "save",
     "set_deletesong": "delete",
     "set_playsong"  : "play",

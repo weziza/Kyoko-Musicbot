@@ -16,9 +16,10 @@ exports.run = async (bot,message)=>{
 
     var auth = message.author.username; // ist message author
     var bot_MessChannel = bot.channels.find("name", botchannel); // bot schreibt in einen bestimmten angegebenen channel
-
+    const m = await message.channel.send("Kyoko send Ping?");
     var embed = new discord.RichEmbed()
-    .addField(BotName+` Ping ist `+` = `+`${(bot.ping)}`+` ms`,'Dein Ping'+" "+auth+" "+'ist'+" = "+`${new Date().getTime() - message.createdTimestamp}`+' ms', true)
+    .addField(`Latency is`,`${m.createdTimestamp - message.createdTimestamp}ms.`, true)
+    .addField(`API Latency is`,`${Math.round(bot.ping)}ms`, true)
     .setTimestamp()
     .setFooter(BotName,"https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png")  
     .setColor(RandomColor)

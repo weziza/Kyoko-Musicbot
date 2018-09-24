@@ -16,7 +16,23 @@ const setImage = require('../bot_images/InfoEmbedImage');
 //------------------------------
 const description = require('../bot_setting/description.json');
 var help_text_heading = description.help_text_heading;
-//------------------------------
+var purge = description.purge;
+var show_queue = description.show_queue;
+var skip = description.skip;
+var clean = description.clean;
+var pause = description.pause;
+var resume = description.resume;
+var leave = description.leave;
+var volume = description.volume;
+var playsong_url = description.playsong_url;
+var playsong_nr = description.playsong_nr;
+var randomsong = description.randomsong;
+var searchsong = description.searchsong;
+var songliste = description.songliste;
+var savesong = description.savesong;
+var savedelete = description.savedelete;
+var size_of_the_queue = description.size_of_the_queue;
+//----------------------------
 const setting = require('../bot_setting/bot_setting.json');
 var prefix = setting.prefix;
 var smallSongList = setting.songList_25;
@@ -48,22 +64,22 @@ exports.InfoScreen = (set_playsong,set_searchsong,set_deletesong,set_savesong,se
       .setDescription("[ command`s ]")
       .setColor(RandomColor)
       .addField("-----------------------------",'```Markdown'+'\n< ' + prefix + set_hilfe+" | "+prefix+set_mega+" | "+prefix+set_ping+" | "+prefix+set_uhr+ ' >'+'\n'+'< '+prefix+"admin" + ' >```', true)
-      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_purge+' | '+'Löscht 100 Zeilen im Channel. ' + '```',false)       
-      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_queue+' | '+'Zeige Song`s in der Warteschlange. ' + '```',false)
-      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_skip+' | '+'Überspringt das spielende Lied. ' + '```',false)
-      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_clean+' | '+'Leert die Warteschlange. ' + '```',false)
-      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_pause+' | '+'Musik pausiert. ' + '```',false)
-      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_resume+' | '+'Musik fort­set­zen. ' + '```',false)
-      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_leave+' | '+'Bot leave Voice Channel. ' + '```',false)
-      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_volume+' | '+'[ zahl ] Volume 0 bis 10 Max. ' + '```',false)        
-      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_playsong+' | '+'[ url ] : Füge ein Youtube Link hinzu ' + '```',false)
-      .addField("----------> oder <-----------",'```Nginx'+'\n' + prefix + set_playsong+' | '+'[ Nr ] Spiel einen Song aus meiner Liste. ' + '```',false)
-      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_randomsong+' | '+'Spiel ein zufälligen Song aus meiner Liste. ' + '```',false) 
-      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_searchsong+' | '+'[ ??? ] : Suche in Youtube ' + '```',false)      
-      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_songliste+' | '+'Zeige meine Songliste. ' + '```',false)
-      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_savesong+' | '+' Max '+ GrList +' Song`s in deiner Liste. ' + '```',false)
-      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_deletesong+' | '+'[ Nr ] lösch ein Song aus meiner Liste. ' + '```',false)
-      .addField("-----------------------------",'```Ini'+'\n' + 'größe der Warteschlange = '+'[ '+MaxQueue+' ]' + '```',false)
+      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_purge+' | '+ purge + '```',false)       
+      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_queue+' | '+ songs_queue + '```',false)
+      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_skip+' | '+ skip + '```',false)
+      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_clean+' | '+ clean + '```',false)
+      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_pause+' | '+ pause + '```',false)
+      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_resume+' | '+ resume + '```',false)
+      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_leave+' | '+ leave + '```',false)
+      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_volume+' | '+'[ Nr ] '+ volume + '```',false)        
+      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_playsong+' | '+'[ url ] : '+ playsong_url + '```',false)
+      .addField("----------> oder <-----------",'```Nginx'+'\n' + prefix + set_playsong+' | '+'[ Nr ] '+ playsong_nr + '```',false)
+      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_randomsong+' | '+ randomsong + '```',false) 
+      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_searchsong+' | '+'[ ??? ] : '+ searchsong + '```',false)      
+      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_songliste+' | '+ songliste + '```',false)
+      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_savesong+' | '+' Max '+ GrList + savesong + '```',false)
+      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_deletesong+' | '+'[ Nr ] '+ savedelete + '```',false)
+      .addField("-----------------------------",'```Ini'+'\n' + size_of_the_queue +' = '+'[ '+MaxQueue+' ]' + '```',false)
       .setThumbnail(setThumbnail[Math.floor(Math.random()* setThumbnail.length)])
       .setImage(setImage[Math.floor(Math.random()* setImage.length)])
       .setTimestamp()
