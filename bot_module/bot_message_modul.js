@@ -65,7 +65,7 @@ exports.InfoScreen = (set_playsong,set_searchsong,set_deletesong,set_savesong,se
       .setColor(RandomColor)
       .addField("-----------------------------",'```Markdown'+'\n< ' + prefix + set_hilfe+" | "+prefix+set_mega+" | "+prefix+set_ping+" | "+prefix+set_uhr+ ' >'+'\n'+'< '+prefix+"admin" + ' >```', true)
       .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_purge+' | '+ purge + '```',false)       
-      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_queue+' | '+ songs_queue + '```',false)
+      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_queue+' | '+ show_queue + '```',false)
       .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_skip+' | '+ skip + '```',false)
       .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_clean+' | '+ clean + '```',false)
       .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_pause+' | '+ pause + '```',false)
