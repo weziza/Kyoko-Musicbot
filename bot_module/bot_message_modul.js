@@ -48,6 +48,8 @@ const index = require("../index");
 var bot = index.bot; //import var bot aus script index.js
 //------------------------------
 var dosome = false;
+
+Emoji_Array=[]
 //------------------------------
 /**
 * @param {Object} MessChannel // the message.channel
@@ -118,8 +120,7 @@ exports.ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,BotName,Thum
 */
 exports.play_ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,BotName,Thumbimage,message,sendEmojiTime) => {
 
-    MessChannel.bulkDelete(100);
-
+    //MessChannel.bulkDelete(10);
     var embed = new discord.RichEmbed()
     .setAuthor("〔"+BotName + "™ 〕", bot_author_Image)
     .addField(InfoText1,InfoText2, false )
@@ -131,7 +132,7 @@ exports.play_ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,BotName
     MessChannel.send(embed);
     if(!dosome){
         dosome=true;
-        run(MessChannel,message,sendEmojiTime);
+        run2(InfoText1,InfoText2,MessChannel,RandomColor,BotName,Thumbimage,message,sendEmojiTime);
     };
 };
 //-----------------------------
@@ -190,6 +191,57 @@ async function run(MessChannel,message,sendEmojiTime){
         //console.log(error);
         console.log(`Fehler beim laden der Emoji Bar!`+`\n`+`DiscordAPIError`+`\n`+`message: Unknown Message`);
         return;
-    });          
+    }); 
+};    
+    
+async function run2(InfoText1,InfoText2,MessChannel,RandomColor,BotName,Thumbimage,message,sendEmojiTime){
+    
+    var i=0;
+    await MessChannel.awaitMessages(msg => msg.content.includes("play"),{time: sendEmojiTime});
+    Emoji_Array.push(pauseEmoji);
+    Emoji_Array.push(playEmoji);
+    Emoji_Array.push(skipEmoji);
+    Emoji_Array.push(cleanEmoji);
+    Emoji_Array.push(kickEmoji);
+    Emoji_Array.push(volumeupEmoji);
+    Emoji_Array.push(volumedownEmoji);
+    console.log(Emoji_Array)
+    await MessChannel.send(`Emoji Bar!`)
+    .then(async function(message){
+        dosome=false
+
+        var Emoji_tVar = setInterval(Emoji_Timer, 500); 
+        function Emoji_Timer() 
+        {            
+            message.react(Emoji_Array[i]);
+            console.log(Emoji_Array[i])
+           
+            if(i==6){
+                Emoji_Array=[]
+                clearInterval(Emoji_tVar),i=0;    
+            }
+            i++
+        };    
+        
+    });
+
+    //dosome=false
+    /*await MessChannel.awaitMessages(msg => msg.content.includes("play"),{time: sendEmojiTime});
+    MessChannel.send(`Emoji Bar!`)
+    .then(async function(message){
+        dosome=false
+        await message.react(pauseEmoji);
+        await message.react(playEmoji);
+        await message.react(skipEmoji);
+        await message.react(cleanEmoji);
+        await message.react(kickEmoji);
+        await message.react(volumeupEmoji);
+        await message.react(volumedownEmoji);  
+    }).catch(function(error){
+        //console.log(error);
+        console.log(`Fehler beim laden der Emoji Bar!`+`\n`+`DiscordAPIError`+`\n`+`message: Unknown Message`);
+        return;
+    }); */         
 };
+
 //-----------------------------

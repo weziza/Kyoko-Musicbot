@@ -15,6 +15,7 @@ var MinQueue = 0;
 //---------------------------------------
 const commands_setting = require('../bot_setting/commands_setting.json');
 var set_skip = commands_setting.set_skip;
+var set_queue = commands_setting.set_queue; 
 //---------------------------------------
 const BotImages = require('../bot_images/botAuthor.json');
 var bot_author_Image = BotImages.bot_author_Image;
@@ -33,7 +34,6 @@ var no_music_image = Thumbimage.no_music_image;
 var connect_channel = Thumbimage.connect_channel;
 var no_playlist = Thumbimage.no_playlist;
 var playlist = Thumbimage.playlist;
-var set_queue = setting.set_queue;
 //---------------------------------------
 const description = require('../bot_setting/description.json');
 var queue_message = description.queue_message;
@@ -49,6 +49,7 @@ var no_song_in_queue = description.no_song_in_queue
 var in_queue = description.in_queue
 var resume_play = description.resume_play
 var queue = description.queue
+var clean_queue_txt = description.clean_queue_txt
 //---------------------------------------
 var URLArray=[ // zufall url ergenzung wenn die suche fehlschlägt
     "FlmToFkw9W0",
@@ -83,7 +84,7 @@ exports.get_song = function (memberchannel,message,bot_MessChannel,voiceConnecti
     exports.getsbi = function (url_mess, info_url){
 
         if (MaxQueue==MinQueue){ // ist das max der song aufnahme erreicht dann....
-            message.delete();// lösche die gepostete url messages  
+            //message.delete();// lösche die gepostete url messages  
             return bot_MessChannel.send(wrap(queue_message)); // message rückgabe
         }else{
             Warteschlange_Array.push(url_mess); //push url message in die Warteschlange array
@@ -129,7 +130,7 @@ exports.play_song = function (memberchannel,message,bot_MessChannel,url){
         return};
 
     if (MaxQueue==MinQueue){ // ist das max der song aufnahme erreicht dann....
-        message.delete();// lösche die gepostete url messages  
+        //message.delete();// lösche die gepostete url messages  
         return bot_MessChannel.send(wrap(queue_message)); // message rückgabe
     }else{
         if(!bot_playing) memberchannel.join().then(function(connection){
@@ -210,8 +211,6 @@ exports.queue =  function(message,bot_MessChannel){
     var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
     var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);
     //-----------------------------
-    bot_MessChannel.bulkDelete(10);
-    //-----------------------------
     if (SongTitel_Array.length<1) {
         return bmess.ambedMessage("-",'```HTTP'+'\n' + no_song_in_queue + '```', bot_MessChannel, RandomColor, BotName, no_playlist);
     }
@@ -225,8 +224,6 @@ exports.clean_queue = function(memberchannel,message,bot_MessChannel){
     var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
     var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6)
     //-----------------------------
-    bot_MessChannel.bulkDelete(100);
-    //-----------------------------
     if(SongTitel_Array.length>0){
         message.guild.voiceConnection.player.dispatcher.destroyed = true; // destroy das laufende lied
         // nach dem nächsten play xxx geht der bot wieder in funktion play und bekommt automatisch destroy = false
@@ -237,7 +234,7 @@ exports.clean_queue = function(memberchannel,message,bot_MessChannel){
         bot_playing=false; // sag dem bot er spielt keine music mehr
         bot_defaultVolume_option=true; //ist die warteschlane geleert geht der bot auf default volume 
         MinQueue=0; // Queue auf null setzen, warteschlange ist leer                              
-        bmess.ambedMessage(clear_queue,'```HTTP'+'\n' + "۝" + '```', bot_MessChannel,RandomColor,BotName,queue_clean);
+        bmess.ambedMessage(clean_queue_txt,'```HTTP'+'\n' + "۝" + '```', bot_MessChannel,RandomColor,BotName,queue_clean);
     }else bmess.ambedMessage(empty_queue,'```HTTP'+'\n' + "؝" + '```', bot_MessChannel,RandomColor,BotName,skip_fail);
 };
 //---------------------------------------
@@ -247,8 +244,6 @@ exports.leave = function(bot_MessChannel,message){
     var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
     var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);
     //----------------------------- 
-    //bot_MessChannel.bulkDelete(100);
-    //-----------------------------
     if(!message.guild.voiceConnection){
         bmess.ambedMessage(no_voice_connect_message,'```HTTP'+'\n' + "❌" + '```', bot_MessChannel,RandomColor,BotName,no_voice_connect);
     }else{
@@ -267,8 +262,6 @@ exports.skip = function(message,bot_MessChannel,voiceConnection){
     var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
     var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);
     //----------------------------- 
-    bot_MessChannel.bulkDelete(100);
-    //-----------------------------
     if(!voiceConnection){
         return bmess.ambedMessage(no_voice_connect_message,'```HTTP'+'\n' + "❌" + '```', bot_MessChannel,RandomColor,BotName,no_voice_connect);
     }else if(!bot_playing){
@@ -280,17 +273,13 @@ exports.skip = function(message,bot_MessChannel,voiceConnection){
 //---------------------------------------
 exports.pause = function(message,prefix,voiceConnection,bot_MessChannel){
 
-    //----------
-    bot_MessChannel.bulkDelete(100);
-    //---------- 
-
     //---------------------------------------
     var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
     var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);
     //-----------------------------
  
     // Get the voice connection.
-    if (voiceConnection === null) return bmess.ambedMessage("-",'```HTTP'+'\n' + no_musik + '```', bot_MessChannel,RandomColor,BotName,music_not_playing);
+    if (voiceConnection === null) return bmess.ambedMessage("-",'```HTTP'+'\n' + no_music_play + '```', bot_MessChannel,RandomColor,BotName,music_not_playing);
     
     // Pause.    
     const dispatcher = voiceConnection.player.dispatcher;
@@ -303,7 +292,7 @@ exports.pause = function(message,prefix,voiceConnection,bot_MessChannel){
 exports.resume = function(message,prefix,voiceConnection,bot_MessChannel){
   
     //----------
-    message.delete();
+    bot_MessChannel.bulkDelete(100);
     //---------- 
 
     //---------------------------------------
@@ -368,7 +357,10 @@ function play(connection,message,bot_MessChannel){
             SongTitel_Array = SongTitel_Buffer.map((SongTitel_Buffer, x) => ((x + 1) + ': ' + SongTitel_Buffer)).join('\n'); //füge nummerierung zur SongTitel_Array hinzu                    
             //--------         
             return bmess.play_ambedMessage(queue,'```HTTP'+'\n' + SongTitel_Array + '```',bot_MessChannel,RandomColor,BotName,play_forward,message,500); // message ausgabe - Warteschlange SongTitel_Array
-        }else{connection.disconnect() //ist Warteschlange_Array leer disconnect und setze alles zurück  
+        }else{connection.disconnect() //ist Warteschlange_Array leer disconnect und setze alles zurück 
+            //-----------------------------
+            bot_MessChannel.bulkDelete(100);
+            //-----------------------------  
             bot_playing=false, bot_in_channel=false, bot_pause=false; //reset bot_playing, bot_in_channel, bot_pause
             //--------            
             MinQueue=0; // reset queue

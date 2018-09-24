@@ -33,6 +33,7 @@ exports.run = async (bot,message)=>{
         if(getNumber.search(/^[^a-z]+/)){
             return;
         }else{
+            message.delete();// lösche die gepostete messages 
             rwm.get_song_at_list(auth_id,message,bot,prefix+set_playsong,set_playsong.length+2,prefix,botchannel,memberchannel,set_playsong);
             sgm.get_song(memberchannel,message,bot_MessChannel);
             return;

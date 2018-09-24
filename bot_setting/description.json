@@ -15,7 +15,7 @@
     "queue_message"             : "Die Songliste ist voll",
     "no_song_in_queue"          : "Kein Song in der Liste",
     "in_queue"                  : "in der Songliste",
-    "clear_queue"               : "Songliste wurde gelehrt",
+    "clean_queue_txt"           : "Songliste wurde gelehrt",
     "--------------------------":"-------------------------------",
     "no_music_play"             : "Es spielt keine Musik",
     "player_pause"              : "Player ist in der Pause",
