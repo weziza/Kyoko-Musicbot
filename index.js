@@ -29,6 +29,7 @@ var set_volume = commands_setting.set_volume;
 var set_pause = commands_setting.set_pause;
 var set_resume = commands_setting.set_resume;
 var set_leave = commands_setting.set_leave;
+var set_purge = commands_setting.set_purge;
 //------------------------------
 var autode = require('./bot_commands/set_purge');
 var autodelete=false;
@@ -157,7 +158,7 @@ bot.on("message",function(message){
                 autodelete=true;
                 message.channel.fetchMessages({limit: MDelete}).then(messages => {
                     if(messages.size==MDelete){
-                        bot.channels.find("name", botchannel).send("+purge"); //Auto delete 100 messages
+                        bot.channels.find("name", botchannel).send(prefix+set_purge); //Auto delete 100 messages
                     }
                 });
             };
