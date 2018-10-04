@@ -1,9 +1,0 @@
-{ 
-    "volumeupEmoji" : "emoji id",
-    "volumedownEmoji" : "emoji id",
-    "skipEmoji" : "emoji id",
-    "playEmoji" : "emoji id",
-    "pauseEmoji" : "emoji id",
-    "kickEmoji" : "emoji id",
-    "cleanEmoji" : "emoji id"
-}
