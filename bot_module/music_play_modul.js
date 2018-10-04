@@ -66,7 +66,8 @@ var SongTitel_Array = [];
 var SongTitel_Buffer = [];
 //------------------------------
 const index = require("../index");
-var bot = index.bot; //import var bot aus script index.js
+var bot = index.bot; 
+//import var bot aus script index.js
 
 const bcss = require("../bot_commands/set_searchsong");
 //------------------------------
@@ -78,20 +79,26 @@ exports.get_song = function(memberchannel,message,bot_MessChannel,voiceConnectio
     var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
     var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);
     //-----------------------------
-    if (MinQueue<0){MinQueue=0  // der song counter kann nicht unter 0 fallen
+    if (MinQueue<0){MinQueue=0  
+        // der song counter kann nicht unter 0 fallen
         return};
 
     exports.getsbi = function (url_mess, info_url){
 
-        if (max_queue==MinQueue){ // ist das max der song aufnahme erreicht dann....
-            //message.delete();// lösche die gepostete url messages  
-            return bot_MessChannel.send(wrap(queue_message)); // message rückgabe
+        if (max_queue==MinQueue){ 
+        // ist das max der song aufnahme erreicht dann....
+            return bot_MessChannel.send(wrap(queue_message)); 
+            // return message rückgabe 
         }else{
-            Warteschlange_Array.push(url_mess); //push url message in die Warteschlange array
-            SongTitel_Buffer.push(info_url); //info url message in die SongTitel array
-            SongTitel_Array = SongTitel_Buffer.map((SongTitel_Buffer, x) => (( x +  1  ) + ': ' + SongTitel_Buffer)).join('\n'); //füge nummerierung beim auslesen hinzu           
+            Warteschlange_Array.push(url_mess); 
+            //push url message in die Warteschlange array
+            SongTitel_Buffer.push(info_url); 
+            //info url message in die SongTitel array
+            SongTitel_Array = SongTitel_Buffer.map((SongTitel_Buffer, x) => (( x +  1  ) + ': ' + SongTitel_Buffer)).join('\n'); 
+            //füge nummerierung beim auslesen hinzu           
             //---------------------------------------
-            MinQueue++; // Song counder ++
+            MinQueue++; 
+            // Song counder ++
             //---------------------------------------
             
             if(!bot_playing) memberchannel.join().then(function(connection){
@@ -105,7 +112,8 @@ exports.get_song = function(memberchannel,message,bot_MessChannel,voiceConnectio
                 //--------------------------------------- 
             });
             
-            else if(bot_playing){ //ist der bot im voicechannel send SongTitel_Array message
+            else if(bot_playing){ 
+            //ist der bot im voicechannel send SongTitel_Array message
               
                 return bmess.play_ambedMessage(song_added+" :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, bot_name, play_music,message);
                 //ist der bot nicht im voicechannel send SongTitel_Array message
@@ -122,7 +130,8 @@ exports.play_song = function (memberchannel,message,bot_MessChannel,url){
     var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
     var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);
     //-----------------------------
-    if (MinQueue<0){MinQueue=0  // der song counter kann nicht unter 0 fallen
+    if (MinQueue<0){MinQueue=0  
+        // der song counter kann nicht unter 0 fallen
         return};
 
     if (max_queue==MinQueue){ // ist das max der song aufnahme erreicht dann....
@@ -141,16 +150,20 @@ exports.play_song = function (memberchannel,message,bot_MessChannel,url){
 
         Warteschlange_Array.push(url);
 
-        ytdl.getInfo(url = String(url), (error, videoInfo) => { // url ausgabe information
+        ytdl.getInfo(url = String(url), (error, videoInfo) => { 
+        // url ausgabe information
             if (error) {
-                return message.channel.send(wrap(incomplete_url)); // error unvollständige url
+                return message.channel.send(wrap(incomplete_url)); 
+                // error unvollständige url
             }
             //---------------------------------------
-            time = videoInfo.length_seconds / 60; //viedeo Time
+            time = videoInfo.length_seconds / 60; 
+            //viedeo Time
             SongTitel_Buffer.push(time.toFixed(2) + " min" +" - "+ videoInfo.title); 
             SongTitel_Array = SongTitel_Buffer.map((SongTitel_Buffer, x) => (( x +  1  ) + ': ' + SongTitel_Buffer)).join('\n');            
             //---------------------------------------
-            MinQueue++; // Song counder ++            
+            MinQueue++; 
+            // Song counder ++            
             //----------
             return bmess.play_ambedMessage(song_added+" :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, bot_name, play_music,message);
             //---------------------------------------
@@ -175,8 +188,6 @@ exports.search_song = function(memberchannel,message,sucheVideo,bot_MessChannel,
     
 
     function search_video(query, callback) {
-
-        //console.log(json)
 
         if (!yt_api_key){
             return bot_MessChannel.send(wrap(yt_api_key_missing));
@@ -228,11 +239,15 @@ exports.clean_queue = function(memberchannel,message,bot_MessChannel){
         message.guild.voiceConnection.player.dispatcher.destroyed = true; // destroy das laufende lied
         // nach dem nächsten play xxx geht der bot wieder in funktion play und bekommt automatisch destroy = false
         // die funktion destroyt alles connect info, momentaner stream usw... alle infos sind weg.  
-        message.guild.voiceConnection.player.dispatcher.resume(); // resume stream funktion sonst bleibt der bot auf play stream
-        Warteschlange_Array = [], SongTitel_Array = [],SongTitel_Buffer = []; //leere alle arrays
-        bot_playing=false; // sag dem bot er spielt keine music mehr
+        message.guild.voiceConnection.player.dispatcher.resume(); 
+        // resume stream funktion sonst bleibt der bot auf play stream
+        Warteschlange_Array = [], SongTitel_Array = [],SongTitel_Buffer = []; 
+        //leere alle arrays
+        bot_playing=false;
+        // sag dem bot er spielt keine music mehr
         bot_defaultVolume_option=true; //ist die warteschlane geleert geht der bot auf default volume 
-        MinQueue=0; // Queue auf null setzen, warteschlange ist leer                              
+        MinQueue=0; 
+        // Queue auf null setzen, warteschlange ist leer                              
         bmess.ambedMessage(clean_queue_txt,'```HTTP'+'\n' + "۝" + '```', bot_MessChannel,RandomColor,bot_name,queue_clean);
     }else bmess.ambedMessage(empty_queue,'```HTTP'+'\n' + "؝" + '```', bot_MessChannel,RandomColor,bot_name,skip_fail);
 };
@@ -252,7 +267,8 @@ exports.leave = function(bot_MessChannel,message){
         bot_pause=false; //wert muss hier resetet werden, probleme mit clean und leave in unterschiedlichen reihenfolge        
         bmess.ambedMessage("Man sieht sich wieder bestimmt",'```HTTP'+'\n' + "♫♪.|̲̅̅●̲̅̅|̲̅̅=̲̅̅|̲̅̅●̲̅̅||.♫♪" + '```', bot_MessChannel,RandomColor,bot_name,bot_leave);
         //-----------------------------
-        message.guild.voiceConnection.disconnect(); // disconect voice channel
+        message.guild.voiceConnection.disconnect(); 
+        // disconect voice channel
     }
 };
 //---------------------------------------
@@ -266,7 +282,8 @@ exports.skip = function(message,bot_MessChannel,voiceConnection){
     }else if(!bot_playing){
         return bmess.ambedMessage(empty_queue,'```HTTP'+'\n' + "❗" + '```', bot_MessChannel,RandomColor,bot_name,skip_fail); 
     }else if(dispatcher){
-        dispatcher.end(); // geh zur funktion end
+        dispatcher.end(); 
+        // geh zur funktion end
     }; 
 };
 //---------------------------------------
@@ -314,10 +331,14 @@ exports.volume = function(message,VolumeNr,voiceConnection){
         message.delete();
     }, 500);
     //----------    
-    if (voiceConnection === null) return message.channel.send(wrap(no_music_play)); // ist voiceConnection = 0 return message
-    const dispatcher = voiceConnection.player.dispatcher; // initial dispatcher
-    if (VolumeNr < 11){ // ist max Volume kleiner als
-        if (VolumeNr > 0 ){ // ist max Volume größer als              
+    if (voiceConnection === null) return message.channel.send(wrap(no_music_play)); 
+    // ist voiceConnection = 0 return message
+    const dispatcher = voiceConnection.player.dispatcher; 
+    // initial dispatcher
+    if (VolumeNr < 11){ 
+        // ist max Volume kleiner als
+        if (VolumeNr > 0 ){ 
+            // ist max Volume größer als              
             dispatcher.setVolume(VolumeNr/20);
             vlNr = VolumeNr/20;      
         }else{return};  // wert darüber oder darunter ist     
@@ -337,31 +358,41 @@ function play(connection,message,bot_MessChannel){
     // bei einem lead ist der bot eigentlich schon bei disconnect nach dem abspielen des ersten liedes
     //-----------------------------
     if (vlNr>defaultVolume){        
-        dispatcher.setVolume(vlNr); // vlNr volume solange kein - disconnect gemacht wurde
+        dispatcher.setVolume(vlNr); 
+        // vlNr volume solange kein - disconnect gemacht wurde
     }else{
-        dispatcher.setVolume(defaultVolume); // defaultVolume volume wenn play stream resetet wird - disconnect
+        dispatcher.setVolume(defaultVolume); 
+        // defaultVolume volume wenn play stream resetet wird - disconnect
     };        
 
     dispatcher.on("end",function(){
-        if(Warteschlange_Array[0]){ //solange noch etwas in der Warteschlange_Array ist shift diese          
-            MinQueue-- // -- queue aus der warteschlange
+        if(Warteschlange_Array[0]){ 
+        //solange noch etwas in der Warteschlange_Array ist shift diese          
+            MinQueue-- 
+            // -- queue aus der warteschlange
             //-----------------------------
             bot_MessChannel.bulkDelete(100);
             //----------------------------- 
-            play(connection,message,bot_MessChannel),SongTitel_Buffer.shift();  // replay and shift SongTitel_Buffer um eine stelle       
-            SongTitel_Array = SongTitel_Buffer.map((SongTitel_Buffer, x) => ((x + 1) + ': ' + SongTitel_Buffer)).join('\n'); //füge nummerierung zur SongTitel_Array hinzu                                
+            play(connection,message,bot_MessChannel),SongTitel_Buffer.shift(); 
+            // replay and shift SongTitel_Buffer um eine stelle       
+            SongTitel_Array = SongTitel_Buffer.map((SongTitel_Buffer, x) => ((x + 1) + ': ' + SongTitel_Buffer)).join('\n'); 
+            //füge nummerierung zur SongTitel_Array hinzu                                
             //--------         
             return bmess.play_ambedMessage(queue,'```HTTP'+'\n' + SongTitel_Array + '```',bot_MessChannel,RandomColor,bot_name,play_forward,message); // message ausgabe - Warteschlange SongTitel_Array
-        }else{connection.disconnect() //ist Warteschlange_Array leer disconnect und setze alles zurück 
+        }else{connection.disconnect() 
+            //ist Warteschlange_Array leer disconnect und setze alles zurück 
             //----------------------------- 
-            bot_playing=false, bot_pause=false; //reset bot_playing, bot_pause
+            bot_playing=false, bot_pause=false; 
+            //reset bot_playing, bot_pause
             //--------            
-            MinQueue=0; // reset queue
+            MinQueue=0; 
+            // reset queue
             //--------
             Warteschlange_Array = [],SongTitel_Array = [],SongTitel_Buffer = []; 
             // setze alle arrays auf null fals noch etwas darin sein sollze         
             //--------
-            vlNr=defaultVolume; // default volume
+            vlNr=defaultVolume; 
+            // default volume
             //--------
             return bot_MessChannel.send({files: ["./Images/no_music_image.png"]});  // send leave image
             //-----------------------------                                       
