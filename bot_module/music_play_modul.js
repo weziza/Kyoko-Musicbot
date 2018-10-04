@@ -113,8 +113,7 @@ exports.get_song = function(memberchannel,message,bot_MessChannel,voiceConnectio
             });
             
             else if(bot_playing){ 
-            //ist der bot im voicechannel send SongTitel_Array message
-              
+            //ist der bot im voicechannel send SongTitel_Array message              
                 return bmess.play_ambedMessage(song_added+" :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, bot_name, play_music,message);
                 //ist der bot nicht im voicechannel send SongTitel_Array message
             };   
@@ -134,8 +133,7 @@ exports.play_song = function (memberchannel,message,bot_MessChannel,url){
         // der song counter kann nicht unter 0 fallen
         return};
 
-    if (max_queue==MinQueue){ // ist das max der song aufnahme erreicht dann....
-        //message.delete();// lösche die gepostete url messages  
+    if (max_queue==MinQueue){ // ist das max der song aufnahme erreicht dann....          
         return bot_MessChannel.send(wrap(queue_message)); // message rückgabe
     }else{
         if(!bot_playing) memberchannel.join().then(function(connection){
@@ -195,7 +193,6 @@ exports.search_song = function(memberchannel,message,sucheVideo,bot_MessChannel,
 
             request("https://www.googleapis.com/youtube/v3/search?part=id&type=video&q=" + encodeURIComponent(query) + "&key=" + yt_api_key, function(error, response, body) {
                 var json = JSON.parse(body); 
-                //console.log(!json.items)
                 if (json.items==undefined){
                     return bot_MessChannel.send(wrap(yt_api_key_error));
                 }else{       
@@ -208,7 +205,6 @@ exports.search_song = function(memberchannel,message,sucheVideo,bot_MessChannel,
 
     getID(sucheVideo, function (id) {
         fetchVideoInfo(id, function (err, videoInfo) {
-            //index.get_url(videoInfo.url);
             ssea.get_url(videoInfo.url);         
         });
     });
@@ -245,7 +241,8 @@ exports.clean_queue = function(memberchannel,message,bot_MessChannel){
         //leere alle arrays
         bot_playing=false;
         // sag dem bot er spielt keine music mehr
-        bot_defaultVolume_option=true; //ist die warteschlane geleert geht der bot auf default volume 
+        bot_defaultVolume_option=true; 
+        //ist die warteschlane geleert geht der bot auf default volume 
         MinQueue=0; 
         // Queue auf null setzen, warteschlange ist leer                              
         bmess.ambedMessage(clean_queue_txt,'```HTTP'+'\n' + "۝" + '```', bot_MessChannel,RandomColor,bot_name,queue_clean);
