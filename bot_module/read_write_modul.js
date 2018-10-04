@@ -217,8 +217,8 @@ function play_save_song(auth,auth_id,message,bot,comando,slice,ChatChannel,msg){
                             return message.channel.send(wrap(incomplete_url)); // error unvollständige url
                         }
                         else {
-                            var time = videoInfo.length_seconds / 60; //viedeo Time  
-                            //url_messageInfo = videoInfo.title.slice(0,mathSlice)+" : "+time.toFixed(1)+ " min";
+                            var time = videoInfo.length_seconds / 60; 
+                            //viedeo Time                             
                             url_messageInfo = +time.toFixed(1)+" min"+" - "+videoInfo.title;                                
                             url_info.push(url_messageInfo);
                             url.push(url_message);
