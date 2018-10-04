@@ -2,7 +2,7 @@ const discord = require('discord.js');
 //------------------------------
 const setting = require('../bot_setting/bot_setting.json');
 var botchannel = setting.botchannel;
-var BotName = setting.BotName;
+var bot_name = setting.bot_name;
 var botchannel = setting.botchannel;
 //------------------------------
 const commands_setting = require('../bot_setting/commands_setting.json');
@@ -18,10 +18,10 @@ exports.run = async (bot,message)=>{
     var bot_MessChannel = bot.channels.find("name", botchannel); // bot schreibt in einen bestimmten angegebenen channel
 
     var embed = new discord.RichEmbed()
-    .setTitle(`Ich bin der super duba Mega heftig `+BotName)
+    .setTitle(`Ich bin der super duba Mega heftig `+bot_name)
     .setImage("https://cdn.discordapp.com/attachments/386866941849239555/430671085235732490/DanceBot.gif")
     .setTimestamp()        
-    .setFooter(BotName,"https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png")  
+    .setFooter(bot_name,"https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png")  
     .setColor(RandomColor)
     bot_MessChannel.send(embed);
 }

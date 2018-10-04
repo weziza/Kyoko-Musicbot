@@ -1,5 +1,5 @@
 const rwm = require('../bot_module/read_write_modul');
-const sgm = require('../bot_module/music_play_modul');
+const mpm = require('../bot_module/music_play_modul');
 //------------------------------
 const setting = require('../bot_setting/bot_setting.json');
 var botchannel = setting.botchannel;
@@ -10,7 +10,7 @@ var set_playsong = commands_setting.set_playsong;
 //------------------------------
 
 exports.run = async (bot,message)=>{
-
+ 
     //-----------------------------
     var memberchannel = message.member.voiceChannel; //global member voiceChannel                    
     //-----------------------------
@@ -23,7 +23,7 @@ exports.run = async (bot,message)=>{
 
     if(!memberchannel){return bot_MessChannel.send(wrap('Du musst erst ein Voice channel betreten'));}
     else if (bot_MessChannel==null){
-        message.delete();// lösche die gepostete url messages  
+        message.delete();// lösche die gepostete url messages        
         return message.channel.send(wrap("bot channel not config"))}
     else if(message.channel.name!=botchannel){
         message.delete();// lösche die gepostete url messages  
@@ -35,7 +35,7 @@ exports.run = async (bot,message)=>{
         }else{
             message.delete();// lösche die gepostete messages 
             rwm.get_song_at_list(auth_id,message,bot,prefix+set_playsong,set_playsong.length+2,prefix,botchannel,memberchannel,set_playsong);
-            sgm.get_song(memberchannel,message,bot_MessChannel);
+            mpm.get_song(memberchannel,message,bot_MessChannel);
             return;
         };               
     }else{                

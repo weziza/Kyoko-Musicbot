@@ -7,7 +7,7 @@ var prefix = setting.prefix;
 var MaxQueue = setting.MaxQueue;
 var admin_id = setting.admin_id;
 var botchannel = setting.botchannel;
-var BotName = setting.BotName;
+var bot_name = setting.bot_name;
 var help_send_privat = setting.help_send_privat;
 //------------------------------
 const commands_setting = require('../bot_setting/commands_setting.json');
@@ -39,9 +39,9 @@ exports.run = async (bot,message)=>{
     var bot_MessChannel = bot.channels.find("name", botchannel); // bot schreibt in einen bestimmten angegebenen channel
     var author_MessChannel = message.author; // bot schreibt an author
     if (help_send_privat=="yes"){
-        return bmess.InfoScreen(set_playsong,set_searchsong,set_deletesong,set_savesong,set_songliste,set_randomsong,set_purge,set_volume,set_leave,set_resume,set_pause,set_skip,set_queue,set_clean,set_hilfe,set_uhr,set_mega,set_ping,author_MessChannel,prefix,RandomColor,MaxQueue,BotName); //info ausgabe
+        return bmess.InfoScreen(set_playsong,set_searchsong,set_deletesong,set_savesong,set_songliste,set_randomsong,set_purge,set_volume,set_leave,set_resume,set_pause,set_skip,set_queue,set_clean,set_hilfe,set_uhr,set_mega,set_ping,author_MessChannel,prefix,RandomColor,MaxQueue,bot_name); //info ausgabe
     }else{
-        return bmess.InfoScreen(set_playsong,set_searchsong,set_deletesong,set_savesong,set_songliste,set_randomsong,set_purge,set_volume,set_leave,set_resume,set_pause,set_skip,set_queue,set_clean,set_hilfe,set_uhr,set_mega,set_ping,bot_MessChannel,prefix,RandomColor,MaxQueue,BotName); //info ausgabe
+        return bmess.InfoScreen(set_playsong,set_searchsong,set_deletesong,set_savesong,set_songliste,set_randomsong,set_purge,set_volume,set_leave,set_resume,set_pause,set_skip,set_queue,set_clean,set_hilfe,set_uhr,set_mega,set_ping,bot_MessChannel,prefix,RandomColor,MaxQueue,bot_name); //info ausgabe
     }
     //mpm.queue(message,bot_MessChannel);
 }

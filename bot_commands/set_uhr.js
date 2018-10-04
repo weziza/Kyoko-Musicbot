@@ -2,7 +2,7 @@ const discord = require('discord.js');
 //------------------------------
 const setting = require('../bot_setting/bot_setting.json');
 var botchannel = setting.botchannel;
-var BotName = setting.BotName;
+var bot_name = setting.bot_name;
 var botchannel = setting.botchannel;
 //------------------------------
 const commands_setting = require('../bot_setting/commands_setting.json');
@@ -21,7 +21,7 @@ exports.run = async (bot,message)=>{
     var embed = new discord.RichEmbed()
     .addField(`Uhrzeit - Datum - Zeitzone`,`${new Date()}`, true)
     .setTimestamp()
-    .setFooter(BotName,"https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png")  
+    .setFooter(bot_name,"https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png")  
     .setColor(RandomColor)
     bot_MessChannel.send(embed);
 }

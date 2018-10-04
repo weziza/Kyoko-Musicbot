@@ -1,4 +1,5 @@
 const discord = require('discord.js');
+const mpm = require('./music_play_modul.js');
 //---------------------------------------
 const playerEmoji = require('../bot_setting/emoji_setting');
 var playEmoji = playerEmoji.playEmoji;
@@ -44,12 +45,19 @@ if (bigSongList=="true"){
     var GrList = 50;
     smallSongList="false";};
 //------------------------------
-const index = require("../index");
+const commands_setting = require('../bot_setting/commands_setting.json');
+var set_playsong = commands_setting.set_playsong;
+//------------------------------
+const index = require("../index.js");
 var bot = index.bot; //import var bot aus script index.js
 //------------------------------
 var dosome = false;
-
-Emoji_Array=[]
+var Emoji_Array = [];
+var emoji_generade = false;
+//------------------------------
+var Text1 = [];
+var Text2 = [];
+var dothis = false;
 //------------------------------
 /**
 * @param {Object} MessChannel // the message.channel
@@ -57,12 +65,12 @@ Emoji_Array=[]
 * @param {Object} InfoThumbnail // setThumbnail Datenbank.json Math random
 * @param {Object} prefix // prefix 
 * @param {Object} color // Math Color
-* @param {Object} MaxQueue // Max Lead Nummer
+* @param {Object} max_queue // Max Lead Nummer
 */
-exports.InfoScreen = (set_playsong,set_searchsong,set_deletesong,set_savesong,set_songliste,set_randomsong,set_purge,set_volume,set_leave,set_resume,set_pause,set_skip,set_queue,set_clean,set_hilfe,set_uhr,set_mega,set_ping,MessChannel,prefix,RandomColor,MaxQueue,BotName) => {
+exports.InfoScreen = (set_playsong,set_searchsong,set_deletesong,set_savesong,set_songliste,set_randomsong,set_purge,set_volume,set_leave,set_resume,set_pause,set_skip,set_queue,set_clean,set_hilfe,set_uhr,set_mega,set_ping,MessChannel,prefix,RandomColor,max_queue,bot_name) => {
   var embed = new discord.RichEmbed()
-      .setTitle("《 "+ help_text_heading+" - "+ BotName + " 》" )
-      .setAuthor(BotName +"〔 (∩｀-´)⊃━━☆･•.*･•*.♫♪℘❧ 〕", bot_author_Image)
+      .setTitle("《 "+ help_text_heading+" - "+ bot_name + " 》" )
+      .setAuthor(bot_name +"〔 (∩｀-´)⊃━━☆･•.*･•*.♫♪℘❧ 〕", bot_author_Image)
       .setDescription("[ command`s ]")
       .setColor(RandomColor)
       .addField("-----------------------------",'```Markdown'+'\n< ' + prefix + set_hilfe+" | "+prefix+set_mega+" | "+prefix+set_ping+" | "+prefix+set_uhr+ ' >'+'\n'+'< '+prefix+"admin" + ' >```', true)
@@ -81,11 +89,11 @@ exports.InfoScreen = (set_playsong,set_searchsong,set_deletesong,set_savesong,se
       .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_songliste+' | '+songliste + '```',false)
       .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_savesong+' | '+'Max '+GrList+' - '+savesong + '```',false)
       .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_deletesong+' | '+'[ Nr ] '+savedelete + '```',false)
-      .addField("-----------------------------",'```Ini'+'\n' + size_of_the_queue +' = '+'[ '+MaxQueue+' ]' + '```',false)
+      .addField("-----------------------------",'```Ini'+'\n' + size_of_the_queue +' = '+'[ '+max_queue+' ]' + '```',false)
       .setThumbnail(setThumbnail[Math.floor(Math.random()* setThumbnail.length)])
       .setImage(setImage[Math.floor(Math.random()* setImage.length)])
       .setTimestamp()
-      .setFooter(BotName, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png");
+      .setFooter(bot_name, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png");
   MessChannel.send(embed);
   return embed;
 };
@@ -95,17 +103,17 @@ exports.InfoScreen = (set_playsong,set_searchsong,set_deletesong,set_savesong,se
 * @param {Object} InfoText2 // Info Text zeile 2
 * @param {Object} MessChannel // the message.channel
 * @param {Object} RandomColor // Math color
-* @param {Object} BotName // Bot Name
+* @param {Object} bot_name // Bot Name
 * @param {Object} Thumbimage // Thumb Image
 */
-exports.ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,BotName,Thumbimage) => {
+exports.ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,bot_name,Thumbimage) => {
   var embed = new discord.RichEmbed()
-    .setAuthor("〔"+BotName + "™ 〕", bot_author_Image)
+    .setAuthor("〔"+bot_name + "™ 〕", bot_author_Image)
     .addField(InfoText1,InfoText2,  false )
     .setThumbnail(Thumbimage)
     .setColor(RandomColor)
     .setTimestamp()
-    .setFooter(BotName, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png");
+    .setFooter(bot_name, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png");
     MessChannel.send(embed);
 };
 //-----------------------------
@@ -114,45 +122,17 @@ exports.ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,BotName,Thum
 * @param {Object} InfoText2 // Info Text zeile 2
 * @param {Object} MessChannel // the message.channel
 * @param {Object} RandomColor // Math color
-* @param {Object} BotName // Bot Name
-* @param {Object} Thumbimage // Thumb Image
-* @param {Object} message // Thumb Image
-*/
-exports.play_ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,BotName,Thumbimage,message,sendEmojiTime) => {
-
-    //MessChannel.bulkDelete(10);
-
-    var embed = new discord.RichEmbed()
-    .setAuthor("〔"+BotName + "™ 〕", bot_author_Image)
-    .addField(InfoText1,InfoText2, false )
-    .addField("Info:",'```HTTP'+'\n'+`Emoji Bar send in:`+'\n'+'----| '+ sendEmojiTime/1000 +`.sec`+' |----'+'```', false )
-    .setThumbnail(Thumbimage)
-    .setColor(RandomColor)
-    .setTimestamp()
-    .setFooter(BotName, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png")
-    MessChannel.send(embed);
-    if(!dosome){
-        dosome=true;
-        run(InfoText1,InfoText2,MessChannel,RandomColor,BotName,Thumbimage,message,sendEmojiTime);
-    };
-};
-//-----------------------------
-/**
-* @param {Object} InfoText1 // Info Text zeile 1
-* @param {Object} InfoText2 // Info Text zeile 2
-* @param {Object} MessChannel // the message.channel
-* @param {Object} RandomColor // Math color
-* @param {Object} BotName // Bot Name
+* @param {Object} bot_name // Bot Name
 * @param {Object} Thumbimage // Thumb Image
 */
-exports.pause_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor,BotName,Thumbimage) => {
+exports.pause_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor,bot_name,Thumbimage) => {
     var embed = new discord.RichEmbed()
-    .setAuthor("〔"+BotName + "™ 〕", bot_author_Image)
+    .setAuthor("〔"+bot_name + "™ 〕", bot_author_Image)
     .addField(InfoText1,InfoText2, false )
     .setThumbnail(Thumbimage)
     .setColor(RandomColor)
     .setTimestamp()
-    .setFooter(BotName, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png");
+    .setFooter(bot_name, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png");
     MessChannel.send(embed).then(function (message) {
         message.react(playEmoji);  
     }).catch(function(error){
@@ -174,12 +154,60 @@ exports.sl_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor) => {
         MessChannel.send(embed);
     return embed;
 };
-//-----------------------------  
-async function run(InfoText1,InfoText2,MessChannel,RandomColor,BotName,Thumbimage,message,sendEmojiTime){
-    
-    var i=0;
+//-----------------------------
+/**
+* @param {Object} InfoText1 // Info Text zeile 1
+* @param {Object} InfoText2 // Info Text zeile 2
+* @param {Object} MessChannel // the message.channel
+* @param {Object} RandomColor // Math color
+* @param {Object} bot_name // Bot Name
+* @param {Object} Thumbimage // Thumb Image
+* @param {Object} message // Thumb Image
+*/
 
-    await MessChannel.awaitMessages(msg => msg.content.includes("play"),{time: sendEmojiTime});
+exports.play_ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,bot_name,Thumbimage,message)=> {
+   
+    Text1=InfoText1
+    Text2=InfoText2
+
+    if(!dothis){
+        dothis = true 
+
+        var Emoji_tVar = setInterval(Emoji_Timer, 1);  
+        var timer = Emoji_tVar._idleStart   
+        function Emoji_Timer() 
+        { 
+
+            if(Emoji_tVar._idleStart>timer+2500){
+                //console.log(Emoji_tVar._idleStart + "  timer clear")
+
+                MessChannel.bulkDelete(10);
+
+                clearInterval(Emoji_tVar), timer = 0 ,dothis = false 
+
+                go(MessChannel,message,emoji_generade) 
+
+                var embed = new discord.RichEmbed()
+                .setAuthor("〔"+bot_name + "™ 〕", bot_author_Image)
+                .addField(Text1,Text2, false )
+                .addField("Info:",'```HTTP'+'\n'+`Emoji Bar send in:`+'\n'+'----| '+ 5 +`.sec`+' |----'+'```', false )
+                .setThumbnail(Thumbimage)
+                .setColor(RandomColor)
+                .setTimestamp()
+                .setFooter(bot_name,"https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png")
+                MessChannel.send(embed);                
+            };
+        };         
+    };
+};
+//-----------------------------
+async function go(MessChannel,message,emoji_generade){ 
+
+    var i=0
+
+    await MessChannel.awaitMessages(msg => msg.content.includes(set_playsong),{
+        time: 5000,
+    }); 
 
     Emoji_Array.push(pauseEmoji);
     Emoji_Array.push(playEmoji);
@@ -189,26 +217,27 @@ async function run(InfoText1,InfoText2,MessChannel,RandomColor,BotName,Thumbimag
     Emoji_Array.push(volumeupEmoji);
     Emoji_Array.push(volumedownEmoji);
 
-    //console.log(Emoji_Array)
-
     await MessChannel.send(`Emoji Bar!`)
-    .then(async function(message){
-        dosome=false
-
+    .then(async function(message){            
+        
         var Emoji_tVar = setInterval(Emoji_Timer, 500); 
-        function Emoji_Timer() 
-        {            
-            message.react(Emoji_Array[i]);
-            //console.log(Emoji_Array[i])
-           
+        function Emoji_Timer(err) 
+        {          
+            message.react(Emoji_Array[i]).catch((err) => {
+                //console.log ("Timeout or other error: ", err)
+                // catch the error if stop abruptly - ( unhandled promise rejections )
+                return;
+            });
+
             if(i==6){
-                Emoji_Array=[]
-                clearInterval(Emoji_tVar),i=0;    
-            }
+                dosome=false                    
+                Emoji_Array=[];             
+                emoji_generade = false
+                clearInterval(Emoji_tVar),i=0;
+            };
             i++
         };    
         
-    });       
+    });  
 };
 
-//-----------------------------
