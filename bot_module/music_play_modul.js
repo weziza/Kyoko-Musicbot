@@ -58,6 +58,12 @@ var URLArray=[ // zufall url ergenzung wenn die suche fehlschlägt
     "3_-a9nVZYjk",
     "Mgfe5tIwOj0"]
 //------------------------------
+var timeout_fix = 5000;
+var timeout = timeout_fix;
+//------------------------------
+const bs = require('../bot_sounds/bot_sounds.json');
+var in_sound = bs.sound;
+//------------------------------
 var bot_pause=false;
 var bot_playing=false;
 //------------------------------
@@ -68,28 +74,29 @@ var SongTitel_Buffer = [];
 const index = require("../index");
 var bot = index.bot; 
 //import var bot aus script index.js
-
-const bcss = require("../bot_commands/set_searchsong");
+//------------------------------
+const ssea = require("../bot_commands/set_searchsong");
 //------------------------------
 var vlNr = defaultVolume;
 //------------------------------
 exports.get_song = function(memberchannel,message,bot_MessChannel,voiceConnection) {
+    
+        //-----------------------------
+        var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
+        var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);
+        //-----------------------------
+        if (MinQueue<0){MinQueue=0  
+            // der song counter kann nicht unter 0 fallen
+            return};
 
-    //-----------------------------
-    var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
-    var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);
-    //-----------------------------
-    if (MinQueue<0){MinQueue=0  
-        // der song counter kann nicht unter 0 fallen
-        return};
-
-    exports.getsbi = function (url_mess, info_url){
-
+        exports.getsbi = function (url_mess, info_url){
+ 
         if (max_queue==MinQueue){ 
         // ist das max der song aufnahme erreicht dann....
             return bot_MessChannel.send(wrap(queue_message)); 
             // return message rückgabe 
         }else{
+
             Warteschlange_Array.push(url_mess); 
             //push url message in die Warteschlange array
             SongTitel_Buffer.push(info_url); 
@@ -100,25 +107,39 @@ exports.get_song = function(memberchannel,message,bot_MessChannel,voiceConnectio
             MinQueue++; 
             // Song counder ++
             //---------------------------------------
-            
             if(!bot_playing) memberchannel.join().then(function(connection){
                 //sollte der bot nicht spielen dann connect zum voicechannel
-                bot_playing=true; //sag dem bot das er jetz spielt
-                //---------------------------------------                                                                              
-                play(connection,message,bot_MessChannel); //connect to voicechannel
-                //----------                 
-                return bmess.play_ambedMessage(song_added+" :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, bot_name, play_music,message);
-                //ist der bot nicht im voicechannel send SongTitel_Array message
+                console.log("hallo")
                 //--------------------------------------- 
-            });
+                bot_playing=true; //sag dem bot das er jetz spielt
+                //---------------------------------------  
+                bmess.ambedMessage(voice_connect_message+" :",'```HTTP'+'\n' + message.member.voiceChannel.name + '\n```',bot_MessChannel,RandomColor,bot_name,connect_channel);
+                // connect message   
+                //---------------------------------------
+                    var vol = defaultVolume*5
+                    dispatcher = connection.playFile(in_sound);
+                    dispatcher.setVolume(vol); // defaultVolume volume wenn play connect sound
+
+                setTimeout(function(){
+                    timeout = 0;
+                    //---------------------------------------                                                      
+                    play(connection,message,bot_MessChannel); //connect to voicechannel
+                    //---------------------------------------
+                    return bmess.play_ambedMessage(song_added+" :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, bot_name, play_music,message);
+                    //ist der bot nicht im voicechannel send SongTitel_Array message
+                    //---------------------------------------
+                }, timeout);   
+                              
+            })
+            //.catch(err => console.log(err));
             
             else if(bot_playing){ 
-            //ist der bot im voicechannel send SongTitel_Array message              
+                //ist der bot im voicechannel send SongTitel_Array message              
                 return bmess.play_ambedMessage(song_added+" :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, bot_name, play_music,message);
                 //ist der bot nicht im voicechannel send SongTitel_Array message
             };   
         };
-    };
+    };    
 };
 //---------------------------------------
 exports.play_song = function (memberchannel,message,bot_MessChannel,url){
@@ -137,13 +158,20 @@ exports.play_song = function (memberchannel,message,bot_MessChannel,url){
         return bot_MessChannel.send(wrap(queue_message)); // message rückgabe
     }else{
         if(!bot_playing) memberchannel.join().then(function(connection){
+
+            //---------------------------------------
             //sollte der bot nicht spielen dann connect zum voicechannel
-            bot_playing=true; //sag dem bot das er jetz spielt                         
-            //--------------------------------------- 
-            bmess.ambedMessage(voice_connect_message+" :",'```HTTP'+'\n' + message.member.voiceChannel.name + '\n```',bot_MessChannel,RandomColor,bot_name,connect_channel);
-            // connect message
-            //---------------------------------------            
-            play(connection,message,bot_MessChannel); 
+            bot_playing=true; //sag dem bot das er jetz spielt  
+            //---------------------------------------  
+                
+            var vol = defaultVolume*5
+            const dispatcher = connection.playFile(in_sound);
+            dispatcher.setVolume(vol); // defaultVolume volume wenn play connect sound  
+                      
+            setTimeout(function(){  
+                timeout = 0;          
+                play(connection,message,bot_MessChannel); 
+            }, timeout);   
         });
 
         Warteschlange_Array.push(url);
@@ -162,10 +190,18 @@ exports.play_song = function (memberchannel,message,bot_MessChannel,url){
             //---------------------------------------
             MinQueue++; 
             // Song counder ++            
-            //----------
-            return bmess.play_ambedMessage(song_added+" :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, bot_name, play_music,message);
+            //---------------------------------------
+            if(!bot_playing){
+                bmess.ambedMessage(voice_connect_message+" :",'```HTTP'+'\n' + message.member.voiceChannel.name + '\n```',bot_MessChannel,RandomColor,bot_name,connect_channel);
+                // connect message
+            };
+            //---------------------------------------
+            setTimeout(function(){
+                return bmess.play_ambedMessage(song_added+" :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, bot_name, play_music,message);                
+            }, timeout);  
             //---------------------------------------
         });
+        //.catch(err => console.log(err))
     };    
 };
 //---------------------------------------
@@ -182,8 +218,7 @@ exports.search_song = function(memberchannel,message,sucheVideo,bot_MessChannel,
         search_video(str, function(id) {
             cb(id);
         });
-    };
-    
+    };    
 
     function search_video(query, callback) {
 
@@ -205,7 +240,8 @@ exports.search_song = function(memberchannel,message,sucheVideo,bot_MessChannel,
 
     getID(sucheVideo, function (id) {
         fetchVideoInfo(id, function (err, videoInfo) {
-            ssea.get_url(videoInfo.url);         
+            ssea.get_url(videoInfo.url);
+            console.log(videoInfo.url)         
         });
     });
 };
@@ -348,8 +384,11 @@ function play(connection,message,bot_MessChannel){
     var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
     var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6)
     //-----------------------------
-    dispatcher = connection.playStream(ytdl(Warteschlange_Array[0], { filter: "audioonly" })); 
+
+    dispatcher = connection.playStream(ytdl(Warteschlange_Array[0], { filter: "audioonly" }));
+    dispatcher.on('error', (e) => console.error(e))
     //stream die erste stelle der array.. also [0] 
+
     //-----------------------------
     Warteschlange_Array.shift(); //shift gleich die erste stelle in der array...  
     // bei einem lead ist der bot eigentlich schon bei disconnect nach dem abspielen des ersten liedes
@@ -364,7 +403,7 @@ function play(connection,message,bot_MessChannel){
 
     dispatcher.on("end",function(){
         if(Warteschlange_Array[0]){ 
-        //solange noch etwas in der Warteschlange_Array ist shift diese          
+        // solange noch etwas in der Warteschlange_Array ist shift diese          
             MinQueue-- 
             // -- queue aus der warteschlange
             //-----------------------------
@@ -373,20 +412,23 @@ function play(connection,message,bot_MessChannel){
             play(connection,message,bot_MessChannel),SongTitel_Buffer.shift(); 
             // replay and shift SongTitel_Buffer um eine stelle       
             SongTitel_Array = SongTitel_Buffer.map((SongTitel_Buffer, x) => ((x + 1) + ': ' + SongTitel_Buffer)).join('\n'); 
-            //füge nummerierung zur SongTitel_Array hinzu                                
+            // füge nummerierung zur SongTitel_Array hinzu                                
             //--------         
             return bmess.play_ambedMessage(queue,'```HTTP'+'\n' + SongTitel_Array + '```',bot_MessChannel,RandomColor,bot_name,play_forward,message); // message ausgabe - Warteschlange SongTitel_Array
         }else{connection.disconnect() 
-            //ist Warteschlange_Array leer disconnect und setze alles zurück 
+            // ist Warteschlange_Array leer disconnect und setze alles zurück 
             //----------------------------- 
             bot_playing=false, bot_pause=false; 
-            //reset bot_playing, bot_pause
+            // reset bot_playing, bot_pause
             //--------            
             MinQueue=0; 
             // reset queue
             //--------
             Warteschlange_Array = [],SongTitel_Array = [],SongTitel_Buffer = []; 
-            // setze alle arrays auf null fals noch etwas darin sein sollze         
+            // setze alle arrays auf null fals noch etwas darin sein sollze  
+            //--------
+            timeout = timeout_fix;
+            // reset timeout
             //--------
             vlNr=defaultVolume; 
             // default volume

@@ -218,7 +218,7 @@ function play_save_song(auth,auth_id,message,bot,comando,slice,ChatChannel,msg){
                         }
                         else {
                             var time = videoInfo.length_seconds / 60; 
-                            //viedeo Time                             
+                            //viedeo Time                            
                             url_messageInfo = +time.toFixed(1)+" min"+" - "+videoInfo.title;                                
                             url_info.push(url_messageInfo);
                             url.push(url_message);

@@ -51,9 +51,10 @@ var set_playsong = commands_setting.set_playsong;
 const index = require("../index.js");
 var bot = index.bot; //import var bot aus script index.js
 //------------------------------
-var dosome = false;
 var Emoji_Array = [];
 var emoji_generade = false;
+//------------------------------
+var emoji_send = false
 //------------------------------
 var Text1 = [];
 var Text2 = [];
@@ -94,8 +95,7 @@ exports.InfoScreen = (set_playsong,set_searchsong,set_deletesong,set_savesong,se
       .setImage(setImage[Math.floor(Math.random()* setImage.length)])
       .setTimestamp()
       .setFooter(bot_name, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png");
-  MessChannel.send(embed);
-  return embed;
+    return MessChannel.send(embed);
 };
 //-----------------------------
 /**
@@ -114,7 +114,7 @@ exports.ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,bot_name,Thu
     .setColor(RandomColor)
     .setTimestamp()
     .setFooter(bot_name, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png");
-    MessChannel.send(embed);
+    return MessChannel.send(embed);
 };
 //-----------------------------
 /**
@@ -133,11 +133,8 @@ exports.pause_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor,bot_n
     .setColor(RandomColor)
     .setTimestamp()
     .setFooter(bot_name, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png");
-    MessChannel.send(embed).then(function (message) {
-        message.react(playEmoji);  
-    }).catch(function(error){
-        //console.log(error);
-        return;
+    return MessChannel.send(embed).then(function (message) {
+        message.react(playEmoji).catch(err => console.log(err)); 
     });
 };
 //-----------------------------
@@ -149,10 +146,9 @@ exports.pause_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor,bot_n
 */
 exports.sl_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor) => {
     var embed = new discord.RichEmbed()
-        .addField(InfoText1,InfoText2, true)
-        .setColor(RandomColor)
-        MessChannel.send(embed);
-    return embed;
+    .addField(InfoText1,InfoText2, true)
+    .setColor(RandomColor)
+    return MessChannel.send(embed);
 };
 //-----------------------------
 /**
@@ -177,16 +173,15 @@ exports.play_ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,bot_nam
         var timer = Emoji_tVar._idleStart   
         function Emoji_Timer() 
         { 
-
             if(Emoji_tVar._idleStart>timer+2500){
                 //console.log(Emoji_tVar._idleStart + "  timer clear")
 
                 MessChannel.bulkDelete(10);
 
                 clearInterval(Emoji_tVar), timer = 0 ,dothis = false 
-
-                go(MessChannel,message,emoji_generade) 
-
+                if(!emoji_send){
+                    go(MessChannel,message,emoji_generade) 
+                }
                 var embed = new discord.RichEmbed()
                 .setAuthor("〔"+bot_name + "™ 〕", bot_author_Image)
                 .addField(Text1,Text2, false )
@@ -195,7 +190,7 @@ exports.play_ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,bot_nam
                 .setColor(RandomColor)
                 .setTimestamp()
                 .setFooter(bot_name,"https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png")
-                MessChannel.send(embed);                
+                return MessChannel.send(embed);                
             };
         };         
     };
@@ -203,7 +198,9 @@ exports.play_ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,bot_nam
 //-----------------------------
 async function go(MessChannel,message,emoji_generade){ 
 
-    var i=0
+    var i = 0 
+    emoji_send = true
+    console.log(emoji_send) 
 
     await MessChannel.awaitMessages(msg => msg.content.includes(set_playsong),{
         time: 5000,
@@ -216,28 +213,27 @@ async function go(MessChannel,message,emoji_generade){
     Emoji_Array.push(kickEmoji);
     Emoji_Array.push(volumeupEmoji);
     Emoji_Array.push(volumedownEmoji);
-
+    
     await MessChannel.send(`Emoji Bar!`)
-    .then(async function(message){            
-        
+    .then(function(message){        
+
         var Emoji_tVar = setInterval(Emoji_Timer, 500); 
-        function Emoji_Timer(err) 
+        function Emoji_Timer(err)
         {          
             message.react(Emoji_Array[i]).catch((err) => {
-                //console.log ("Timeout or other error: ", err)
+                // console.log ("Timeout or other error: ", err)
                 // catch the error if stop abruptly - ( unhandled promise rejections )
                 return;
             });
 
-            if(i==6){
-                dosome=false                    
-                Emoji_Array=[];             
+            if(i==6){                               
+                Emoji_Array=[]; 
+                emoji_send = false             
                 emoji_generade = false
                 clearInterval(Emoji_tVar),i=0;
             };
             i++
-        };    
-        
-    });  
+        };       
+    }).catch(err => console.log(err)); 
 };
 

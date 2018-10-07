@@ -10,8 +10,8 @@ echo -----------------------------------------------
 echo -- auto start nodemon.
 echo -- this function starts the music bot automatically when changes are made, for example, in the setting.
 echo -----------------------------------------------
-echo            /\ Written by H5Pro2 /\
-echo        \/ https://github.com/H5Pro2 \/
+echo        /\ Written by H5Pro2 /\
+echo    \/ https://github.com/H5Pro2 \/
 echo -----------------------------------------------
 echo.
 

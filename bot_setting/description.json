@@ -36,7 +36,7 @@
     
     "-----bot_message_modul-----": "------------Message-------------",
     "help_text_heading"         : "super duba hilfe, vom mega heftig",
-    "purge"                     : "Löscht 100 Zeilen im Channel.",
+    "purge"                     : "Löscht bis zu 100 Zeilen im Channel.",
     "show_queue"                : "Zeige Song`s in der Warteschlange.",
     "skip"                      : "Überspringt das spielende Lied.",
     "clean"                     : "Leert die Warteschlange.",
@@ -51,5 +51,11 @@
     "songliste"                 : "Zeige meine Songliste.",
     "savesong"                  : "Song`s in deiner Liste.",
     "savedelete"                : "lösch ein Song aus meiner Liste.",
-    "size_of_the_queue"         : "größe der Warteschlange"    
+    "size_of_the_queue"         : "größe der Warteschlange",
+    
+    "---play and search song----": "------------Message-------------",
+    "looking_for"               : "bitte schreib dazu nach was du suchst",
+    "pls_write_in_botchannel"   : "please write in the bot channel",
+    "botchannel_not_config"     : "bot channel ist nicht konfiguriert"  
+
 }
