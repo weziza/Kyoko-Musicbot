@@ -29,8 +29,6 @@ var file_created = description.file_created
 var song_saved =description.song_saved
 var song_delete =description.song_delete
 //------------------------------
-var bot_playing=false;
-//------------------------------
 /**
 * @param {Object} auth_id
 * @param {Object} message

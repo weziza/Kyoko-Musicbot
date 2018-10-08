@@ -1,8 +1,6 @@
 {
-    "----------admin-----------": "------------Message-------------",
     "admin_message"             : "du hast keine admin rechte",    
-    
-    "-----music_play_modul-----": "------------Message-------------", 
+     
     "voice_connect_message"     : "Connect Voice Channel",
     "no_voice_connect_message"  : "Bot ist in keinem Channel",
     "incomplete_url"            : "Error unvollständige url",
@@ -21,7 +19,6 @@
     "player_pause"              : "Player ist in der Pause",
     "resume_play"               : "Player resume",
 
-    "------read_write_modul-----": "------------Message-------------",
     "no_file_created"           : "es wurde noch kein file angelegt",
     "enter_voice_channel"       : "du musst erst ein Voice channel betreten",
     "delete_your_name"          : "du kannst nicht deinen Namen löschen",
@@ -34,7 +31,6 @@
     "song_saved"                : "wurde gespeichert",
     "song_delete"               : "wurde gelöscht",
     
-    "-----bot_message_modul-----": "------------Message-------------",
     "help_text_heading"         : "super duba hilfe, vom mega heftig",
     "purge"                     : "Löscht bis zu 100 Zeilen im Channel.",
     "show_queue"                : "Zeige Song`s in der Warteschlange.",
@@ -53,9 +49,7 @@
     "savedelete"                : "lösch ein Song aus meiner Liste.",
     "size_of_the_queue"         : "größe der Warteschlange",
     
-    "---play and search song----": "------------Message-------------",
     "looking_for"               : "bitte schreib dazu nach was du suchst",
-    "pls_write_in_botchannel"   : "please write in the bot channel",
-    "botchannel_not_config"     : "bot channel ist nicht konfiguriert"  
-
+    "pls_write_in_botchannel"   : "bitte in den bot channel schreiben",
+    "botchannel_not_config"     : "bot channel ist nicht konfiguriert" 
 }

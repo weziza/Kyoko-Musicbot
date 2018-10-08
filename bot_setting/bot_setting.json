@@ -1,16 +1,16 @@
 {
 
-    "token"                 : "bot token", 
+    "token"                 : "your bot token", 
 
-    "yt_api_key"            : "youtube api key",
+    "yt_api_key"            : "your api key",
 
-    "admin_id"              : "your id",
+    "admin_id"              : "your admin key",
 
-    "botchannel"            : "your botchannel",
+    "botchannel"            : "bot-eingabe",
 
-    "defaultVolume"         : 0.1,
+    "defaultVolume"         : "0.1",
 
-    "max_queue"             : 5,
+    "max_queue"             : "5",
 
     "bot_name"              : "Kyoko",
 

@@ -200,7 +200,7 @@ async function go(MessChannel,message,emoji_generade){
 
     var i = 0 
     emoji_send = true
-    console.log(emoji_send) 
+    //console.log(emoji_send) 
 
     await MessChannel.awaitMessages(msg => msg.content.includes(set_playsong),{
         time: 5000,

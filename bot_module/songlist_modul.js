@@ -1,4 +1,3 @@
-const fs = require("fs");
 const bmess = require('./bot_message_modul');
 //------------------------------
 const setting = require('../bot_setting/bot_setting.json');

@@ -32,6 +32,9 @@ var set_resume = commands_setting.set_resume;
 var set_leave = commands_setting.set_leave;
 var set_purge = commands_setting.set_purge;
 //------------------------------
+const description = require('./bot_setting/description.json');
+var pls_write_in_botchannel = description.pls_write_in_botchannel;
+//------------------------------
 var volu = require('./bot_commands/set_leave');
 var VolumeNr = 1;
 //------------------------------
@@ -151,10 +154,10 @@ bot.on("message",function(message){
         /*verhindert ein error wenn man den bot privat anschreibt zb +play[Nr]
         (ist message.channel.name undefined) dann return.*/
         return;
-    }else{        
-        
+    }else{     
+        //------------------------------
         VolumeNr = volu.VolumeNr;
-
+        //------------------------------
         if(message.content.indexOf(prefix)){ //message beginnt mit prefix dann / wenn nicht return
             return;
         }else{
@@ -188,10 +191,10 @@ bot.on("message",function(message){
             //----------------------------- 
             if (message.channel.name!=botchannel) //ist bot channel ja/nein ??
             { 
-                return message.channel.send(wrap("bitte in den bot channel schreiben")); //befehle nur im bot channel annehmen
+                return message.channel.send(wrap(pls_write_in_botchannel)); //befehle nur im bot channel annehmen
             }else{                 
                 if(!cmd){ //ist nicht dann                 
-                    return message.channel.send(wrap("command ungültig")); //wenn der command nach dem prefix falsch geschrieben wurde 
+                    return message.channel.send(wrap("invalid command")); //wenn der command nach dem prefix falsch geschrieben wurde 
                 }else{ // ist ja dann
                     return cmd.run(bot,message);                    
                 };

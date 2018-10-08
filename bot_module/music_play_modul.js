@@ -1,26 +1,19 @@
 const bmess = require('./bot_message_modul');
 //---------------------------------------
 const ytdl = require("ytdl-core");
-const youtubedl = require('youtube-dl');
 const fetchVideoInfo = require("youtube-info");
 const request = require("request");
 //---------------------------------------
 const setting = require('../bot_setting/bot_setting.json');
 var defaultVolume = setting.defaultVolume;
-var botchannel = setting.botchannel;
 var yt_api_key = setting.yt_api_key;
 var bot_name = setting.bot_name;
 var max_queue = setting.max_queue;
 var MinQueue = 0;
 //---------------------------------------
 const commands_setting = require('../bot_setting/commands_setting.json');
-var set_skip = commands_setting.set_skip;
 var set_queue = commands_setting.set_queue;
-var set_playsong = commands_setting.set_playsong;
 //---------------------------------------
-const BotImages = require('../bot_images/botAuthor.json');
-var bot_author_Image = BotImages.bot_author_Image;
-//------------------------------
 const Thumbimage = require('../bot_images/Thumbimage.json');
 var bot_leave = Thumbimage.bot_leave;
 var music_not_playing = Thumbimage.music_not_playing;
@@ -51,6 +44,9 @@ var in_queue = description.in_queue
 var resume_play = description.resume_play
 var queue = description.queue
 var clean_queue_txt = description.clean_queue_txt
+//------------------------------
+const bs = require('../bot_sounds/bot_sounds.json');
+var in_sound = bs.sound;
 //---------------------------------------
 var URLArray=[ // zufall url ergenzung wenn die suche fehlschlägt
     "FlmToFkw9W0",
@@ -60,9 +56,6 @@ var URLArray=[ // zufall url ergenzung wenn die suche fehlschlägt
 //------------------------------
 var timeout_fix = 5000;
 var timeout = timeout_fix;
-//------------------------------
-const bs = require('../bot_sounds/bot_sounds.json');
-var in_sound = bs.sound;
 //------------------------------
 var bot_pause=false;
 var bot_playing=false;
@@ -79,7 +72,7 @@ const ssea = require("../bot_commands/set_searchsong");
 //------------------------------
 var vlNr = defaultVolume;
 //------------------------------
-exports.get_song = function(memberchannel,message,bot_MessChannel,voiceConnection) {
+exports.get_song = function(memberchannel,message,bot_MessChannel,voiceConnection){
     
         //-----------------------------
         var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
@@ -108,8 +101,7 @@ exports.get_song = function(memberchannel,message,bot_MessChannel,voiceConnectio
             // Song counder ++
             //---------------------------------------
             if(!bot_playing) memberchannel.join().then(function(connection){
-                //sollte der bot nicht spielen dann connect zum voicechannel
-                console.log("hallo")
+                //sollte der bot nicht spielen dann connecte zum voicechannel
                 //--------------------------------------- 
                 bot_playing=true; //sag dem bot das er jetz spielt
                 //---------------------------------------  
@@ -117,26 +109,31 @@ exports.get_song = function(memberchannel,message,bot_MessChannel,voiceConnectio
                 // connect message   
                 //---------------------------------------
                     var vol = defaultVolume*5
+                    // new defaultVolume für den connect sound
                     dispatcher = connection.playFile(in_sound);
-                    dispatcher.setVolume(vol); // defaultVolume volume wenn play connect sound
+                    // dispatcher ist channel connection + play sound file
+                    dispatcher.setVolume(vol); 
+                    // defaultVolume*5 wenn player den sound wieder gibt
 
                 setTimeout(function(){
                     timeout = 0;
-                    //---------------------------------------                                                      
-                    play(connection,message,bot_MessChannel); //connect to voicechannel
+                    //wenn der bpt den connect sound abgespielt hat, setze timeout auf 0          
+                    play(connection,message,bot_MessChannel); 
+                    // gehe zur funktion play 
                     //---------------------------------------
                     return bmess.play_ambedMessage(song_added+" :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, bot_name, play_music,message);
                     //ist der bot nicht im voicechannel send SongTitel_Array message
                     //---------------------------------------
-                }, timeout);   
+                }, timeout);
+                //timeout wegen login sound länge   
                               
             })
             //.catch(err => console.log(err));
             
             else if(bot_playing){ 
-                //ist der bot im voicechannel send SongTitel_Array message              
+                //wenn der bot connect und sound abgespielt hat, send SongTitel_Array message              
                 return bmess.play_ambedMessage(song_added+" :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, bot_name, play_music,message);
-                //ist der bot nicht im voicechannel send SongTitel_Array message
+                //ist der bot nicht im voicechannel... send SongTitel_Array message
             };   
         };
     };    
@@ -158,20 +155,25 @@ exports.play_song = function (memberchannel,message,bot_MessChannel,url){
         return bot_MessChannel.send(wrap(queue_message)); // message rückgabe
     }else{
         if(!bot_playing) memberchannel.join().then(function(connection){
-
-            //---------------------------------------
-            //sollte der bot nicht spielen dann connect zum voicechannel
-            bot_playing=true; //sag dem bot das er jetz spielt  
+            //sollte der bot nicht spielen dann connecte zum voicechannel
+            bot_playing=true;
+            //sag dem bot das er jetzt abspielt  
             //---------------------------------------  
                 
             var vol = defaultVolume*5
-            const dispatcher = connection.playFile(in_sound);
-            dispatcher.setVolume(vol); // defaultVolume volume wenn play connect sound  
+            // new defaultVolume für den connect sound
+            dispatcher = connection.playFile(in_sound);
+            // dispatcher ist channel connection + play sound file
+            dispatcher.setVolume(vol); 
+            // defaultVolume*5 wenn player den sound wieder gibt 
                       
             setTimeout(function(){  
-                timeout = 0;          
+                timeout = 0;
+                //wenn der bot den connect sound abgespielt hat, setze timeout auf 0          
                 play(connection,message,bot_MessChannel); 
-            }, timeout);   
+                // gehe zur funktion play 
+            }, timeout);
+            //timeout wegen login sound länge   
         });
 
         Warteschlange_Array.push(url);
@@ -192,6 +194,7 @@ exports.play_song = function (memberchannel,message,bot_MessChannel,url){
             // Song counder ++            
             //---------------------------------------
             if(!bot_playing){
+                // ist der bot nicht am streamen dann ...
                 bmess.ambedMessage(voice_connect_message+" :",'```HTTP'+'\n' + message.member.voiceChannel.name + '\n```',bot_MessChannel,RandomColor,bot_name,connect_channel);
                 // connect message
             };
@@ -403,7 +406,7 @@ function play(connection,message,bot_MessChannel){
 
     dispatcher.on("end",function(){
         if(Warteschlange_Array[0]){ 
-        // solange noch etwas in der Warteschlange_Array ist shift diese          
+        // solange noch etwas in der Warteschlange_Array ist, shift diese          
             MinQueue-- 
             // -- queue aus der warteschlange
             //-----------------------------

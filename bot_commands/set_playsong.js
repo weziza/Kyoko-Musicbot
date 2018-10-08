@@ -31,10 +31,10 @@ exports.run = async (bot,message)=>{
 
     if(!memberchannel){return bot_MessChannel.send(wrap(enter_voice_channel));}
     else if (bot_MessChannel==null){
-        message.delete();// lösche die gepostete url messages        
+        message.delete();// lösche die gepostete messages        
         return message.channel.send(wrap(botchannel_not_config))}
     else if(message.channel.name!=botchannel){
-        message.delete();// lösche die gepostete url messages  
+        message.delete();// lösche die gepostete messages  
         return message.channel.send(wrap(pls_write_in_botchannel));}
     else if(!message.content.slice(prefix.length+set_playsong.length+1).startsWith("https://www.youtube.com")){
         var getNumber = message.content.slice(set_playsong.length+2);
