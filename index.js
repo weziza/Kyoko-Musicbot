@@ -58,6 +58,7 @@ fs.readdir("./bot_commands/",(err, files)=>{
 });
 //------------------------------
 bot.on('ready', () => {
+
     bot.user.setActivity("-->  "+ prefix + set_hilfe +"  <--");
     console.log(""+
         "\n" +
@@ -72,7 +73,13 @@ bot.on('ready', () => {
         "<<-------------------------------------------------------------------------->> break line"
     );
 
-});    
+}); 
+
+bot.on('disconnect', () => {
+
+    console.log("speaking")
+
+}); 
 //------------------------------
 bot.on('messageReactionAdd', (reaction, user, message) => {  
     
@@ -132,6 +139,7 @@ bot.on('messageReactionAdd', (reaction, user, message) => {
             }
         }
     }
+    
     if(reaction.emoji.id === volumedownEmoji) {
         if(user.username==bot_name){
             return;
@@ -147,8 +155,9 @@ bot.on('messageReactionAdd', (reaction, user, message) => {
         }
     }       
 });
-//------------------------------       
-bot.on("message",function(message){
+//------------------------------ 
+
+bot.on("message",function(message){   
 
     if(message.channel.name==undefined){
         /*verhindert ein error wenn man den bot privat anschreibt zb +play[Nr]
@@ -235,3 +244,4 @@ bot.on('guildMemberSpeaking',function(GuildMember,speaking){
     }
 });
 //------------------------------
+

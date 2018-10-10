@@ -87,8 +87,7 @@ exports.get_song_at_list = function(auth_id,message,bot,comando,slice,prefix,Cha
                 return bot.channels.find("name",ChatChannel).send(wrap(max_songlist_range +" 1 - "+songlengthmsg)); 
             };
         };
-    }); 
-       
+    });        
 };
 //------------------------------
 /**

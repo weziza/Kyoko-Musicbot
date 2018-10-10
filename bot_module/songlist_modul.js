@@ -31,7 +31,6 @@ exports.sl_modul = function(ChatChannel,words_info,words_info_length,Liste_int,b
     function SongListTimer() 
     {                         
         url_info.push(words_info[i]);
-        //console.log(words_info)
         
         if (i==words_info_length-1)
         {

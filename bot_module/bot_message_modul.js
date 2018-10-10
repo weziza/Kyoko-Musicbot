@@ -107,7 +107,8 @@ exports.InfoScreen = (set_playsong,set_searchsong,set_deletesong,set_savesong,se
 * @param {Object} Thumbimage // Thumb Image
 */
 exports.ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,bot_name,Thumbimage) => {
-  var embed = new discord.RichEmbed()
+
+    var embed = new discord.RichEmbed()
     .setAuthor("〔"+bot_name + "™ 〕", bot_author_Image)
     .addField(InfoText1,InfoText2,  false )
     .setThumbnail(Thumbimage)
@@ -158,11 +159,11 @@ exports.sl_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor) => {
 * @param {Object} RandomColor // Math color
 * @param {Object} bot_name // Bot Name
 * @param {Object} Thumbimage // Thumb Image
-* @param {Object} message // Thumb Image
+* @param {Object} message // 
 */
-
-exports.play_ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,bot_name,Thumbimage,message)=> {
-   
+//------------------------------
+exports.play_ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,bot_name,Thumbimage,message)=> { 
+ 
     Text1=InfoText1
     Text2=InfoText2
 
@@ -178,10 +179,10 @@ exports.play_ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,bot_nam
 
                 MessChannel.bulkDelete(10);
 
-                clearInterval(Emoji_tVar), timer = 0 ,dothis = false 
-                if(!emoji_send){
-                    go(MessChannel,message,emoji_generade) 
-                }
+                clearInterval(Emoji_tVar), timer = 0 ,dothis = false                   
+
+                if(!emoji_send){go(MessChannel,message,emoji_generade)}                                      
+
                 var embed = new discord.RichEmbed()
                 .setAuthor("〔"+bot_name + "™ 〕", bot_author_Image)
                 .addField(Text1,Text2, false )
@@ -193,14 +194,15 @@ exports.play_ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,bot_nam
                 return MessChannel.send(embed);                
             };
         };         
-    };
+    };            
 };
+
 //-----------------------------
 async function go(MessChannel,message,emoji_generade){ 
 
     var i = 0 
     emoji_send = true
-    //console.log(emoji_send) 
+    //console.log(emoji_send)
 
     await MessChannel.awaitMessages(msg => msg.content.includes(set_playsong),{
         time: 5000,
@@ -213,9 +215,9 @@ async function go(MessChannel,message,emoji_generade){
     Emoji_Array.push(kickEmoji);
     Emoji_Array.push(volumeupEmoji);
     Emoji_Array.push(volumedownEmoji);
-    
+
     await MessChannel.send(`Emoji Bar!`)
-    .then(function(message){        
+    .then(function(message){
 
         var Emoji_tVar = setInterval(Emoji_Timer, 500); 
         function Emoji_Timer(err)
@@ -233,7 +235,7 @@ async function go(MessChannel,message,emoji_generade){
                 clearInterval(Emoji_tVar),i=0;
             };
             i++
-        };       
+        };
     }).catch(err => console.log(err)); 
 };
 
