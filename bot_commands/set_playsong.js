@@ -27,6 +27,8 @@ exports.run = async (bot,message)=>{
     var url = message.content.split(' ')[1]; // gibt die url aus split prefix aus
     //------------------------------
 
+    //console.log(bot_MessChannel)
+
     if(!memberchannel){return bot_MessChannel.send(wrap(enter_voice_channel));}
     else if (bot_MessChannel==null){
         message.delete();// lösche die gepostete messages        

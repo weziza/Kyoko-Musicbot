@@ -40,7 +40,7 @@ exports.run = async (bot,message)=>{
         if (!sucheVideo){
             return bot_MessChannel.send(wrap(looking_for));
         }else{
-            sgm.search_song(memberchannel,message,sucheVideo,bot_MessChannel,prefix);                    
+            sgm.search_song(message,sucheVideo,bot_MessChannel,prefix);                    
             exports.get_url = function (url) {
                 sgm.play_song(memberchannel, message, bot_MessChannel, url);
             }; 
@@ -48,7 +48,6 @@ exports.run = async (bot,message)=>{
     };  
 };
 //------------------------------
-
 exports.help = {
     name: set_searchsong
 }

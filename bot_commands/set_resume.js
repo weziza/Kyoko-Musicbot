@@ -8,7 +8,6 @@ const commands_setting = require('../bot_setting/commands_setting.json');
 var set_resume = commands_setting.set_resume;
 //------------------------------
 
-
 exports.run = async (bot,message)=>{
 
     var bot_MessChannel = bot.channels.find("name", botchannel); // bot schreibt in einen bestimmten angegebenen channel

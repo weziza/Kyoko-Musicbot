@@ -38,7 +38,7 @@ exports.sl_modul = function(ChatChannel,words_info,words_info_length,Liste_int,b
     
             urlListe = url_info.map((url_info, x) => (x + Liste_int) + ': ' + url_info).join('\n');
             url_input.push(urlListe)
-            if (songlist_send_privat=="yes"){
+            if (songlist_send_privat==true){
                 bmess.sl_ambedMessage(text + liste_Nr, '```HTTP'+'\n' + url_input + '\n```', author_Privatmess, RandomColor); 
             }else{
                 bmess.sl_ambedMessage(text + liste_Nr, '```HTTP'+'\n' + url_input + '\n```', bot_MessChannel, RandomColor); 

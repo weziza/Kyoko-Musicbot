@@ -36,14 +36,15 @@ var size_of_the_queue = description.size_of_the_queue;
 //----------------------------
 const setting = require('../bot_setting/bot_setting.json');
 var prefix = setting.prefix;
+var send_emoji_bar = setting.send_emoji_bar
 var smallSongList = setting.songList_25;
 var bigSongList = setting.songList_50;
-if (smallSongList=="true"){
+if (smallSongList==true){
     var GrList = 25;
-    bigSongList="false";};
-if (bigSongList=="true"){
+    bigSongList=false;};
+if (bigSongList==true){
     var GrList = 50;
-    smallSongList="false";};
+    smallSongList=false;};
 //------------------------------
 const commands_setting = require('../bot_setting/commands_setting.json');
 var set_playsong = commands_setting.set_playsong;
@@ -181,7 +182,10 @@ exports.play_ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,bot_nam
 
                 clearInterval(Emoji_tVar), timer = 0 ,dothis = false                   
 
-                if(!emoji_send){go(MessChannel,message,emoji_generade)}                                      
+                if(send_emoji_bar==true && !emoji_send){
+                    go(MessChannel,message,emoji_generade)
+                }else{
+                }                                                     
 
                 var embed = new discord.RichEmbed()
                 .setAuthor("〔"+bot_name + "™ 〕", bot_author_Image)

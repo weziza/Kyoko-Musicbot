@@ -207,7 +207,7 @@ exports.play_song = function (memberchannel,message,bot_MessChannel,url){
     };    
 };
 //---------------------------------------
-exports.search_song = function(memberchannel,message,sucheVideo,bot_MessChannel,prefix) {
+exports.search_song = function(message,sucheVideo,bot_MessChannel,prefix) {
 
     //-----------------------------
     /**
@@ -264,7 +264,7 @@ exports.queue =  function(message,bot_MessChannel){
     }
 };
 //---------------------------------------
-exports.clean_queue = function(memberchannel,message,bot_MessChannel){
+exports.clean_queue = function(message,bot_MessChannel){
     //-----------------------------
     var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
     var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6)

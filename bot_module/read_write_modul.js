@@ -7,14 +7,6 @@ const Songlisten_pfad ='./songlisten/';
 const urlInfo = '-url_info.json';
 const urlInput = '-url_input.json';
 //------------------------------
-const setting = require('../bot_setting/bot_setting.json');
-var smallSongList = setting.songList_25;
-var bigSongList = setting.songList_50;
-if (smallSongList=="true"){
-    bigSongList="false";};
-if (bigSongList=="true"){
-    smallSongList="false";};
-//---------------------------------------
 const description = require('../bot_setting/description.json');
 var no_file_created = description.no_file_created;
 var enter_voice_channel = description.enter_voice_channel

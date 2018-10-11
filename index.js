@@ -19,7 +19,7 @@ var token = setting.token;
 var botchannel = setting.botchannel;
 var prefix = setting.prefix;
 var bot_name = setting.bot_name;
-var MDelete = setting.Delete_Message;
+var message_size_delete = setting.message_size_delete;
 var debugBot = setting.debugBot;
 //------------------------------
 const commands_setting = require('./bot_setting/commands_setting.json');
@@ -74,12 +74,6 @@ bot.on('ready', () => {
     );
 
 }); 
-
-bot.on('disconnect', () => {
-
-    console.log("speaking")
-
-}); 
 //------------------------------
 bot.on('messageReactionAdd', (reaction, user, message) => {  
     
@@ -90,7 +84,9 @@ bot.on('messageReactionAdd', (reaction, user, message) => {
             return;
         }else{
             reaction.remove(user.id)
-            bot.channels.find("name", botchannel).send(prefix+set_pause);
+            //bot.channels.find("name", botchannel).send(prefix+set_pause);
+            var pause = bot.commands.get(set_pause)
+            pause.run(bot,reaction.message.channel);
         }
     }
     if(reaction.emoji.id === playEmoji) {
@@ -98,7 +94,9 @@ bot.on('messageReactionAdd', (reaction, user, message) => {
             return;
         }else{
             reaction.remove(user.id)
-            bot.channels.find("name", botchannel).send(prefix+set_resume);
+            //bot.channels.find("name", botchannel).send(prefix+set_resume);
+            var resume = bot.commands.get(set_resume)
+            resume.run(bot,reaction.message.channel);
         }
     }
     if(reaction.emoji.id === cleanEmoji) {
@@ -106,7 +104,9 @@ bot.on('messageReactionAdd', (reaction, user, message) => {
             return;
         }else{
             reaction.remove(user.id)
-            bot.channels.find("name", botchannel).send(prefix+set_clean);
+            //bot.channels.find("name", botchannel).send(prefix+set_clean);
+            var clean = bot.commands.get(set_clean)
+            clean.run(bot,reaction.message.channel);
         }
     }
     if(reaction.emoji.id === skipEmoji) {
@@ -114,7 +114,9 @@ bot.on('messageReactionAdd', (reaction, user, message) => {
                 return;
         }else{
             reaction.remove(user.id)
-            bot.channels.find("name", botchannel).send(prefix+set_skip);
+            //bot.channels.find("name", botchannel).send(prefix+set_skip);
+            var skip = bot.commands.get(set_skip)
+            skip.run(bot,reaction.message.channel);
         }
     }
     if(reaction.emoji.id === kickEmoji) {
@@ -122,7 +124,9 @@ bot.on('messageReactionAdd', (reaction, user, message) => {
             return;
         }else{
             reaction.remove(user.id)
-            bot.channels.find("name", botchannel).send(prefix+set_leave);
+            //bot.channels.find("name", botchannel).send(prefix+set_leave);
+            var kick = bot.commands.get(set_leave)
+            kick.run(bot,reaction.message.channel);
         }
     }
     if(reaction.emoji.id === volumeupEmoji) {
@@ -138,8 +142,7 @@ bot.on('messageReactionAdd', (reaction, user, message) => {
                 return bot.channels.find("name", botchannel).send(prefix+set_volume+" "+VolumeNr);
             }
         }
-    }
-    
+    }    
     if(reaction.emoji.id === volumedownEmoji) {
         if(user.username==bot_name){
             return;
@@ -156,8 +159,7 @@ bot.on('messageReactionAdd', (reaction, user, message) => {
     }       
 });
 //------------------------------ 
-
-bot.on("message",function(message){   
+bot.on("message",function(message){
 
     if(message.channel.name==undefined){
         /*verhindert ein error wenn man den bot privat anschreibt zb +play[Nr]
@@ -168,19 +170,10 @@ bot.on("message",function(message){
         VolumeNr = volu.VolumeNr;
         //------------------------------
         if(message.content.indexOf(prefix)){ //message beginnt mit prefix dann / wenn nicht return
-            return;
-        }else{
-            if(!autodelete){ 
-                autodelete=true;
-                setTimeout(function() { //warte 1,5 sec, dann delete messages und reset autodelete
-                    autodelete=false;              
-                    message.channel.fetchMessages({limit: MDelete}).then(messages => {
-                        if(messages.size==MDelete){
-                            return bot.channels.find("name", botchannel).send(prefix+set_purge); //Auto delete 100 messages                            
-                        }
-                    });
-                }, 1500);
-            };
+            return autodelete_function(message);
+        }else{ 
+            //-----------------------------
+            autodelete_function(message);
             //-----------------------------
             var VolNr = message.content.replace(/^[^0-9]+/,' '); //gibt nur zahlen anordnung aus
             if(message.content.startsWith(prefix+set_volume+" ")){ //music volume controll
@@ -189,14 +182,12 @@ bot.on("message",function(message){
             var VolumeNr =  VolumeNr;
             exports.VolumeNr = VolumeNr; //export VolumeNr
             //-----------------------------
-            var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
-            var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);
             var bot_MessChannel = bot.channels.find("name", botchannel); // bot schreibt in einen bestimmten angegebenen channel
             //-----------------------------
             let messageArray = message.content.split(/\s+/g); //im channel wurde geschrieben ???
             //let command = messageArray[0];
             let cmd = bot.commands.get(messageArray[0].slice(prefix.length)); 
-            //vergleiche den befehl in der messageArray ob dieser in den commands vorhanden ist 
+            //vergleiche den befehl in der messageArray ob dieser in den commands vorhanden ist
             //----------------------------- 
             if (message.channel.name!=botchannel) //ist bot channel ja/nein ??
             { 
@@ -204,19 +195,44 @@ bot.on("message",function(message){
             }else{                 
                 if(!cmd){ //ist nicht dann                 
                     return message.channel.send(wrap("invalid command")); //wenn der command nach dem prefix falsch geschrieben wurde 
-                }else{ // ist ja dann
+                }else{ // ist ja dann                   
                     return cmd.run(bot,message);                    
                 };
             };
         };
     };
 });
- //---------------------------------------
+//------------------------------
+function autodelete_function(message) {
+    //console.log(autodelete)
+    if (!autodelete) {
+        autodelete = true;
+        setTimeout(function () {
+            autodelete = false;
+            message.channel.fetchMessages({ limit: message_size_delete }).then(messages => {
+                if (messages.size == message_size_delete) {
+                    console.log("fetchMessages - index");
+                    //return bot.channels.find("name", botchannel).send(prefix+set_purge); //Auto delete 100 messages
+                    var purge = bot.commands.get(set_purge);
+                    return purge.run(bot, message.channel);
+                }
+            });
+        }, 500);
+    };
+}
+//------------------------------
 function wrap(text) {
-    return '```\n' + text.replace(/`/g, '`' + String.fromCharCode(8203)) + '\n```';
+    return '```http\n' + text.replace(/`/g, '`' + String.fromCharCode(8203)) + '\n```';
 };
 //------------------------------
-bot.login(token); // bot token
+bot.on('guildMemberSpeaking',function(GuildMember,speaking){
+    const channel = bot.channels.find("name", botchannel);
+    if(!speaking){
+        return;
+    }else{
+        //channel.send(GuildMember.user.username+"\n"+"spricht die anderen müssen ruig sein");
+    }
+});
 //------------------------------
 bot.on('voiceStateUpdate',function(old_Member,new_Member){
 
@@ -231,17 +247,9 @@ bot.on("error",function(error){
 });
 
 bot.on("debug",function(debug){
-    if(debugBot=="true"){
+    if(debugBot==true){
     console.log(debug);}
 });
 //------------------------------
-bot.on('guildMemberSpeaking',function(GuildMember,speaking){
-    const channel = bot.channels.find("name", botchannel);
-    if(!speaking){
-        return;
-    }else{
-        //channel.send(GuildMember.user.username+"\n"+"spricht die anderen müssen ruig sein");
-    }
-});
+bot.login(token); // bot token
 //------------------------------
-

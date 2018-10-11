@@ -38,7 +38,7 @@ exports.run = async (bot,message)=>{
     //-----------------------------
     var bot_MessChannel = bot.channels.find("name", botchannel); // bot schreibt in einen bestimmten angegebenen channel
     var author_MessChannel = message.author; // bot schreibt an author
-    if (help_send_privat=="yes"){
+    if (help_send_privat==true){
         return bmess.InfoScreen(set_playsong,set_searchsong,set_deletesong,set_savesong,set_songliste,set_randomsong,set_purge,set_volume,set_leave,set_resume,set_pause,set_skip,set_queue,set_clean,set_hilfe,set_uhr,set_mega,set_ping,author_MessChannel,prefix,RandomColor,MaxQueue,bot_name); //info ausgabe
     }else{
         return bmess.InfoScreen(set_playsong,set_searchsong,set_deletesong,set_savesong,set_songliste,set_randomsong,set_purge,set_volume,set_leave,set_resume,set_pause,set_skip,set_queue,set_clean,set_hilfe,set_uhr,set_mega,set_ping,bot_MessChannel,prefix,RandomColor,MaxQueue,bot_name); //info ausgabe
