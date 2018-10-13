@@ -3,23 +3,26 @@ const fs = require("fs");
 const mpm = require("./music_play_modul");
 const sm = require("./songlist_modul");
 //------------------------------
-const Songlisten_pfad ='./songlisten/';
+const Songlisten_pfad ='./user_songlist/';
 const urlInfo = '-url_info.json';
 const urlInput = '-url_input.json';
 //------------------------------
-const description = require('../bot_setting/description.json');
-var no_file_created = description.no_file_created;
-var enter_voice_channel = description.enter_voice_channel
-var delete_your_name = description.delete_your_name
-var thats_not_work = description.thats_not_work
-var only_number = description.only_number
-var incomplete_url = description.incomplete_url
-var only_jt_url = description.only_jt_url
-var many_blank_spaces = description.many_blank_spaces
-var max_songlist_range = description.max_songlist_range
-var file_created = description.file_created
-var song_saved =description.song_saved
-var song_delete =description.song_delete
+const setting = require('../bot_setting/bot_setting.json');
+var language = setting.language;
+//------------------------------
+const lg = require('../language/language - '+language+'.json');
+var no_file_created = lg.no_file_created;
+var enter_voice_channel = lg.enter_voice_channel
+var delete_your_name = lg.delete_your_name
+var thats_not_work = lg.thats_not_work
+var only_number = lg.only_number
+var incomplete_url = lg.incomplete_url
+var only_jt_url = lg.only_jt_url
+var many_blank_spaces = lg.many_blank_spaces
+var max_songlist_range = lg.max_songlist_range
+var file_created = lg.file_created
+var song_saved =lg.song_saved
+var song_delete =lg.song_delete
 //------------------------------
 /**
 * @param {Object} auth_id

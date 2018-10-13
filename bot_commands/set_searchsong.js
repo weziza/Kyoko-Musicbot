@@ -4,11 +4,13 @@ var botchannel = setting.botchannel;
 var prefix = setting.prefix;
 var bot_name = setting.bot_name;
 //------------------------------
-const description = require('../bot_setting/description.json');
-var enter_voice_channel = description.enter_voice_channel;
-var pls_write_in_botchannel = description.pls_write_in_botchannel;
-var botchannel_not_config = description.botchannel_not_config;
-var looking_for = description.looking_for;
+var language = setting.language;
+//------------------------------
+const lg = require('../language/language - '+language+'.json');
+var enter_voice_channel = lg.enter_voice_channel;
+var pls_write_in_botchannel = lg.pls_write_in_botchannel;
+var botchannel_not_config = lg.botchannel_not_config;
+var looking_for = lg.looking_for;
 //------------------------------
 const commands_setting = require('../bot_setting/commands_setting.json');
 var set_searchsong = commands_setting.set_searchsong;

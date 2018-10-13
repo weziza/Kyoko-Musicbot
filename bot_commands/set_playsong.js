@@ -6,11 +6,13 @@ const setting = require('../bot_setting/bot_setting.json');
 var botchannel = setting.botchannel;
 var prefix = setting.prefix;
 //------------------------------
-const description = require('../bot_setting/description.json');
-var enter_voice_channel = description.enter_voice_channel;
-var pls_write_in_botchannel = description.pls_write_in_botchannel;
-var botchannel_not_config = description.botchannel_not_config;
-var only_jt_url = description.only_jt_url;
+var language = setting.language;
+//------------------------------
+const lg = require('../language/language - '+language+'.json');
+var enter_voice_channel = lg.enter_voice_channel;
+var pls_write_in_botchannel = lg.pls_write_in_botchannel;
+var botchannel_not_config = lg.botchannel_not_config;
+var only_jt_url = lg.only_jt_url;
 //------------------------------
 const commands_setting = require('../bot_setting/commands_setting.json');
 var set_playsong = commands_setting.set_playsong;

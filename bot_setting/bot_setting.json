@@ -1,16 +1,18 @@
 {
 
-    "token"                 : "NDM2ODQwNjkzNzcyNTgyOTEy.DbtXJQ.kxOsE9OG78l22wSaeyGRb_uJEeE", 
+    "token"                 : "your token", 
 
-    "yt_api_key"            : "AIzaSyDYYYpENtHhanDjM1PJb1UuCQhhT9KrxLw",
+    "yt_api_key"            : "your youtube key",
 
-    "admin_id"              : "353972375584374784",
+    "admin_id"              : "your admin id",
 
     "botchannel"            : "bot-eingabe",
 
     "bot_name"              : "Kyoko",
 
     "prefix"                : "+",
+
+    "language"              : "fr",
 
 
     "defaultVolume"         : 0.1,
@@ -25,7 +27,7 @@
     "songList_50"           : true,
 
 
-    "send_emoji_bar"        : true,
+    "send_emoji_bar"        : false,
 
 
     "help_send_privat"      : true,

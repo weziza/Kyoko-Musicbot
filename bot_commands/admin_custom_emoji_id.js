@@ -2,8 +2,10 @@ const discord = require('discord.js');
 const setting = require('../bot_setting/bot_setting.json');
 var admin_id = setting.admin_id;
 //-----------------------------
-const description = require('../bot_setting/description.json');
-var admin_message = description.admin_message;
+var language = setting.language;
+//------------------------------
+const lg = require('../language/language - '+language+'.json');
+var admin_message = lg.admin_message;
 //-----------------------------
 exports.run = async (bot,message)=>{
 

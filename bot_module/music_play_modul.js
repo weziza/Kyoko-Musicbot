@@ -16,7 +16,6 @@ const commands_setting = require('../bot_setting/commands_setting.json');
 var set_queue = commands_setting.set_queue;
 //---------------------------------------
 const Thumbimage = require('../bot_images/Thumbimage.json');
-var bot_leave_image  = Thumbimage.bot_leave;
 var music_not_playing_image = Thumbimage.music_not_playing;
 var no_voice_connect_image = Thumbimage.no_voice_connect;
 var play_music_image = Thumbimage.play_music;
@@ -30,22 +29,24 @@ var connect_channel_image = Thumbimage.connect_channel;
 var no_playlist_image = Thumbimage.no_playlist;
 var playlist_image = Thumbimage.playlist;
 //---------------------------------------
-const description = require('../bot_setting/description.json');
-var queue_message = description.queue_message;
-var voice_connect_message = description.voice_connect_message;
-var no_voice_connect_message = description.no_voice_connect_message;
-var song_added = description.song_added;
-var incomplete_url = description.incomplete_url;
-var yt_api_key_missing = description.yt_api_key_missing;
-var empty_queue = description.empty_queue;
-var no_music_play = description.no_music_play;
-var player_pause = description.player_pause;
-var no_song_in_queue = description.no_song_in_queue;
-var in_queue = description.in_queue;
-var resume_play = description.resume_play;
-var queue = description.queue;
-var clean_queue_txt = description.clean_queue_txt;
-var disconnect_text = description.disconnect_text;
+var language = setting.language;
+//------------------------------
+const lg = require('../language/language - '+language+'.json');
+var queue_message = lg.queue_message;
+var voice_connect_message = lg.voice_connect_message;
+var no_voice_connect_message = lg.no_voice_connect_message;
+var song_added = lg.song_added;
+var incomplete_url = lg.incomplete_url;
+var yt_api_key_missing = lg.yt_api_key_missing;
+var empty_queue = lg.empty_queue;
+var no_music_play = lg.no_music_play;
+var player_pause = lg.player_pause;
+var no_song_in_queue = lg.no_song_in_queue;
+var in_queue = lg.in_queue;
+var resume_play = lg.resume_play;
+var queue = lg.queue;
+var clean_queue_txt = lg.clean_queue_txt;
+var disconnect_text = lg.disconnect_text;
 //------------------------------
 const bs = require('../bot_sounds/bot_sounds.json');
 var in_sound = bs.sound;
@@ -131,7 +132,7 @@ exports.get_song = function(memberchannel,message,bot_MessChannel,voiceConnectio
                 }, timeout);
                 //timeout wegen login_sound länge 
                               
-            })//.catch(err => console.log(err));
+            })//.catch(err => console.log(err));             
 
             bmess.play_ambedMessage(song_added+" :", '```HTTP'+'\n' + SongTitel_Array + '```', bot_MessChannel, RandomColor, bot_name, play_music_image,message);
             //ist der bot nicht im voicechannel send SongTitel_Array message                     
@@ -310,14 +311,10 @@ exports.leave = function(bot_MessChannel,message){
         Warteschlange_Array = [];
         // player bekommt disconnect, hat aber noch ein wert in der Warteschlange_Array.    
         bot_pause=false; 
-        //wert muss hier resetet werden, probleme mit clean und leave in unterschiedlichen reihenfolge               
-        bmess.ambedMessage(disconnect_text,'```HTTP'+'\n' + "♫♪.|̲̅̅●̲̅̅|̲̅̅=̲̅̅|̲̅̅●̲̅̅||.♫♪" + '```', bot_MessChannel,RandomColor,bot_name,bot_leave_image);
-        // leave message
+        //wert muss hier resetet werden, probleme mit clean und leave in unterschiedlichen reihenfolge
         //-----------------------------
-        setTimeout(function(){
-            message.guild.voiceConnection.disconnect(); 
-            // disconect voice channel
-        }, 2000);
+        message.guild.voiceConnection.disconnect(); 
+        // disconect voice channel
     }
 };
 //---------------------------------------
@@ -427,7 +424,6 @@ function play(connection,message,bot_MessChannel){
             msz = messages.size;
         });
 
-        console.log(dispatcher.destroyed);
         if(Warteschlange_Array[0]){ 
         // solange noch etwas in der Warteschlange_Array ist, shift diese          
             MinQueue-- 
@@ -464,7 +460,7 @@ function play(connection,message,bot_MessChannel){
             vlNr=defaultVolume; 
             // default volume
             //--------
-            return bot_MessChannel.send({files: ["./Images/no_music_image.png"]});  // send leave image
+            return bot_MessChannel.send({files: ["./bot_stuff/images/no_music_image.png"]});  // send leave image
             // es gibt noch proleme beim spamen der play und leave funktion 
             // muss vielleicht als url und nicht als image send ausgeführt werden 
             //-----------------------------                                      

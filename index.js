@@ -34,10 +34,12 @@ var set_resume = commands_setting.set_resume;
 var set_leave = commands_setting.set_leave;
 var set_purge = commands_setting.set_purge;
 //------------------------------
-const description = require('./bot_setting/description.json');
-var pls_write_in_botchannel = description.pls_write_in_botchannel;
-var purge_size_max_message = description.purge_size_max_message;
-var purge_size_min_message = description.purge_size_min_message;
+var language = setting.language;
+//------------------------------
+const lg = require('./language/language - '+language+'.json');
+var pls_write_in_botchannel = lg.pls_write_in_botchannel;
+var purge_size_max_message = lg.purge_size_max_message;
+var purge_size_min_message = lg.purge_size_min_message;
 //------------------------------
 var volu = require('./bot_commands/set_leave');
 var VolumeNr = 1;
@@ -67,7 +69,7 @@ bot.on('ready', () => {
 
     //var channel = bot.channels.get('my-unique-channel-id');
     var channel = bot.channels.find("name", botchannel);
-    channel.send("Hello im ready");
+    channel.send("im ready");
 
     bot.user.setActivity("-->  "+ prefix + set_hilfe +"  <--");
     console.log(""+
@@ -169,6 +171,8 @@ bot.on('messageReactionAdd', (reaction, user, message) => {
 });
 //------------------------------ 
 bot.on("message",function(message){
+
+    //message.channel.
 
     if(message.channel.name==undefined){        
         /* verhindert ein error wenn man den bot privat anschreibt zb +play[Nr]
