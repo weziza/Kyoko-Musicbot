@@ -1,5 +1,4 @@
 {
-
     "token"                 : "your token", 
 
     "yt_api_key"            : "your youtube key",
@@ -12,7 +11,7 @@
 
     "prefix"                : "+",
 
-    "language"              : "fr",
+    "language"              : "de",
 
 
     "defaultVolume"         : 0.1,

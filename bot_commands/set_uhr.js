@@ -9,7 +9,6 @@ const commands_setting = require('../bot_setting/commands_setting.json');
 var set_uhr = commands_setting.set_uhr;
 //------------------------------
 
-
 exports.run = async (bot,message)=>{
 
     //------------------------------

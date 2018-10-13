@@ -201,7 +201,7 @@ exports.play_ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,bot_nam
     };            
 };
 //-----------------------------
-async function go(MessChannel,message,emoji_generade){ 
+function go(MessChannel,message,emoji_generade){ 
     
     var i = 0 
     emoji_send = true
