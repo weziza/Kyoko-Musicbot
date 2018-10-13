@@ -159,7 +159,6 @@ exports.save_song = function(auth,auth_id,message,bot,comando,slice,ChatChannel,
         } else {
             message.delete();
             play_save_song(auth,auth_id,message,bot,comando,slice,ChatChannel,msg)
-
         };
     });    
 };

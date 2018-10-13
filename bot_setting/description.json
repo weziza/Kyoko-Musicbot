@@ -54,5 +54,6 @@
     "botchannel_not_config"     : "bot channel ist nicht konfiguriert",
     "disconnect_text"           : "Man sieht sich wieder bestimmt",
 
-    "purge_size_message"        : "die [message_size_delete] variable ist zu klein,\n{minimal: 10} überprüfe die setting einstellung."
+    "purge_size_min_message"    : "die [message_size_delete] variable ist zu klein,\n{minimal: 10} überprüfe die setting einstellung.",
+    "purge_size_max_message"    : "die [message_size_delete] variable ist zu hoch,\n{maximal: 100} überprüfe die setting einstellung."
 }

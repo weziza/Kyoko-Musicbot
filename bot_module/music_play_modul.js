@@ -1,3 +1,4 @@
+const discord = require('discord.js');
 const bmess = require('./bot_message_modul');
 //---------------------------------------
 const ytdl = require("ytdl-core");
@@ -185,7 +186,8 @@ exports.play_song = function (memberchannel,message,bot_MessChannel,url){
                 // error unvollständige url
             }
             //---------------------------------------
-            time = videoInfo.length_seconds / 60; 
+            time = videoInfo.length_seconds / 60;
+             
             //viedeo Time
             SongTitel_Buffer.push(time.toFixed(2) + " min" +" - "+ videoInfo.title); 
             SongTitel_Array = SongTitel_Buffer.map((SongTitel_Buffer, x) => (( x +  1  ) + ': ' + SongTitel_Buffer)).join('\n');            
@@ -250,8 +252,14 @@ exports.search_song = function(message,sucheVideo,bot_MessChannel,prefix) {
 //---------------------------------------
 exports.queue =  function(message,bot_MessChannel){
 
-    //----------
-    bot_MessChannel.bulkDelete(100);
+    var msz = 0
+
+    message.channel.fetchMessages({ limit: 100 }).then(messages => {
+        //console.log(messages.size);
+        msz = messages.size;
+    });
+    //-----------------------------
+    bot_MessChannel.bulkDelete(msz);
     //-----------------------------
     var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
     var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);
@@ -306,8 +314,10 @@ exports.leave = function(bot_MessChannel,message){
         bmess.ambedMessage(disconnect_text,'```HTTP'+'\n' + "♫♪.|̲̅̅●̲̅̅|̲̅̅=̲̅̅|̲̅̅●̲̅̅||.♫♪" + '```', bot_MessChannel,RandomColor,bot_name,bot_leave_image);
         // leave message
         //-----------------------------
-        message.guild.voiceConnection.disconnect(); 
-        // disconect voice channel
+        setTimeout(function(){
+            message.guild.voiceConnection.disconnect(); 
+            // disconect voice channel
+        }, 2000);
     }
 };
 //---------------------------------------
@@ -396,14 +406,7 @@ function play(connection,message,bot_MessChannel){
     }else{       
         dispatcher = connection.playStream(ytdl(Warteschlange_Array[0], { filter: "audioonly" }))
         //stream die erste stelle der array.. also [0]
-        .on("end", () => { 
-            console.log("song end");
-        })
-        .on("error", (error) => {
-            console.error(error); 
-        });
-    }
-    
+    }    
     //-----------------------------
     Warteschlange_Array.shift(); //shift gleich die erste stelle in der array...  
     // bei einem lead ist der bot eigentlich schon bei disconnect nach dem abspielen des ersten liedes
@@ -417,12 +420,20 @@ function play(connection,message,bot_MessChannel){
     };        
 
     dispatcher.on("end",function(){
+
+        var msz = 0
+
+        message.channel.fetchMessages({ limit: 100 }).then(messages => {            
+            msz = messages.size;
+        });
+
+        console.log(dispatcher.destroyed);
         if(Warteschlange_Array[0]){ 
         // solange noch etwas in der Warteschlange_Array ist, shift diese          
             MinQueue-- 
             // -- queue aus der warteschlange
             //-----------------------------
-            bot_MessChannel.bulkDelete(100);
+            bot_MessChannel.bulkDelete(msz);
             //----------------------------- 
             play(connection,message,bot_MessChannel),SongTitel_Buffer.shift(); 
             // replay and shift SongTitel_Buffer um eine stelle       
@@ -435,6 +446,8 @@ function play(connection,message,bot_MessChannel){
             return bmess.play_ambedMessage(queue,'```HTTP'+'\n' + SongTitel_Array + '```',bot_MessChannel,RandomColor,bot_name,play_forward_image,message); // message ausgabe - Warteschlange SongTitel_Array
         }else{connection.disconnect() 
             // ist Warteschlange_Array leer disconnect und setze alles zurück 
+            //-----------------------------
+            bot_MessChannel.bulkDelete(msz);
             //----------------------------- 
             bot_playing=false, bot_pause=false; 
             // reset bot_playing, bot_pause
@@ -455,7 +468,7 @@ function play(connection,message,bot_MessChannel){
             // es gibt noch proleme beim spamen der play und leave funktion 
             // muss vielleicht als url und nicht als image send ausgeführt werden 
             //-----------------------------                                      
-        }  
+        }; 
     }).on('error', (error) => {
         console.log(error, " connection");
     }); 
