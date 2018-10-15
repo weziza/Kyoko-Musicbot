@@ -3,7 +3,8 @@
     <head>
         <style>
         html {
-            background-color: rgb(0, 0, 0)
+            /* background-color: rgb(0, 0, 0) */
+            background: url("bot_stuff/images/html/html_background.jpg");
         }
 
         div.a {
@@ -12,7 +13,7 @@
 
             border: 5px inset rgba(0, 0, 0, 0.397);
             border-radius: 10px 60px 10px 60px; 
-            background: url("bot_stuff/images/html/background.jpg");  
+            background: url("bot_stuff/images/html/top_background.jpg");  
             background-size: 100% 200%;
             background-position-y: 50%;
             
@@ -37,7 +38,7 @@
 
             border: 5px inset rgba(0, 0, 0, 0.397);
             border-radius: 60px 20px 60px 60px; 
-            background: url("bot_stuff/images/html/html_background2.jpg");  
+            background: url("bot_stuff/images/html/html_background1.jpg");  
             background-size: 100% 100%;
 
             top: auto;
@@ -62,7 +63,7 @@
 
             border: 5px inset rgba(0, 0, 0, 0.397);;
             border-radius: 60px 20px 20px 60px; 
-            background: url("bot_stuff/images/html/html_background3.jpg");  
+            background: url("bot_stuff/images/html/html_background2.jpg");  
             background-size: 100% 100%;
             
             top: auto;
@@ -74,7 +75,7 @@
 
             display : block;
             width : 1000px;
-            height: 455px;
+            height: 475px;
             overflow : auto;
             margin : 50px auto 0 auto;         
         }
@@ -84,8 +85,8 @@
             color: rgb(27, 80, 104);
 
             border: 5px inset rgba(0, 0, 0, 0.397);;
-            border-radius: 60px 20px 50px 20px; 
-            background: url("bot_stuff/images/html/html_background.jpg");  
+            border-radius: 60px 20px 50px 60px; 
+            background: url("bot_stuff/images/html/html_background3.jpg");  
             background-size: 100% 100%;
 
             top: auto;
@@ -101,6 +102,39 @@
             overflow : auto;
             margin : 50px auto 0 auto;         
         }
+
+        div.e {
+
+            color: rgb(27, 80, 104);
+
+            border: 5px inset rgba(0, 0, 0, 0.397);;
+            border-radius: 60px 20px 85px 85px; 
+            background: url("bot_stuff/images/html/html_background_layout.jpg");  
+            background-size: 100% 100%;
+
+            bottom: -1050px;
+            right: 0;
+            /* position: absolute; */
+            z-index: -1; 
+
+            display : block;
+            width : 1000px;
+            height: 828px;
+            overflow : auto;
+            margin : 50px auto 0 auto;      
+        }
+
+        div.banner {
+
+            background: url("bot_stuff/images/html/html_banner.png");  
+            background-size: 100% 100%;
+
+            z-index: -1;
+
+            width : 1000px;
+            height: 250px;     
+        }
+
 
         h2{ 
             font-size: 30px;                   
@@ -134,6 +168,14 @@
         h3.y{ 
 
             color: rgb(0, 0, 0);
+            font-size: 20px;                   
+            text-align: left;
+        }
+
+        h3.z{ 
+
+            color: rgb(0, 0, 0);
+            text-shadow: 0px 0px 25px #ff00c87c, 0px 0px 25px #00c3ff8c;
             font-size: 20px;                   
             text-align: left;
         }
@@ -249,6 +291,27 @@
                 </h3>
             </ul>
         </div>
+
+        <div class="e">            
+                <ul>
+                    <h3 class="überschrift">                                                
+                        Kyokos feature.
+                    </h3>
+                    <h3 class="z">
+                        <li><strong>You can save your own music playlist, <br>this is an account tied and each user can create their own individual list.</li><br>
+                        <li><strong>You can delete individual segments of the play list and add new urls.</li><br>
+                        <li><strong>You can also specify how many songs can be uploaded to the playlist.</li><br>                        
+                        <li><strong>You can specify the basic setting of the volume. <br>Say how loud the bot should be in the overall attitude.</li><br>
+                        <li><strong>It is possible to specify a bot name. This will be applied to all bot messages.</li><br>
+                        <li><strong>You can display a emoji play bar, <br>with emoji'`s that you have self-esteemed and uploaded or used by made template this is present in the images.</li><br>
+                        <li><strong>You can specify the bot channel, <br>so in wechem channel the bot is bound.</li><br>
+                        <li><strong>You can have the help and your favorite list sent privately or you can play in the bot channel.</li><br>
+                    </h3>
+                </ul>
+            <div class="banner">
+                <!-- banner ebene -->
+            </div>
+        </div>   
     </body>
     
 </html>
