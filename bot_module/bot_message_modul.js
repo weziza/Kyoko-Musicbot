@@ -189,7 +189,8 @@ exports.play_ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,bot_nam
                 clearInterval(Emoji_tVar), timer = 0 ,dothis = false
                 // reset all variable to default                                  
 
-                if(send_emoji_bar==true && !emoji_send){
+                if(send_emoji_bar && !emoji_send){ 
+                    // ist in der setting send_emoji_bar true und emoji_send false dann send                  
                     go(MessChannel,message,emoji_generade);
                     // send the global embed with emoji
                 }else{
@@ -204,8 +205,8 @@ exports.play_ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,bot_nam
 function go(MessChannel,message,emoji_generade){ 
     
     var i = 0 
+    
     emoji_send = true
-    //console.log(emoji_send)
 
     Emoji_Array.push(pauseEmoji);
     Emoji_Array.push(playEmoji);
@@ -223,6 +224,8 @@ function go(MessChannel,message,emoji_generade){
             time: 5000,
             //wait 5 sec before send the emoji bar
         }); 
+
+        
         
         var Emoji_tVar = setInterval(Emoji_Timer, 500); 
         async function Emoji_Timer(err)
@@ -230,12 +233,16 @@ function go(MessChannel,message,emoji_generade){
             await message.react(Emoji_Array[i]).catch((err) => {
                 // console.log ("Timeout or other error: ", err)
                 // catch the error if stop abruptly - ( unhandled promise rejections )
+                 
             });
 
-            if(i==6){                               
+            if(i==6){  
+                
+                // console.log(emoji_send)
+
                 Emoji_Array=[]; 
-                emoji_send = false             
-                emoji_generade = false
+                emoji_send = false;           
+                emoji_generade = false;
                 clearInterval(Emoji_tVar),i=0;
                 // reset all variable to default and return
                 return;
@@ -255,7 +262,6 @@ function init_embed(bot_name, Thumbimage, RandomColor, MessChannel) {
         .setColor(RandomColor)
         .setTimestamp()
         .setFooter(bot_name, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png");
-        return;
     }else{
         global_embed = new discord.RichEmbed()
         .setAuthor("〔" + bot_name + "™ 〕", bot_author_Image)
@@ -265,7 +271,6 @@ function init_embed(bot_name, Thumbimage, RandomColor, MessChannel) {
         .setColor(RandomColor)
         .setTimestamp()
         .setFooter(bot_name, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png");
-        return;
     }
 }
 //-----------------------------

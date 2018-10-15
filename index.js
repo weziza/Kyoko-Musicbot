@@ -52,15 +52,19 @@ bot.commands = new discord.Collection();
 fs.readdir("./bot_commands/",(err, files)=>{
     if(err)console.error(err)
     let jsfiles = files.filter(f => f.split(".").pop()==="js");
+    // read the comman folder and initial the commands in a array
+    // parameter files array = filder commands, split der the files and remove the last element
     if(jsfiles.length <= 0){
         console.log("no commands to load");
         return;
     }
 
     console.log(`loading ${jsfiles.length} commands!`)
+    //howe many command files in there
     jsfiles.forEach((f,i)=>{
         let props = require(`./bot_commands/${f}`);
         console.log(`${i+1} : ${f} loaded!`);
+        //give the files array a number to listen
         bot.commands.set(props.help.name,props);
     });
 });

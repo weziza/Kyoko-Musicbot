@@ -2,87 +2,253 @@
 <html>
     <head>
         <style>
-        table, th, td {
-            border: 2px solid black;
-            border-collapse: collapse;
+        html {
+            background-color: rgb(0, 0, 0)
         }
-        th, td {
-            padding: 10px;
+
+        div.a {
+
+            color: white;            
+
+            border: 5px inset rgba(0, 0, 0, 0.397);
+            border-radius: 10px 60px 10px 60px; 
+            background: url("bot_stuff/images/html/background.jpg");  
+            background-size: 100% 200%;
+            background-position-y: 50%;
+            
+            top: auto;
+            left: 0;
+            bottom: auto;
+            right: 0;
+            /* position: absolute; */
+            z-index: -1; 
+
+            display : block;
+            width : 1000px;
+            overflow : auto;
+            margin : 50px auto 0 auto;        
+        }
+
+
+
+        div.b {
+
+            color: rgb(27, 80, 104);
+
+            border: 5px inset rgba(0, 0, 0, 0.397);
+            border-radius: 60px 20px 60px 60px; 
+            background: url("bot_stuff/images/html/html_background2.jpg");  
+            background-size: 100% 100%;
+
+            top: auto;
+            left: 0;
+            bottom: -50;
+            right: 0;
+            /* position: absolute; */
+            z-index: -1; 
+
+            display : block;
+            width : 1000px;
+            height: 450px;
+            overflow : auto;
+            margin : 50px auto 0 auto; 
+        }
+
+
+
+        div.c {
+
+            color: rgb(27, 80, 104);
+
+            border: 5px inset rgba(0, 0, 0, 0.397);;
+            border-radius: 60px 20px 20px 60px; 
+            background: url("bot_stuff/images/html/html_background3.jpg");  
+            background-size: 100% 100%;
+            
+            top: auto;
+            left: 0;
+            bottom: -555px;
+            right: 0;
+            /* position: absolute; */
+            z-index: -1; 
+
+            display : block;
+            width : 1000px;
+            height: 455px;
+            overflow : auto;
+            margin : 50px auto 0 auto;         
+        }
+
+        div.d {
+
+            color: rgb(27, 80, 104);
+
+            border: 5px inset rgba(0, 0, 0, 0.397);;
+            border-radius: 60px 20px 50px 20px; 
+            background: url("bot_stuff/images/html/html_background.jpg");  
+            background-size: 100% 100%;
+
+            top: auto;
+            left: 0;
+            bottom: -1050px;
+            right: 0;
+            /* position: absolute; */
+            z-index: -1; 
+
+            display : block;
+            width : 1000px;
+            height: 450px;
+            overflow : auto;
+            margin : 50px auto 0 auto;         
+        }
+
+        h2{ 
+            font-size: 30px;                   
+            text-align: center;
+
+            -webkit-text-decoration-color: rgba(223, 223, 223, 0.404);    
+            text-decoration-color: rgba(218, 218, 218, 0.712);
+
+            text-shadow: 0 5px 30px #a200ff, 0 5px 15px #ff0000;
+
+            font-family:"Comic Sans MS", cursive, sans-serif; 
+        } 
+
+        h3{ 
+            font-size: 30px;                   
+            text-align: center;
+
+            -webkit-text-decoration-color: rgba(223, 223, 223, 0.404);    
+            text-decoration-color: rgba(218, 218, 218, 0.712);
+        } 
+
+        h3.überschrift{ 
+            font-size: 30px;                   
+            text-align: left;
+
+            text-decoration: underline;
+
+            text-shadow: 2px 2px 0 #adadad, 4px 4px 0 #9c9c9c;
+        } 
+
+        h3.y{ 
+
+            color: rgb(0, 0, 0);
+            font-size: 20px;                   
+            text-align: left;
+        }
+
+
+        td.background{    
+
+            border: 5px inset rgba(0, 0, 0, 0.575);
+            border-radius: 50px 5px 50px 5px;     
+            background-color: rgba(255, 255, 255, 0.568)
+        }
+        table.background {
+            text-align: center;
+            margin: auto;
         }
         </style>
     </head>
 
 
-    <table style="width:100%">
-    <body style="background-color:#E6E6E6;">
-        <h2>Under bot_setting you will find all the settings that the bot needs.</h2>
-            <title>Bot Setting</title>                
-                <h4>  
-                    <td>
-                        <p style="color:#FA5858;"><h3>important guides</h3>
+
+
+    <body>
+        <div class="a">
+            <h2>
+                Welcome to Kyoko a little Manga style music bot ! <br>
+            </h2>
+            <table class="background">
+                <td class="background">
+                    <p></p>
+                    <h3> important guides <br>                                                                
                         <a href= "https://www.youtube.com/watch?v=ohnaTEpDvjo">offered token:</a><br>
-                        <a href= "https://www.youtube.com/watch?v=pP4zvduVAq">yt_api_key:</a></p>
-                    </td>                    
-                    <ul>
-                        <tr>    
-                            <td>
-                                <li><strong>token</strong>: your Bot Token<br></li>
-                                <li><strong>yt_api_key</strong>: your Youtube api key<br></li>
-                                <li><strong>admin_id</strong>: your client id<br></li>
-                                <li><strong>botchannel</strong>: in which channel is the bot divided<br></li>
-                                <li><strong>defaultVolume</strong>: the player default Volume<br></li>
-                                <li><strong>MaxQueue</strong>: Max Songs in Queue<br></li>
-                                <li><strong>BotName</strong>: You can give the bot a new Name<br></li>
-                                <li><strong>Delete_Message</strong>: thats a auto purge message delete option<br></li>
-                                <li><strong>songList_25</strong> - <strong>songList_50</strong>: how big should the personelist songlist be 25 or 50 stores per account<br></li>
-                                <li><strong>prefix</strong>: start bot command<br></li>
-                                <li><strong>debugBot</strong>: debug option<br></li>
-                                <li><strong>help_send_privat</strong>: send the help message private or in bot channel<br></li>
-                                <li><strong>songlist_send_privat</strong>: send the songlist message private or in bot channel<br></li>
-                                <li><strong>language option</strong>: config you language<br></li>
-                                <li><strong></strong>send_emoji_bar</strong>: send the emoji bar true or false<br></li>
-                            </td>
-                        </tr>
-                    </ul>
-                    <tr>    
-                        <td><p>In the commands-setting you can customize the bot commands.</p></td>
-                    </tr>
-                    <tr>    
-                        <td><p>In the emoji_setting you have to enter the emoji id's for the Emoji bar.<br> 
-                        The id's can be displayed with (prefix emojis) this command sends the admin a message.<br>
-                        With (prefix admin) the current admin commands are displayed</p></td>
-                    </tr>
-                    <tr>    
-                        <td><p>The bot images should best be stored on the server.
-                        For example, you make a channel with images and then use the url of the images and paste into the <strong>[Thumbimage.json]</strong>.<br>
-                        The images are named the same as the occupancy of the .json file.</p></td>
-                    </tr>
-                    <tr>    
-                        <td><p>Language support.
-                        <li><strong>Deutsch</strong>:       ( de )</li>
-                        <li><strong>Bulgarisch</strong>:    ( bg )</li>
-                        <li><strong>English</strong>:       ( en )</li>
-                        <li><strong>Franzoesisch</strong>:  ( fe )</li>
-                        <li><strong>Rumaenisch</strong>:    ( ro )</li>
-                        <li><strong>Russisch</strong>:      ( ru )</li>
-                    </tr>
-                    <tr>
-                        <td><p> 
-                        <h3>you need to install Kyoko</h3><br>
-                        <li><a href= "https://nodejs.org/en/">npm install node.js</a><br></li>
-                        <li><a href= "https://discord.js.org/#/">npm install discord.js</a><br></li>
-                        <li><a href= "https://www.npmjs.com/package/ytdl-core">npm install ytdl-core</a><br></li>
-                        <li><a href= "https://www.npmjs.com/package/youtube-dl">npm install youtube-dl</a><br></li>
-                        <li><a href= "https://www.npmjs.com/package/youtube-info">npm install youtube-info</a><br></li>
-                        <li><a href= "https://www.npmjs.com/package/node-opus">npm install node-opus</a><br></li>
-                        <li><a href= "https://www.npmjs.com/package/opusscript">npm install opus-script</a><br></li>
-                        <li><a href= "https://www.npmjs.com/package/ffmpeg">npm install ffmpeg</a><br></li>
-                        <li><a href= "https://www.npmjs.com/package/request">npm install request</a><br></li>
-                        <li><a href= "https://www.npmjs.com/package/fs">npm install fs</a><br></li>
-                        <li><a href= "https://www.npmjs.com/package/nodemon">npm install nodemon</a><br></li>
-                        </p></td>
-                    </tr>
-                </h4>
+                        <a href= "https://www.youtube.com/watch?v=pP4zvduVAq">yt_api_key:</a>
+                    </h3>
+                </td>
             </table>
+        </div>
+        
+        <div class="b">                        
+            <ul>
+                <h3 class="überschrift">
+                    <th>Kyoko settings</th>
+                </h3>
+                <h3 class="y">
+                    <li><strong>token</strong>: your Bot Token<br></li><br>
+                    <li><strong>yt_api_key</strong>: your Youtube api key<br></li><br>
+                    <li><strong>admin_id</strong>: your client id<br></li><br>
+                    <li><strong>botchannel</strong>: in which channel is the bot divided<br></li><br>
+                    <li><strong>defaultVolume</strong>: the player default Volume<br></li><br>
+                    <li><strong>MaxQueue</strong>: Max Songs in Queue<br></li><br>
+                    <li><strong>BotName</strong>: You can give the bot a new Name<br></li><br>
+                    <li><strong>Delete_Message</strong>: thats a auto purge message delete option<br></li><br>
+                    <li><strong>songList_25</strong> - <strong>songList_50</strong>: <br>how big should the personelist songlist be 25 or 50 stores per account<br></li><br>
+                    <li><strong>prefix</strong>: start bot command<br></li><br>
+                    <li><strong>debugBot</strong>: debug option<br></li><br>
+                    <li><strong>help_send_privat</strong>: send the help message private or in bot channel<br></li><br>
+                    <li><strong>songlist_send_privat</strong>: send the songlist message private or in bot channel<br></li><br>
+                    <li><strong>language option</strong>: config you language<br></li><br>
+                    <li><strong>send_emoji_bar</strong>: send the emoji bar true or false</li>
+                </h3>
+            </ul>                         
+        </div>        
+
+        <div class="c">
+
+            <ul>
+                <h3 class="überschrift">                                                
+                    Language support.
+                </h3>
+                <h3 class="y">
+                    <li><strong>Deutsch</strong>:       ( de )</li>
+                    <li><strong>Bulgarisch</strong>:    ( bg )</li>
+                    <li><strong>English</strong>:       ( en )</li>
+                    <li><strong>Franzoesisch</strong>:  ( fe )</li>
+                    <li><strong>Rumaenisch</strong>:    ( ro )</li>
+                    <li><strong>Russisch</strong>:      ( ru )</li>
+                </h3>
+            </ul>
+            
+            <ul>                       
+                <h3 class="y">
+                    In the commands-setting you can customize the bot commands.
+                </h3>
+            </ul>
+
+            <ul>
+                <h3 class="y">
+                    In the emoji_setting you have to enter the emoji id's for the Emoji bar.<br><br> 
+                    The id's can be displayed with (prefix emojis) <br>this command sends the admin a message.<br><br>
+                    With (prefix admin) the current admin commands are displayed
+                </h3>
+            </ul>
+        </div>
+        
+        <div class="d">
+            <ul>
+                <h3 class="überschrift">
+                    you need to install Kyoko
+                </h3> 
+                <h3 class="y">                     
+                    <li><a href= "https://nodejs.org/en/">npm install node.js</a><br></li>
+                    <li><a href= "https://discord.js.org/#/">npm install discord.js</a><br></li>
+                    <li><a href= "https://www.npmjs.com/package/ytdl-core">npm install ytdl-core</a><br></li>
+                    <li><a href= "https://www.npmjs.com/package/youtube-dl">npm install youtube-dl</a><br></li>
+                    <li><a href= "https://www.npmjs.com/package/youtube-info">npm install youtube-info</a><br></li>
+                    <li><a href= "https://www.npmjs.com/package/node-opus">npm install node-opus</a><br></li>
+                    <li><a href= "https://www.npmjs.com/package/opusscript">npm install opus-script</a><br></li>
+                    <li><a href= "https://www.npmjs.com/package/ffmpeg">npm install ffmpeg</a><br></li>
+                    <li><a href= "https://www.npmjs.com/package/request">npm install request</a><br></li>
+                    <li><a href= "https://www.npmjs.com/package/fs">npm install fs</a><br></li>
+                    <li><a href= "https://www.npmjs.com/package/nodemon">npm install nodemon</a></li>
+                    <p></p>                    
+                    <a><strong class="b">there is a npm install batch file, <br>they automatically install and update all the packages you need</strong></a>
+                </h3>
+            </ul>
+        </div>
     </body>
+    
 </html>
