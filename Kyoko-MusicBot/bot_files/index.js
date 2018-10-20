@@ -176,7 +176,7 @@ bot.on('messageReactionAdd', (reaction, user, message) => {
 //------------------------------ 
 bot.on("message",function(message){
 
-    //message.channel.
+    message.channel.username
 
     if(message.channel.name==undefined){        
         /* verhindert ein error wenn man den bot privat anschreibt zb +play[Nr]

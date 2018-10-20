@@ -55,7 +55,6 @@ const index = require("../index.js");
 var bot = index.bot; //import var bot aus script index.js
 //------------------------------
 var Emoji_Array = [];
-var emoji_generade = false;
 var emoji_send = false
 var dothis = false;
 var global_embed
@@ -191,7 +190,7 @@ exports.play_ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,bot_nam
 
                 if(send_emoji_bar && !emoji_send){ 
                     // ist in der setting send_emoji_bar true und emoji_send false dann send                  
-                    go(MessChannel,message,emoji_generade);
+                    go(MessChannel,message);
                     // send the global embed with emoji
                 }else{
                     return MessChannel.send(global_embed);
@@ -202,7 +201,7 @@ exports.play_ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,bot_nam
     };            
 };
 //-----------------------------
-function go(MessChannel,message,emoji_generade){ 
+function go(MessChannel,message){ 
     
     var i = 0 
     
@@ -238,11 +237,10 @@ function go(MessChannel,message,emoji_generade){
 
             if(i==6){  
                 
-                // console.log(emoji_send)
+                console.log(emoji_send )
 
                 Emoji_Array=[]; 
                 emoji_send = false;           
-                emoji_generade = false;
                 clearInterval(Emoji_tVar),i=0;
                 // reset all variable to default and return
                 return;
