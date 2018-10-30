@@ -55,5 +55,7 @@
     "disconnect_text"           : "Ще се видим отново решен",
 
     "purge_size_min_message"    : "променливата [message_size_delete] е твърде малка,\n {minimal: 10} проверете настройката",
-    "purge_size_max_message"    : "променливата [message_size_delete] е твърде висока,\n {max: 100} проверете настройката"
+    "purge_size_max_message"    : "променливата [message_size_delete] е твърде висока,\n {max: 100} проверете настройката",
+
+    "write_at_private"          : "моля, напишете бот лично"
 }

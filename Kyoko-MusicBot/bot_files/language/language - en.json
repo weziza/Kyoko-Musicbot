@@ -55,5 +55,7 @@
     "disconnect_text"           : "See you again",
 
     "purge_size_min_message"    : "the [message_size_delete] variable is too small,\n {minimal: 10} check the setting setting",
-    "purge_size_max_message"    : "the [message_size_delete] variable is too high,\n {max: 100} check the setting setting"
+    "purge_size_max_message"    : "the [message_size_delete] variable is too high,\n {max: 100} check the setting setting",
+
+    "write_at_private"          : "please write the bot private"
 }

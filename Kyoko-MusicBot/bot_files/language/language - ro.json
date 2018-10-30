@@ -55,5 +55,7 @@
     "disconnect_text"           : "Ne vedem din nou hotărâți",
 
     "purge_size_min_message"    : "variabila [message_size_delete] este prea mică,\n {minimal: 10} verificați setarea",
-    "purge_size_max_message"    : "variabila [message_size_delete] este prea mare,\n {max: 100} verificați setarea"
+    "purge_size_max_message"    : "variabila [message_size_delete] este prea mare,\n {max: 100} verificați setarea",
+
+    "write_at_private"          : "scrieți botul privat"
 }

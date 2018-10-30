@@ -177,7 +177,7 @@ exports.play_ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,bot_nam
 
         var Emoji_tVar = setInterval(Emoji_Timer, 1);  
         var timer = Emoji_tVar._idleStart   
-        function Emoji_Timer() 
+        async function Emoji_Timer() 
         { 
             if(Emoji_tVar._idleStart>timer+2500){
                 //console.log(Emoji_tVar._idleStart + "  timer clear")
@@ -186,12 +186,18 @@ exports.play_ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,bot_nam
                 // delet the last 10 sent messages
 
                 clearInterval(Emoji_tVar), timer = 0 ,dothis = false
-                // reset all variable to default                                  
+                // reset all variable to default   
+                
+                await MessChannel.awaitMessages(msg => msg.content.includes(set_playsong),{
+                    time: 5000,
+                    //wait 5 sec before send the emoji bar
+                });   
 
                 if(send_emoji_bar && !emoji_send){ 
-                    // ist in der setting send_emoji_bar true und emoji_send false dann send                  
-                    go(MessChannel,message);
+                    // ist in der setting send_emoji_bar true und emoji_send false dann send 
+                    await go(MessChannel,message);
                     // send the global embed with emoji
+                   
                 }else{
                     return MessChannel.send(global_embed);
                     // send the global embed with no emoji
@@ -217,27 +223,18 @@ function go(MessChannel,message){
 
     MessChannel.send(global_embed)
     // send the initialize the global embed in the MessChannel with emoji
-    .then(async function(message)
-    {
-        await MessChannel.awaitMessages(msg => msg.content.includes(set_playsong),{
-            time: 5000,
-            //wait 5 sec before send the emoji bar
-        }); 
-
-        
-        
+    .then(function(message)
+    {       
         var Emoji_tVar = setInterval(Emoji_Timer, 500); 
-        async function Emoji_Timer(err)
+        function Emoji_Timer(err)
         {          
-            await message.react(Emoji_Array[i]).catch((err) => {
+            message.react(Emoji_Array[i]).catch((err) => {
                 // console.log ("Timeout or other error: ", err)
                 // catch the error if stop abruptly - ( unhandled promise rejections )
                  
             });
 
             if(i==6){  
-                
-                console.log(emoji_send )
 
                 Emoji_Array=[]; 
                 emoji_send = false;           

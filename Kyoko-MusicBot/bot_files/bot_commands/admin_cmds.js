@@ -2,7 +2,6 @@ const discord = require('discord.js');
 const setting = require('../bot_setting/bot_setting.json');
 var admin_id = setting.admin_id;
 var prefix = setting.prefix;
-//-----------------------------
 var language = setting.language;
 //------------------------------
 const lg = require('../language/language - '+language+'.json');
@@ -18,6 +17,7 @@ exports.run = async (bot,message)=>{
 
     var cmds = ("```"   +"1: "+prefix+"emojis"+'\n'
                         +"2: "+prefix+"user_info"+'\n'
+                        +"2: "+prefix+"restart"+'\n'
                         +"```");  
       
     if (message.author.id==admin_id) {

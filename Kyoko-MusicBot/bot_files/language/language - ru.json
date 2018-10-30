@@ -55,5 +55,7 @@
     "disconnect_text"           : "Увидимся снова",
 
     "purge_size_min_message"    : "переменная [message_size_delete] слишком мала,\n {minimum: 10} проверьте настройку",
-    "purge_size_max_message"    : "значение [message_size_delete] слишком велико,\n {max: 100} проверьте настройку"
+    "purge_size_max_message"    : "значение [message_size_delete] слишком велико,\n {max: 100} проверьте настройку",
+
+    "write_at_private"          : "пожалуйста, напишите бот"
 }

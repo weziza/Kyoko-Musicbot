@@ -55,5 +55,7 @@
     "disconnect_text"           : "A bientôt déterminé",
 
     "purge_size_min_message"    : "la variable [message_size_delete] est trop petite,\n {minimal: 10} vérifiez le paramètre",
-    "purge_size_max_message"    : "la variable [message_size_delete] est trop élevée,\n {max: 100} vérifiez le paramètre"
+    "purge_size_max_message"    : "la variable [message_size_delete] est trop élevée,\n {max: 100} vérifiez le paramètre",
+
+    "write_at_private"          : "s'il vous plaît écrivez le bot privé"
 }

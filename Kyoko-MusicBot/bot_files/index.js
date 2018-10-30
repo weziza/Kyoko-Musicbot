@@ -33,6 +33,8 @@ var set_pause = commands_setting.set_pause;
 var set_resume = commands_setting.set_resume;
 var set_leave = commands_setting.set_leave;
 var set_purge = commands_setting.set_purge;
+var set_savesong = commands_setting.set_savesong;
+var set_deletesong = commands_setting.set_deletesong;
 //------------------------------
 var language = setting.language;
 //------------------------------
@@ -174,14 +176,19 @@ bot.on('messageReactionAdd', (reaction, user, message) => {
     }       
 });
 //------------------------------ 
-bot.on("message",function(message){
+bot.on("message",function(message){  
 
-    message.channel.username
-
-    if(message.channel.name==undefined){        
-        /* verhindert ein error wenn man den bot privat anschreibt zb +play[Nr]
-        (ist message.channel.name undefined) dann return.*/
-        return;
+    //-----------------------------
+    let messageArray = message.content.split(/\s+/g); // im channel wurde geschrieben ???
+    // let command = messageArray[0];
+    let cmd = bot.commands.get(messageArray[0].slice(prefix.length)); 
+    // vergleiche den befehl in der messageArray ob dieser in den commands vorhanden ist.
+    //-----------------------------
+    
+    if(message.channel.name==undefined && message.content.startsWith(prefix+set_savesong+" https://www.youtube.com")){
+        return cmd.run(bot,message); 
+    }else if(message.channel.name==undefined && message.content.startsWith(prefix+set_deletesong)){
+        return cmd.run(bot,message); 
     }else{
         //-----------------------------
         var bot_MessChannel = bot.channels.find("name", botchannel); 
@@ -219,11 +226,6 @@ bot.on("message",function(message){
                 var VolumeNr =  VolumeNr;
                 exports.VolumeNr = VolumeNr; //export VolumeNr.
                 //-----------------------------
-                let messageArray = message.content.split(/\s+/g); // im channel wurde geschrieben ???
-                // let command = messageArray[0];
-                let cmd = bot.commands.get(messageArray[0].slice(prefix.length)); 
-                // vergleiche den befehl in der messageArray ob dieser in den commands vorhanden ist.
-                //----------------------------- 
                 if (message.channel.name!=botchannel) // ist bot channel ja/nein ??
                 { 
                     return message.channel.send(wrap(pls_write_in_botchannel)); // befehle nur im bot channel annehmen.
@@ -256,8 +258,6 @@ function autodelete_function(message,bot_MessChannel) {
                     return; 
                 }
                 if(messages.size == message_size_delete) {
-                    console.log(messages.size)
-                    console.log(message_size_delete)
                     let purge = bot.commands.get(set_purge);
                     return purge.run(bot, message.channel);
                 };

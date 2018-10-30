@@ -246,7 +246,7 @@ exports.search_song = function(message,sucheVideo,bot_MessChannel,prefix) {
     getID(sucheVideo, function (id) {
         fetchVideoInfo(id, function (err, videoInfo) {
             ssea.get_url(videoInfo.url);
-            console.log(videoInfo.url)         
+            //console.log(videoInfo.url)         
         });
     });
 };

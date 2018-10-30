@@ -135,12 +135,14 @@ exports.save_song = function(auth,auth_id,message,bot,comando,slice,ChatChannel,
 
     var url = [];
     var url_info = [];
-    var url_input = [];
+
+    url[0] = auth;
+    url_info[0] = auth;
 
     fs.exists(Songlisten_pfad+auth_id+urlInput,(exists)=> {
         if (!exists) {
-            message.delete();
-            bot.channels.find("name", ChatChannel).send('```\n'+file_created+'\n```');
+           
+            bot.channels.find("id", ChatChannel).send('```\n'+file_created+'\n```');
             var then_do = new Promise(function(resolve, reject) {
                 
                 fs.writeFile(Songlisten_pfad+auth_id+urlInput,JSON.stringify(url, null, 4), err => 
@@ -155,22 +157,21 @@ exports.save_song = function(auth,auth_id,message,bot,comando,slice,ChatChannel,
                         throw err;
                 });
             });
-            then_do.then(function(value) {
-                //console.log(value);
-                play_save_song(auth,auth_id,message,bot,comando,slice,ChatChannel,msg)
-            });            
+            then_do.then(function(value) {               
+                save_song_do_next(auth,auth_id,message,bot,comando,slice,ChatChannel,msg);                   
+            });           
         } else {
-            message.delete();
-            play_save_song(auth,auth_id,message,bot,comando,slice,ChatChannel,msg)
+            save_song_do_next(auth,auth_id,message,bot,comando,slice,ChatChannel,msg);            
         };
-    });    
+    }); 
 };
 
-function play_save_song(auth,auth_id,message,bot,comando,slice,ChatChannel,msg){
+function save_song_do_next(auth,auth_id,message,bot,comando,slice,ChatChannel,msg){
+
+    //console.log(auth,"  ",auth_id,"  ",message,"  ",bot,"  ",comando,"  ",slice,"  ",ChatChannel,"  ",msg);
 
     var url = [];
     var url_info = [];
-    var url_input = [];
 
     var i=0;
     var url_buffer  = fs.readFileSync(Songlisten_pfad+auth_id+urlInput) 
@@ -185,35 +186,38 @@ function play_save_song(auth,auth_id,message,bot,comando,slice,ChatChannel,msg){
     words_url[0] = auth;
     words_info[0] = auth;
 
+    //console.log(url_messageInfo, "   -   ",url_message) 
+
     if (url_message.indexOf("h")>0){
-        return bot.channels.find("name", ChatChannel).send('```\n' +many_blank_spaces+ '\n```');
+        return bot.channels.find("id", ChatChannel).send('```\n' +many_blank_spaces+ '\n```');
     }
     else(message.content.startsWith(comando)) 
     {
         if(msg.includes("https://www.youtube.com"))
         {                    
-                           
+                    
             var SongListVar = setInterval(SongListTimer, 1);  
             function SongListTimer() 
             {             
                 url.push(words_url[i]);
-                url_info.push(words_info[i]);
+                url_info.push(words_info[i]);                
 
                 if (i==words_url.length-1)
                 {         
                     clearInterval(SongListVar),i=0;
-                    
+                    //console.log(url_messageInfo,"   clearInterval   ")                                   
+                                          
                     ytdl.getInfo(url_messageInfo, (error, videoInfo) => {
-                        if (error) {
-                            return message.channel.send(wrap(incomplete_url)); // error unvollständige url
+                        if (error) {                             
+                            return message.channel.send(wrap(incomplete_url)); // error unvollständige url                            
                         }
                         else {
                             var time = videoInfo.length_seconds / 60; 
                             //viedeo Time                            
                             url_messageInfo = +time.toFixed(1)+" min"+" - "+videoInfo.title;                                
                             url_info.push(url_messageInfo);
-                            url.push(url_message);
-                        };
+                            url.push(url_message);                            
+                        }; 
 
                         fs.writeFile(Songlisten_pfad+auth_id+urlInput,JSON.stringify(url, null, 4), err => 
                         {   
@@ -225,16 +229,18 @@ function play_save_song(auth,auth_id,message,bot,comando,slice,ChatChannel,msg){
                                     throw err;  
                                 url_info = []; 
                                 url = [];
-                                return bot.channels.find("name", ChatChannel).send('```\n' +url_messageInfo+'\n'+">> "+song_saved + '\n```');
-                            });
-                        });                                                             
-                    }); 
+                                
+                                return bot.channels.find("id", ChatChannel).send('```\n' +url_messageInfo+'\n'+">> "+song_saved + '\n```');
+                                
+                            });                            
+                        });                                                                                 
+                    });                    
                 };
                 i++ 
             };                
         }else{
             message.delete();
-            return bot.channels.find("name", ChatChannel).send('```\n' +only_jt_url+ '\n```');
+            return bot.channels.find("id", ChatChannel).send('```\n' +only_jt_url+ '\n```');
         };  
     };
 }
@@ -324,9 +330,8 @@ exports.delete_song = function(auth,auth_id,message,bot,comando,slice,ChatChanne
     var url_info = [];
   
     fs.exists(Songlisten_pfad+auth_id+urlInput,(exists)=> {
-        if (!exists) {
-            message.delete();
-            return bot.channels.find("name", ChatChannel).send(wrap(no_file_created));  
+        if (!exists) {            
+            return bot.channels.find("id", ChatChannel).send(wrap(no_file_created));  
         }
         var i=0;
         var url_buffer  = fs.readFileSync(Songlisten_pfad+auth_id+urlInput) 
@@ -351,7 +356,7 @@ exports.delete_song = function(auth,auth_id,message,bot,comando,slice,ChatChanne
                     if (getNumber==0){
                         url_info = []; 
                         url = [];
-                        return bot.channels.find("name", ChatChannel).send('```\n' +delete_your_name+ '\n```');
+                        return bot.channels.find("id", ChatChannel).send('```\n' +delete_your_name+ '\n```');
                     }else{
 
                         url.splice(getNumber, 1); //löscht 1 gewünschte zeile aus der array
@@ -364,9 +369,8 @@ exports.delete_song = function(auth,auth_id,message,bot,comando,slice,ChatChanne
                                 if (err)
                                     throw err;
                                 url_info = []; 
-                                url = [];          
-                                message.delete();
-                                return bot.channels.find("name", ChatChannel).send('```\n'+getNumber+" : "+lead+'\n'+" >> "+song_delete+ '\n```');
+                                url = [];
+                                return bot.channels.find("id", ChatChannel).send('```\n'+getNumber+" : "+lead+'\n'+" >> "+song_delete+ '\n```');
                             });
                         });
                     };
