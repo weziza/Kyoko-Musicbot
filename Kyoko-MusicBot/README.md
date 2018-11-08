@@ -1,9 +1,9 @@
 ﻿# Kyoko-Musicbot
 ***
-### [`Welcome to Kyoko a little Manga Musicbot for Discord`](https://h5pro2.github.io/Kyoko.github.io/index.html)
+### [`Welcome to Kyoko a little Anime Musicbot for Discord`](https://h5pro2.github.io/Kyoko.github.io/index.html)
 ***
 Welcome to my Discord Musikbot
-I'm not a programmer, but I like to tinker around and have written me a little music bot for discord. The code is not mature, it goes so far without errors. Kyoko is a Manga Music Bot With many Features.
+I'm not a programmer, but I like to tinker around and have written me a little music bot for discord. The code is not mature, it goes so far without errors. Kyoko is a Anime Music Bot With many Features.
 ***
 #### `Language support`
 * `Deutsch:       ( de )`
