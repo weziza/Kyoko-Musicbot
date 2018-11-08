@@ -3,7 +3,9 @@
 
     "yt_api_key"            : "your youtube key",
 
-    "admin_id"              : "your admin id",
+    "admin_id"              : "your id here",
+
+    "bot_category"          : "bot room",
 
     "botchannel"            : "bot-eingabe",
 
