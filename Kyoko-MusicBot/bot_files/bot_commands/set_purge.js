@@ -8,7 +8,7 @@ var set_purge = commands_setting.set_purge;
 //------------------------------
 exports.run = async (bot,message)=>{
     //-----------------------------
-    let bot_MessChannel = bot.channels.find("name", botchannel); // bot schreibt in einen bestimmten angegebenen channel
+    let bot_MessChannel = bot.channels.find(channel => channel.name === botchannel); // bot schreibt in einen bestimmten angegebenen channel
     //-----------------------------   
     if (bot_MessChannel == undefined){
         return;

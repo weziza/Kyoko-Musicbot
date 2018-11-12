@@ -48,7 +48,8 @@
     "savesong"                  : "Cântecele în lista ta",
     "savedelete"                : "ștergeți o melodie din lista mea",
     "size_of_the_queue"         : "dimensiunea coadajului",
-    
+    "see_url"                   : "arată urlul cântecului curent",
+       
     "looking_for"               : "scrieți ceea ce căutați",
     "pls_write_in_botchannel"   : "scrieți în canalul bot",
     "botchannel_not_config"     : "canalul bot nu este configurat",

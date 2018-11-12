@@ -11,7 +11,7 @@ var set_pause = commands_setting.set_pause;
 
 exports.run = async (bot,message)=>{
 
-    var bot_MessChannel = bot.channels.find("name", botchannel); // bot schreibt in einen bestimmten angegebenen channel
+    var bot_MessChannel = bot.channels.find(channel => channel.name === botchannel); // bot schreibt in einen bestimmten angegebenen channel
     //-----------------------------
     const voiceConnection = bot.voiceConnections.find(val => val.channel.guild.id == message.guild.id); //constant voiceConnection
     //-----------------------------

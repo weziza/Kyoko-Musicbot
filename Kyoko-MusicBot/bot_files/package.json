@@ -3,31 +3,31 @@
   "version": "2.0.0.0",
   "main": "index.js",
   "homepage": "https://github.com/H5Pro2/Kyoko-Musicbot",
-
   "dependencies": {
     "body-parser": "^1.18.2",
     "bufferutil": "^4.0.0",
-    "discord.js": "^11.3.2",
+    "discord.js": "^11.4.2",
     "express": "^4.16.3",
-    "ffmpeg": "^0.0.4",
-    "ffmpeg-binaries": "^3.2.2-3",
+    "ffmpeg": "0.0.4",
+    "ffmpeg-binaries": "^4.0.0",
+    "fluent-ffmpeg": "^2.1.2",
+    "fs": "0.0.1-security",
     "node-opus": "^0.2.7",
     "node-schedule": "^1.3.0",
-    "opusscript": "^0.0.6",
-    "request": "^2.85.0",
+    "node.js": "0.0.0",
+    "nodemon": "^1.18.6",
+    "opusscript": "0.0.6",
+    "request": "^2.88.0",
     "stop-media-stream": "^0.0.2",
     "utf8": "^3.0.0",
     "youtube-dl": "^1.12.2",
-    "youtube-info": "^1.2.1",
-    "ytdl-core": "^0.20.4",
-    "nodemon": "^1.18.5"
+    "youtube-info": "^1.3.2",
+    "ytdl-core": "^0.28.0"
   },
-
   "nodemonConfig": {
-    "ignore": ["user_songlist/*.json", "index.js"],
+    "ignore": ["user_songlist/*.json","temp/volume.json"],
     "delay": "2500"
   },
-
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon src/"

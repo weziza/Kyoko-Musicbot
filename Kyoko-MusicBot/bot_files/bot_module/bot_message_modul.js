@@ -2,10 +2,10 @@ const discord = require('discord.js')
 const mpm = require('./music_play_modul.js')
 //----------------------------
 const setting = require('../bot_setting/bot_setting.json')
-var prefix = setting.prefix
-var send_emoji_bar = setting.send_emoji_bar
-var smallSongList = setting.songList_25
-var bigSongList = setting.songList_50
+var prefix = setting.prefix,
+    send_emoji_bar = setting.send_emoji_bar,
+    smallSongList = setting.songList_25,
+    bigSongList = setting.songList_50
 if (smallSongList==true){
     var GrList = 25
     bigSongList=false}
@@ -14,14 +14,14 @@ if (bigSongList==true){
     smallSongList=false}
 //---------------------------------------
 const playerEmoji = require('../bot_setting/emoji_setting')
-var playEmoji = playerEmoji.playEmoji
-var pauseEmoji = playerEmoji.pauseEmoji
-var skipEmoji = playerEmoji.skipEmoji
-var kickEmoji = playerEmoji.kickEmoji
-var volumeupEmoji = playerEmoji.volumeupEmoji
-var volumedownEmoji = playerEmoji.volumedownEmoji
-var cleanEmoji = playerEmoji.cleanEmoji
-var replayEmoji = playerEmoji.replayEmoji
+var playEmoji = playerEmoji.playEmoji,
+    pauseEmoji = playerEmoji.pauseEmoji,
+    skipEmoji = playerEmoji.skipEmoji,
+    kickEmoji = playerEmoji.kickEmoji,
+    volumeupEmoji = playerEmoji.volumeupEmoji,
+    volumedownEmoji = playerEmoji.volumedownEmoji,
+    cleanEmoji = playerEmoji.cleanEmoji,
+    replayEmoji = playerEmoji.replayEmoji
 //------------------------------
 const BotImages = require('../bot_images/botAuthor')
 const bot_author_Image = BotImages.bot_author_Image
@@ -31,23 +31,23 @@ const setImage = require('../bot_images/InfoEmbedImage')
 var language = setting.language
 //------------------------------
 const lg = require('../language/language - '+language+'.json')
-var help_text_heading = language.help_text_heading
-var purge = lg.purge
-var show_queue = lg.show_queue
-var skip = lg.skip
-var clean = lg.clean
-var pause = lg.pause
-var resume = lg.resume
-var leave = lg.leave
-var volume = lg.volume
-var playsong_url = lg.playsong_url
-var playsong_nr = lg.playsong_nr
-var randomsong = lg.randomsong
-var searchsong = lg.searchsong
-var songliste = lg.songliste
-var savesong = lg.savesong
-var savedelete = lg.savedelete
-var size_of_the_queue = lg.size_of_the_queue
+var help_text_heading = language.help_text_heading,
+    purge = lg.purge,
+    show_queue = lg.show_queue,
+    skip = lg.skip,
+    clean = lg.clean,
+    pause = lg.pause,
+    resume = lg.resume,
+    leave = lg.leave,
+    volume = lg.volume,
+    playsong_url = lg.playsong_url,
+    playsong_nr = lg.playsong_nr,
+    randomsong = lg.randomsong,
+    searchsong = lg.searchsong,
+    songliste = lg.songliste,
+    savesong = lg.savesong,
+    savedelete = lg.savedelete,
+    size_of_the_queue = lg.size_of_the_queue
 //------------------------------
 const commands_setting = require('../bot_setting/commands_setting.json')
 var set_playsong = commands_setting.set_playsong
@@ -55,23 +55,23 @@ var set_playsong = commands_setting.set_playsong
 const index = require("../index.js")
 var bot = index.bot //import var bot aus script index.js
 //------------------------------
-var Emoji_Array = []
-var emoji_send = false
-var dothis = false
-var global_embed
-//------------------------------
-var Text1 = []
-var Text2 = []
+var Emoji_Array = [],
+    emoji_send = false,
+    dothis = false,
+    global_embed,
+    //-----------
+    Text1 = [],
+    Text2 = []
 //------------------------------
 /**
-* @param {Object} MessChannel // the message.channel
-* @param {Object} InfoSetImage // setImage Datenbank.json Math random
-* @param {Object} InfoThumbnail // InfoEmbedThumbnail Datenbank.json Math random
-* @param {Object} prefix // prefix 
-* @param {Object} color // Math Color
-* @param {Object} max_queue // Max Lead Nummer
+* @param  MessChannel // the message.channel
+* @param  InfoSetImage // setImage Datenbank.json Math random
+* @param  InfoThumbnail // InfoEmbedThumbnail Datenbank.json Math random
+* @param  prefix // prefix 
+* @param  color // Math Color
+* @param  max_queue // Max Lead Nummer
 */
-exports.InfoScreen = (set_playsong,set_searchsong,set_deletesong,set_savesong,set_songliste,set_randomsong,set_purge,set_volume,set_leave,set_resume,set_pause,set_skip,set_queue,set_clean,set_hilfe,set_uhr,set_mega,set_ping,MessChannel,prefix,RandomColor,max_queue,bot_name) => {
+exports.InfoScreen = (set_playsong,set_searchsong,set_deletesong,set_savesong,set_songliste,set_randomsong,set_purge,set_volume,set_leave,set_resume,set_pause,set_skip,set_queue,set_clean,set_hilfe,set_uhr,set_mega,set_ping,set_url,MessChannel,prefix,RandomColor,max_queue,bot_name) => {
   var embed = new discord.RichEmbed()
       .setTitle("《 "+ help_text_heading+" - "+ bot_name + " 》" )
       .setAuthor(bot_name +"〔 (∩｀-´)⊃━━☆･•.*･•*.♫♪℘❧ 〕", bot_author_Image)
@@ -92,6 +92,7 @@ exports.InfoScreen = (set_playsong,set_searchsong,set_deletesong,set_savesong,se
       .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_songliste+' | '+songliste + '```',false)
       .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_savesong+' | '+'Max '+GrList+' - '+savesong + '```',false)
       .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_deletesong+' | '+'[ Nr ] '+savedelete + '```',false)
+      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_url+' | '+'[ Nr ] '+savedelete + '```',false)
       .addField("-----------------------------",'```Ini'+'\n' + size_of_the_queue +' = '+'[ '+max_queue+' ]' + '```',false)
       .setThumbnail(InfoEmbedThumbnail[Math.floor(Math.random()* InfoEmbedThumbnail.length)])
       .setImage(setImage[Math.floor(Math.random()* setImage.length)])
@@ -101,12 +102,12 @@ exports.InfoScreen = (set_playsong,set_searchsong,set_deletesong,set_savesong,se
 }
 //-----------------------------
 /**
-* @param {Object} InfoText1 // Info Text zeile 1
-* @param {Object} InfoText2 // Info Text zeile 2
-* @param {Object} MessChannel // the message.channel
-* @param {Object} RandomColor // Math color
-* @param {Object} bot_name // Bot Name
-* @param {Object} Thumbimage // Thumb Image
+* @param  InfoText1 // Info Text zeile 1
+* @param  InfoText2 // Info Text zeile 2
+* @param  MessChannel // the message.channel
+* @param  RandomColor // Math color
+* @param  bot_name // Bot Name
+* @param  Thumbimage // Thumb Image
 */
 exports.ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,bot_name,Thumbimage) => {
 
@@ -121,12 +122,12 @@ exports.ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,bot_name,Thu
 }
 //-----------------------------
 /**
-* @param {Object} InfoText1 // Info Text zeile 1
-* @param {Object} InfoText2 // Info Text zeile 2
-* @param {Object} MessChannel // the message.channel
-* @param {Object} RandomColor // Math color
-* @param {Object} bot_name // Bot Name
-* @param {Object} Thumbimage // Thumb Image
+* @param  InfoText1 // Info Text zeile 1
+* @param  InfoText2 // Info Text zeile 2
+* @param  MessChannel // the message.channel
+* @param  RandomColor // Math color
+* @param  bot_name // Bot Name
+* @param  Thumbimage // Thumb Image
 */
 exports.pause_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor,bot_name,Thumbimage) => {
     var embed = new discord.RichEmbed()
@@ -142,10 +143,10 @@ exports.pause_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor,bot_n
 }
 //-----------------------------
 /**
-* @param {Object} InfoText1 // Info Text zeile 1
-* @param {Object} InfoText2 // Info Text zeile 2
-* @param {Object} MessChannel // the message.channel
-* @param {Object} RandomColor // Math color
+* @param  InfoText1 // Info Text zeile 1
+* @param  InfoText2 // Info Text zeile 2
+* @param  MessChannel // the message.channel
+* @param  RandomColor // Math color
 */
 exports.sl_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor) => {
     var embed = new discord.RichEmbed()
@@ -155,13 +156,13 @@ exports.sl_ambedMessage = (InfoText1,InfoText2, MessChannel,RandomColor) => {
 }
 //-----------------------------
 /**
-* @param {Object} InfoText1 // Info Text zeile 1
-* @param {Object} InfoText2 // Info Text zeile 2
-* @param {Object} MessChannel // the message.channel
-* @param {Object} RandomColor // Math color
-* @param {Object} bot_name // Bot Name
-* @param {Object} Thumbimage // Thumb Image
-* @param {Object} message // 
+* @param  InfoText1 // Info Text zeile 1
+* @param  InfoText2 // Info Text zeile 2
+* @param  MessChannel // the message.channel
+* @param  RandomColor // Math color
+* @param  bot_name // Bot Name
+* @param  Thumbimage // Thumb Image
+* @param  message // 
 */
 //------------------------------
 exports.play_ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,bot_name,Thumbimage,message)=> { 
@@ -190,7 +191,7 @@ exports.play_ambedMessage = (InfoText1,InfoText2,MessChannel,RandomColor,bot_nam
                 // reset all variable to default   
                 
                 await MessChannel.awaitMessages(msg => msg.content.includes(set_playsong),{
-                    time: 2500,
+                    time: 1500,
                     //wait 5 sec before send the emoji bar
                 })   
 
@@ -251,23 +252,12 @@ function go(MessChannel,message){
 //-----------------------------
 function init_embed(bot_name, Thumbimage, RandomColor, MessChannel) {
 
-    //if(!send_emoji_bar){
-        global_embed = new discord.RichEmbed()
-        .setAuthor("〔" + bot_name + "™ 〕", bot_author_Image)
-        .addField(Text1, Text2, false)
-        .setThumbnail(Thumbimage) 
-        .setColor(RandomColor)
-        .setTimestamp()
-        .setFooter(bot_name, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png")
-    /*}else{
-        global_embed = new discord.RichEmbed()
-        .setAuthor("〔" + bot_name + "™ 〕", bot_author_Image)
-        .addField(Text1, Text2, false)
-        //.addField("Info:",'```HTTP' + '\n' + `Emoji Bar send in:` + '\n' + '----| ' + 5 + `.sec` + ' |----' + '```', false)
-        .setThumbnail(Thumbimage)
-        .setColor(RandomColor)
-        .setTimestamp()
-        .setFooter(bot_name, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png")
-    }*/
+    global_embed = new discord.RichEmbed()
+    .setAuthor("〔" + bot_name + "™ 〕", bot_author_Image)
+    .addField(Text1, Text2, false)
+    .setThumbnail(Thumbimage) 
+    .setColor(RandomColor)
+    .setTimestamp()
+    .setFooter(bot_name, "https://appstipsandtricks.com/wp-content/uploads/2016/11/snapchat-blue-screenshot.png")
 }
 //-----------------------------

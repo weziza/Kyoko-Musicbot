@@ -9,7 +9,7 @@ var set_clean = commands_setting.set_clean;
 //-----------------------------
 exports.run = async (bot,message)=>{                
     //-----------------------------
-    var bot_MessChannel = bot.channels.find("name", botchannel); // bot schreibt in einen bestimmten angegebenen channel
+    var bot_MessChannel = bot.channels.find(channel => channel.name === botchannel); // bot schreibt in einen bestimmten angegebenen channel
     //-----------------------------
     sgm.clean_queue(message,bot_MessChannel);
 }

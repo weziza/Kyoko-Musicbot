@@ -15,7 +15,7 @@ exports.run = async (bot,message)=>{
     var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
     var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);
     //-----------------------------
-    var bot_MessChannel = bot.channels.find("name", botchannel); // bot schreibt in einen bestimmten angegebenen channel
+    var bot_MessChannel = bot.channels.find(channel => channel.name === botchannel); // bot schreibt in einen bestimmten angegebenen channel
 
     var embed = new discord.RichEmbed()
     .setTitle(`Ich bin der super duba Mega heftig `+bot_name)

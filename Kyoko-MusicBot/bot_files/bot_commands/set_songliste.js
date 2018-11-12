@@ -1,4 +1,4 @@
-const rwm = require('../bot_module/read_write_modul');
+const spm = require('../bot_module/songprocess_modul');
 //-----------------------------
 const setting = require('../bot_setting/bot_setting.json');
 var botchannel = setting.botchannel;
@@ -12,9 +12,9 @@ exports.run = async (bot,message)=>{
     //-----------------------------
     var auth = message.author.username; // ist message author    
     var auth_id = message.author.id; // ist message author id
-    var bot_MessChannel = bot.channels.find("name", botchannel); // bot schreibt in einen bestimmten angegebenen channel
+    var bot_MessChannel = bot.channels.find(channel => channel.name === botchannel); // bot schreibt in einen bestimmten angegebenen channel
     //-----------------------------
-    return rwm.songliste(auth,auth_id,message,bot,botchannel);       
+    return spm.songliste(auth,auth_id,message,bot,botchannel);       
 }
 
 exports.help = {

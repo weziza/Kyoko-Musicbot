@@ -17,5 +17,6 @@
     "set_deletesong": "delete",
     "set_playsong"  : "play",
     "set_replay"    : "replay",
-    "set_searchsong": "suche"  
+    "set_searchsong": "suche", 
+    "set_url"       : "url"    
 }

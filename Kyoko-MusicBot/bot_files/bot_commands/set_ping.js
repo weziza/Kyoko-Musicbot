@@ -15,7 +15,7 @@ exports.run = async (bot,message)=>{
     //-----------------------------
 
     var auth = message.author.username; // ist message author
-    var bot_MessChannel = bot.channels.find("name", botchannel); // bot schreibt in einen bestimmten angegebenen channel
+    var bot_MessChannel = bot.channels.find(channel => channel.name === botchannel); // bot schreibt in einen bestimmten angegebenen channel
     const m = await message.channel.send("Kyoko send Ping?");
     var embed = new discord.RichEmbed()
     .addField(`Latency is`,`${m.createdTimestamp - message.createdTimestamp}ms.`, true)

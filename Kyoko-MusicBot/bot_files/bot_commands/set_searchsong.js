@@ -26,7 +26,7 @@ exports.run = async (bot,message)=>{
     //-----------------------------
     var memberchannel = message.member.voiceChannel; //global member voiceChannel                    
     //-----------------------------
-    var bot_MessChannel = bot.channels.find("name", botchannel); // bot schreibt in einen bestimmten angegebenen channel
+    var bot_MessChannel = bot.channels.find(channel => channel.name === botchannel); // bot schreibt in einen bestimmten angegebenen channel
     var sucheVideo = message.content.split(' ').slice(1).join(" ");
     var url = message.content.split(' ')[1]; // gibt die url aus split prefix aus
     //-----------------------------

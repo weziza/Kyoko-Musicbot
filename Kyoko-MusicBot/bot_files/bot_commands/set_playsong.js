@@ -1,5 +1,5 @@
 const discord = require('discord.js');
-const rwm = require('../bot_module/read_write_modul');
+const spm = require('../bot_module/songprocess_modul');
 const mpm = require('../bot_module/music_play_modul');
 //------------------------------
 const setting = require('../bot_setting/bot_setting.json');
@@ -23,12 +23,9 @@ exports.run = async (bot,message)=>{
     memberchannel = message.member.voiceChannel; //global member voiceChannel                    
     //-----------------------------
     var auth_id = message.author.id; // ist message author id
-    var bot_MessChannel = bot.channels.find("name", botchannel); // bot schreibt in einen bestimmten angegebenen channel
+    var bot_MessChannel = bot.channels.find(channel => channel.name === botchannel); // bot schreibt in einen bestimmten angegebenen channel
     var url = message.content.split(' ')[1]; // gibt die url aus split prefix aus
     //------------------------------
-
-    //console.log(bot_MessChannel)
-
     if(!memberchannel){return bot_MessChannel.send(wrap(enter_voice_channel));}
     else if (bot_MessChannel==null){
         message.delete();// lösche die gepostete messages        
@@ -42,7 +39,7 @@ exports.run = async (bot,message)=>{
             return;
         }else{
             message.delete();// lösche die gepostete messages                 
-            rwm.get_song_at_list(auth_id,message,bot,prefix+set_playsong,set_playsong.length+2,prefix,botchannel,memberchannel,set_playsong);
+            spm.get_song_at_list(auth_id,message,bot,set_playsong.length+2,prefix,botchannel,memberchannel,set_playsong);
             mpm.get_song(memberchannel,message,bot_MessChannel);
             return;
         };             

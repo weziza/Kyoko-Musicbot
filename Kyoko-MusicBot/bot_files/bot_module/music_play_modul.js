@@ -1,55 +1,52 @@
-const discord = require('discord.js')
-const bmess = require('./bot_message_modul')
-//---------------------------------------
-const ytdl = require("ytdl-core")
-const fetchVideoInfo = require("youtube-info")
-const request = require("request")
+const discord = require('discord.js'),
+    bmess = require('./bot_message_modul'),
+    ytdl = require("ytdl-core"),
+    fetchVideoInfo = require("youtube-info"),
+    request = require("request")
 //---------------------------------------
 const setting = require('../bot_setting/bot_setting.json')
-var defaultVolume = setting.defaultVolume
-var yt_api_key = setting.yt_api_key
-var bot_name = setting.bot_name
-var max_queue = setting.max_queue
-var MinQueue = 0
+var defaultVolume = setting.defaultVolume,
+    yt_api_key = setting.yt_api_key,
+    bot_name = setting.bot_name,
+    max_queue = setting.max_queue,
+    language = setting.language
 //---------------------------------------
 const commands_setting = require('../bot_setting/commands_setting.json')
 var set_queue = commands_setting.set_queue
 //---------------------------------------
 const Thumbimage = require('../bot_images/Thumbimage.json')
-var music_not_playing_image = Thumbimage.music_not_playing
-var no_voice_connect_image = Thumbimage.no_voice_connect
-var play_music_image = Thumbimage.play_music
-var pause_image = Thumbimage.pause
-var resume_image = Thumbimage.resume
-var play_forward_image = Thumbimage.play_forward
-var queue_clean_image = Thumbimage.queue_clean
-var skip_fail_image = Thumbimage.skip_fail
-var no_music_image = Thumbimage.no_music_image
-var connect_channel_image = Thumbimage.connect_channel
-var no_playlist_image = Thumbimage.no_playlist
-var playlist_image = Thumbimage.playlist
-//---------------------------------------
-var language = setting.language
+var music_not_playing_image = Thumbimage.music_not_playing,
+    no_voice_connect_image = Thumbimage.no_voice_connect,
+    play_music_image = Thumbimage.play_music,
+    pause_image = Thumbimage.pause,
+    resume_image = Thumbimage.resume,
+    play_forward_image = Thumbimage.play_forward,
+    queue_clean_image = Thumbimage.queue_clean,
+    skip_fail_image = Thumbimage.skip_fail,
+    no_music_image = Thumbimage.no_music_image,
+    connect_channel_image = Thumbimage.connect_channel,
+    no_playlist_image = Thumbimage.no_playlist,
+    playlist_image = Thumbimage.playlist
 //------------------------------
 const lg = require('../language/language - '+language+'.json')
-var queue_message = lg.queue_message
-var voice_connect_message = lg.voice_connect_message
-var no_voice_connect_message = lg.no_voice_connect_message
-var song_added = lg.song_added
-var incomplete_url = lg.incomplete_url
-var yt_api_key_missing = lg.yt_api_key_missing
-var empty_queue = lg.empty_queue
-var no_music_play = lg.no_music_play
-var player_pause = lg.player_pause
-var no_song_in_queue = lg.no_song_in_queue
-var in_queue = lg.in_queue
-var resume_play = lg.resume_play
-var queue = lg.queue
-var clean_queue_txt = lg.clean_queue_txt
-var disconnect_text = lg.disconnect_text
+var queue_message = lg.queue_message,
+    voice_connect_message = lg.voice_connect_message,
+    no_voice_connect_message = lg.no_voice_connect_message,
+    song_added = lg.song_added,
+    incomplete_url = lg.incomplete_url,
+    yt_api_key_missing = lg.yt_api_key_missing,
+    empty_queue = lg.empty_queue,
+    no_music_play = lg.no_music_play,
+    player_pause = lg.player_pause,
+    no_song_in_queue = lg.no_song_in_queue,
+    in_queue = lg.in_queue,
+    resume_play = lg.resume_play,
+    queue = lg.queue,
+    clean_queue_txt = lg.clean_queue_txt,
+    disconnect_text = lg.disconnect_text
 //------------------------------
 const bs = require('../bot_sounds/bot_sounds.json')
-var in_sound = bs.sound
+var conect_sound = bs.sound
 //---------------------------------------
 var URLArray=[ // zufall url ergenzung wenn die suche fehlschlägt
     "FlmToFkw9W0",
@@ -57,12 +54,13 @@ var URLArray=[ // zufall url ergenzung wenn die suche fehlschlägt
     "3_-a9nVZYjk",
     "Mgfe5tIwOj0"]
 //------------------------------
-var timeout_fix = in_sound.length*100 // millisekunden * 100 = sekunden
-// ermittle automatisch die incoming song länge
-var timeout = timeout_fix
-//------------------------------
 var bot_pause=false,
-    bot_playing=false
+    bot_playing=false,
+    vlNr = defaultVolume,
+    MinQueue = 0,
+    timeout = timeout_fix,
+    timeout_fix = conect_sound.length*100 // millisekunden * 100 = sekunden
+    // ermittle automatisch die incoming song länge
 //------------------------------
 var Song_url_Array = [], 
     SongTitel_post_Array = [],
@@ -72,26 +70,24 @@ var Song_url_Array = [],
 //------------------------------
 const index = require("../index")
 var bot = index.bot 
-//import var bot aus script index.js
+// import var bot aus script index.js
 //------------------------------
 const ssea = require("../bot_commands/set_searchsong")
-//------------------------------
-var vlNr = defaultVolume
 //------------------------------
 
 exports.get_song = function(memberchannel,message,bot_MessChannel,voiceConnection){ 
 
-        timeout = timeout_fix
-        //setze bei jedem play den timeout auf timeout_fix sonst gibt es probleme beim spamen von play und leave
-        //-----------------------------
-        var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3
-        var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6)
-        //-----------------------------
-        if (MinQueue<0){MinQueue=0  
-            // der song counter kann nicht unter 0 fallen
-            return}
+    timeout = timeout_fix
+    // setze bei jedem play den timeout auf timeout_fix sonst gibt es probleme beim spamen von play und leave
+    //-----------------------------
+    var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3
+    var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6)
+    //-----------------------------
+    if (MinQueue<0){MinQueue=0  
+        // der song counter kann nicht unter 0 fallen
+        return}
 
-        exports.getsbi = function(url_mess, info_url){ 
+    exports.getsbi = function(url_mess, info_url){ 
  
         if (max_queue==MinQueue){ 
         // ist das max der song aufnahme erreicht dann....
@@ -100,27 +96,27 @@ exports.get_song = function(memberchannel,message,bot_MessChannel,voiceConnectio
         }else{
 
             Song_url_Array.push(url_mess) 
-            //push url message in die Warteschlange array
+            // push url message in die Warteschlange array
             SongTitel_text_Array.push(info_url) 
-            //info url message in die SongTitel array
+            // info url message in die SongTitel array
             SongTitel_post_Array = SongTitel_text_Array.map((SongTitel_text_Array, x) => (( x +  1  ) + ': ' + SongTitel_text_Array)).join('\n') 
-            //füge nummerierung beim auslesen hinzu           
+            // füge nummerierung beim auslesen hinzu           
             //---------------------------------------
             MinQueue++ 
             // Song counder            
             //---------------------------------------
             if(!bot_playing) memberchannel.join().then(function(connection){
-                //sollte der bot nicht spielen dann connecte zum voicechannel
+                // sollte der bot nicht spielen dann connecte zum voicechannel
                 //--------------------------------------- 
                 bot_playing = true
-                //sag dem bot das er jetzt abspielt               
+                // sag dem bot das er jetzt abspielt               
                 //---------------------------------------  
                 bmess.ambedMessage(voice_connect_message+" :",'```HTTP'+'\n' + message.member.voiceChannel.name + '\n```',bot_MessChannel,RandomColor,bot_name,connect_channel_image)
                 // connect message   
                 //---------------------------------------
                     var vol = defaultVolume*5
                     // new defaultVolume für den connect sound
-                    dispatcher = connection.playFile(in_sound)
+                    dispatcher = connection.playFile(conect_sound)
                     // dispatcher ist channel connection + play sound file
                     dispatcher.setVolume(vol) 
                     // defaultVolume*5 wenn player den sound wieder gibt
@@ -132,12 +128,12 @@ exports.get_song = function(memberchannel,message,bot_MessChannel,voiceConnectio
                     // gehe zur funktion play 
                     //---------------------------------------
                 }, timeout)
-                //timeout wegen login_sound länge 
+                //timeout wegen logconect_sound länge 
                               
             })//.catch(err => console.log(err))             
 
             bmess.play_ambedMessage(song_added+" :", '```HTTP'+'\n' + SongTitel_post_Array + '```', bot_MessChannel, RandomColor, bot_name, play_music_image,message)
-            //ist der bot nicht im voicechannel send SongTitel_post_Array message                     
+            // ist der bot nicht im voicechannel send SongTitel_post_Array message                     
         }
     }    
 }
@@ -146,7 +142,7 @@ exports.play_song = function (memberchannel,message,bot_MessChannel,url){
 
     var time = 0
     timeout = timeout_fix
-    //setze bei jedem play den timeout auf timeout_fix sonst gibt es probleme beim spamen von play und leave
+    // setze bei jedem play den timeout auf timeout_fix sonst gibt es probleme beim spamen von play und leave
     //-----------------------------
     var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3
     var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6)
@@ -160,13 +156,14 @@ exports.play_song = function (memberchannel,message,bot_MessChannel,url){
     }else{
 
         if(!bot_playing) memberchannel.join().then(function(connection){
-            //sollte der bot nicht spielen dann connecte zum voicechannel
+            // sollte der bot nicht spielen dann connecte zum voicechannel
+            //--------------------------------------- 
             bot_playing=true
-            //sag dem bot das er jetzt abspielt
+            // sag dem bot das er jetzt abspielt
             //---------------------------------------                
             var vol = defaultVolume*5
             // new defaultVolume für den connect sound
-            dispatcher = connection.playFile(in_sound)
+            dispatcher = connection.playFile(conect_sound)
             // dispatcher ist channel connection + play sound file
             dispatcher.setVolume(vol) 
             // defaultVolume*5 wenn player den sound wieder gibt 
@@ -212,7 +209,7 @@ exports.play_song = function (memberchannel,message,bot_MessChannel,url){
     }    
 }
 
-exports.replay_song = function (memberchannel,message,bot_MessChannel,voiceConnection){
+exports.replay_song = function (message,bot_MessChannel,voiceConnection){
 
     if(!voiceConnection){}else{const dispatcher = message.guild.voiceConnection.player.dispatcher} 
 
@@ -351,8 +348,7 @@ exports.pause = function(message,prefix,voiceConnection,bot_MessChannel){
     //---------------------------------------
     var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3
     var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6)
-    //-----------------------------
- 
+    //----------------------------- 
     // Get the voice connection.
     if (voiceConnection === null) return bmess.ambedMessage("-",'```HTTP'+'\n' + no_music_play + '```', bot_MessChannel,RandomColor,bot_name,music_not_playing_image)
     
@@ -385,12 +381,8 @@ exports.resume = function(message,prefix,voiceConnection,bot_MessChannel){
 }
 //---------------------------------------
 exports.volume = function(message,VolumeNr,voiceConnection){
-    //----------
-    setTimeout(function(){
-        message.delete()
-    }, 500)
-    //----------    
-    if (voiceConnection === null) return message.channel.send(wrap(no_music_play)) 
+    //---------- 
+    if (!voiceConnection){ return message.channel.send(wrap(no_music_play))} 
     // ist voiceConnection = 0 return message
     const dispatcher = voiceConnection.player.dispatcher 
     // initial dispatcher
@@ -402,6 +394,10 @@ exports.volume = function(message,VolumeNr,voiceConnection){
             vlNr = VolumeNr/20      
         }else{return}  // wert darüber oder darunter ist     
     }else{return} // wert darüber oder darunter ist 
+}
+//---------------------------------------
+exports.see_url = function(message,bot_MessChannel){
+    bot_MessChannel.send(wrap(resume_Song_url_post_text+'\n'+resume_Song_url))
 }
 //---------------------------------------
 function play(connection,message,bot_MessChannel){
@@ -418,7 +414,7 @@ function play(connection,message,bot_MessChannel){
         //stream die erste stelle der array.. also [0]
         resume_Song_url = Song_url_Array[0]
         resume_Song_url_post_text = SongTitel_text_Array[0]
-        console.log(Song_url_Array[0])  
+        //console.log(Song_url_Array[0])  
     }    
     //-----------------------------
     Song_url_Array.shift() //shift gleich die erste stelle in der array...  

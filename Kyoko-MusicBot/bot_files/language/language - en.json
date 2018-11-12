@@ -48,7 +48,8 @@
     "savesong"                  : "Song`s in deiner Liste.",
     "savedelete"                : "delete a song from my list",
     "size_of_the_queue"         : "size of the queue",
-    
+    "see_url"                   : "shows the url of the current song",
+        
     "looking_for"               : "please write what you are looking for",
     "pls_write_in_botchannel"   : "please write in the bot channel",
     "botchannel_not_config"     : "bot channel is not configured",

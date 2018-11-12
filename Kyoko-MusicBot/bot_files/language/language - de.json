@@ -48,6 +48,7 @@
     "savesong"                  : "Song`s in deiner Liste",
     "savedelete"                : "lösch ein Song aus meiner Liste",
     "size_of_the_queue"         : "größe der Warteschlange",
+    "see_url"                   : "zeigt die url des laufenden songs",
     
     "looking_for"               : "bitte schreib dazu nach was du suchst",
     "pls_write_in_botchannel"   : "bitte in den bot channel schreiben",
@@ -57,5 +58,5 @@
     "purge_size_min_message"    : "die [message_size_delete] variable ist zu klein,\n{minimal: 10} überprüfe die setting einstellung",
     "purge_size_max_message"    : "die [message_size_delete] variable ist zu hoch,\n{maximal: 100} überprüfe die setting einstellung",
 
-    "write_at_private"          : "bitte schreib den bot private an"
+    "write_at_private"          : "bitte schreib den bot private an"   
 }

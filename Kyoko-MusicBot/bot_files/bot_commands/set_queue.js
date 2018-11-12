@@ -9,7 +9,7 @@ var set_queue = commands_setting.set_queue;
 exports.run = async (bot,message)=>{
                   
     //-----------------------------
-    var bot_MessChannel = bot.channels.find("name", botchannel); // bot schreibt in einen bestimmten angegebenen channel
+    var bot_MessChannel = bot.channels.find(channel => channel.name === botchannel); // bot schreibt in einen bestimmten angegebenen channel
     //-----------------------------
     sgm.queue(message,bot_MessChannel);
 }

@@ -15,7 +15,7 @@ exports.run = async (bot,message)=>{
     let server = bot.guilds.find(guild => guild.name)
 
     //-----------------------------
-    let bot_MessChannel = bot.channels.find("name", botchannel) 
+    let bot_MessChannel = bot.channels.find(channel => channel.name === botchannel) 
     // bot schreibt in einen bestimmten angegebenen channel
     //----------------------------
 

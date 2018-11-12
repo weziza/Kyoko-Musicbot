@@ -16,7 +16,7 @@ var text = "〘♬♫♪.〙➣ Section: ";
 */
 exports.sl_modul = function(ChatChannel,words_info,words_info_length,Liste_int,bot,liste_Nr,message){
 
-    var bot_MessChannel = bot.channels.find("name", botchannel);
+    var bot_MessChannel = bot.channels.find(channel => channel.name === botchannel);
     var author_Privatmess = message.author
     //-----------------------------
     var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;

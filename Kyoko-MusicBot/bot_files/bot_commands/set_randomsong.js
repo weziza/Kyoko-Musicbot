@@ -1,4 +1,4 @@
-const rwm = require('../bot_module/read_write_modul');
+const spm = require('../bot_module/songprocess_modul');
 //-----------------------------
 const setting = require('../bot_setting/bot_setting.json');
 var botchannel = setting.botchannel;
@@ -11,11 +11,11 @@ exports.run = async (bot,message)=>{
                   
     //-----------------------------
     const voiceConnection = bot.voiceConnections.find(val => val.channel.guild.id == message.guild.id); //constant voiceConnection
-    var memberchannel = message.member.voiceChannel; //global member voiceChannel
-    var bot_MessChannel = bot.channels.find("name", botchannel); // bot schreibt in einen bestimmten angegebenen channel
+    var in_voicechannel = message.member.voiceChannel; //global member voiceChannel
+    var bot_MessChannel = bot.channels.find(channel => channel.name === botchannel); // bot schreibt in einen bestimmten angegebenen channel
     var auth_id = message.author.id; // ist message author id
     //-----------------------------
-    return rwm.Random_song(auth_id,message,bot,prefix+set_randomsong,prefix,botchannel,memberchannel,bot_MessChannel);    
+    return spm.Random_song(auth_id,message,bot,prefix,botchannel,in_voicechannel,bot_MessChannel);    
 }
 
 exports.help = {

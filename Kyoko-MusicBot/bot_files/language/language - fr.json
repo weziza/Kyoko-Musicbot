@@ -48,7 +48,8 @@
     "savesong"                  : "Chanson dans ta liste",
     "savedelete"                : "supprimer une chanson de ma liste",
     "size_of_the_queue"         : "taille de la file d'attente",
-    
+    "see_url"                   : "affiche l'URL de la chanson en cours",
+       
     "looking_for"               : "s'il vous plaît écrivez ce que vous cherchez",
     "pls_write_in_botchannel"   : "s'il vous plaît écrivez dans le canal bot",
     "botchannel_not_config"     : "le canal bot n'est pas configuré",

@@ -1,15 +1,15 @@
-const fs = require('fs');
+const fs = require('fs')
 //------------------------------
 const restart = ["server restarting!"]
 //------------------------------
-const setting = require('../bot_setting/bot_setting.json');
-var token = setting.token;
-var admin_id = setting.admin_id;
-var prefix = setting.prefix;
-var language = setting.language;
+const setting = require('../bot_setting/bot_setting.json')
+var token = setting.token
+var admin_id = setting.admin_id
+var prefix = setting.prefix
+var language = setting.language
 //-----------------------------
-const lg = require('../language/language - '+language+'.json');
-var admin_message = lg.admin_message;
+const lg = require('../language/language - '+language+'.json')
+var admin_message = lg.admin_message
 //-----------------------------
 exports.run = async (bot,message)=>{
 
@@ -22,25 +22,25 @@ exports.run = async (bot,message)=>{
         {   
             if (err){
                 fs.writeFile("./temp/restarting_error.txt", err, function(err){
-                    console.log("server restarting!");
-                    throw err;
-                });
-            };
-        });
+                    console.log("server restarting!")
+                    throw err
+                })
+            }
+        })
 
         if (voiceCon==null){
-            return;
+            return
         }else{
-            voiceCon.disconnect();
+            voiceCon.disconnect()
             // if bot in voice connetion then disconnect 
-            return;
+            return
         }   
         
     }else{
-        message.author.send("```"+admin_message+"```");
-    };  
+        message.author.send("```"+admin_message+"```")
+    }  
 }
 
 exports.help = {
     name: "restart"
-};
+}

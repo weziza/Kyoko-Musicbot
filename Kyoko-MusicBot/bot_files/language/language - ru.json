@@ -48,7 +48,8 @@
     "savesong"                  : "Песня в вашем списке",
     "savedelete"                : "удалить песню из моего списка",
     "size_of_the_queue"         : "размер очереди",
-    
+    "see_url"                   : "показывает URL текущей песни",
+        
     "looking_for"               : "напишите, что вы ищете",
     "pls_write_in_botchannel"   : "напишите в бот-канале",
     "botchannel_not_config"     : "бот-канал не настроен",

@@ -1,4 +1,4 @@
-const rwm = require('../bot_module/read_write_modul');
+const spm = require('../bot_module/songprocess_modul');
 //-----------------------------
 const setting = require('../bot_setting/bot_setting.json');
 var botchannel = setting.botchannel;
@@ -24,7 +24,7 @@ exports.run = async (bot,message)=>{
         message.delete();
         return message.author.send("```"+ write_at_private +"```");
     } else{
-        rwm.delete_song(auth,auth_id,message,bot,prefix+set_deletesong,set_deletesong.length+2,channel); 
+        spm.delete_song(auth,auth_id,message,bot,prefix+set_deletesong,set_deletesong.length+2,channel); 
     }    
 }
 
