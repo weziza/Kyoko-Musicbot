@@ -48,6 +48,7 @@ var help_text_heading = language.help_text_heading,
     savesong = lg.savesong,
     savedelete = lg.savedelete,
     size_of_the_queue = lg.size_of_the_queue
+    see_url = lg.see_url
 //------------------------------
 const commands_setting = require('../bot_setting/commands_setting.json')
 var set_playsong = commands_setting.set_playsong
@@ -92,7 +93,7 @@ exports.InfoScreen = (set_playsong,set_searchsong,set_deletesong,set_savesong,se
       .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_songliste+' | '+songliste + '```',false)
       .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_savesong+' | '+'Max '+GrList+' - '+savesong + '```',false)
       .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_deletesong+' | '+'[ Nr ] '+savedelete + '```',false)
-      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_url+' | '+'[ Nr ] '+savedelete + '```',false)
+      .addField("-----------------------------",'```Nginx'+'\n' + prefix + set_url+' | '+see_url + '```',false)
       .addField("-----------------------------",'```Ini'+'\n' + size_of_the_queue +' = '+'[ '+max_queue+' ]' + '```',false)
       .setThumbnail(InfoEmbedThumbnail[Math.floor(Math.random()* InfoEmbedThumbnail.length)])
       .setImage(setImage[Math.floor(Math.random()* setImage.length)])

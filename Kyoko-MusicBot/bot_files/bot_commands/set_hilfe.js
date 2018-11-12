@@ -28,7 +28,7 @@ var set_ping = commands_setting.set_ping,
     set_deletesong = commands_setting.set_deletesong,
     set_searchsong = commands_setting.set_searchsong,
     set_playsong = commands_setting.set_playsong,
-    set_url = commands_setting.set_playsong
+    set_url = commands_setting.set_url
 //------------------------------
 exports.run = async (bot,message)=>{
     message.delete()// lösche die gepostete messages
