@@ -1,57 +1,60 @@
-const discord = require('discord.js');
-const spm = require('../bot_module/songprocess_modul');
-const mpm = require('../bot_module/music_play_modul');
+const discord = require('discord.js')
+const spm = require('../bot_module/songprocess_modul')
+const mpm = require('../bot_module/music_play_modul')
 //------------------------------
-const setting = require('../bot_setting/bot_setting.json');
-var botchannel = setting.botchannel;
-var prefix = setting.prefix;
-var language = setting.language;
+const setting = require('../bot_setting/bot_setting.json')
+var botchannel = setting.botchannel
+var prefix = setting.prefix
+var language = setting.language
 //------------------------------
-const lg = require('../language/language - '+language+'.json');
-var enter_voice_channel = lg.enter_voice_channel;
-var pls_write_in_botchannel = lg.pls_write_in_botchannel;
-var botchannel_not_config = lg.botchannel_not_config;
+const lg = require('../language/language - '+language+'.json')
+var enter_voice_channel = lg.enter_voice_channel
+var pls_write_in_botchannel = lg.pls_write_in_botchannel
+var botchannel_not_config = lg.botchannel_not_config
 //------------------------------
-const commands_setting = require('../bot_setting/commands_setting.json');
-var set_playsong = commands_setting.set_playsong;
+const commands_setting = require('../bot_setting/commands_setting.json')
+var set_playsong = commands_setting.set_playsong
 //------------------------------
-var memberchannel;
+var memberchannel
 //------------------------------
 exports.run = async (bot,message)=>{
 
     //-----------------------------
-    memberchannel = message.member.voiceChannel; //global member voiceChannel                    
+    memberchannel = message.member.voiceChannel //global member voiceChannel                    
     //-----------------------------
-    var auth_id = message.author.id; // ist message author id
-    var bot_MessChannel = bot.channels.find(channel => channel.name === botchannel); // bot schreibt in einen bestimmten angegebenen channel
-    var url = message.content.split(' ')[1]; // gibt die url aus split prefix aus
+    var auth_id = message.author.id // ist message author id
+    var bot_MessChannel = bot.channels.find(channel => channel.name === botchannel) // bot schreibt in einen bestimmten angegebenen channel
+    var url = message.content.split(' ')[1] // gibt die url aus split prefix aus
     //------------------------------
-    if(!memberchannel){return bot_MessChannel.send(wrap(enter_voice_channel));}
+    if(!memberchannel){return bot_MessChannel.send(wrap(enter_voice_channel))}
     else if (bot_MessChannel==null){
-        message.delete();// lösche die gepostete messages        
+        message.delete()// lösche die gepostete messages        
         return message.channel.send(wrap(botchannel_not_config))}
     else if(message.channel.name!=botchannel){
-        message.delete();// lösche die gepostete messages  
-        return message.channel.send(wrap(pls_write_in_botchannel));}
+        message.delete()// lösche die gepostete messages  
+        return message.channel.send(wrap(pls_write_in_botchannel))}
     else if(!message.content.slice(prefix.length+set_playsong.length+1).startsWith("https://www.youtube.com")){
-        var getNumber = message.content.slice(set_playsong.length+2);
+        var getNumber = message.content.slice(set_playsong.length+2)
         if(getNumber.search(/^[^a-z]+/)){
-            return;
+            return
         }else{
-            message.delete();// lösche die gepostete messages                 
-            spm.get_song_at_list(auth_id,message,bot,set_playsong.length+2,prefix,botchannel,memberchannel,set_playsong);
-            mpm.get_song(memberchannel,message,bot_MessChannel);
-            return;
-        };             
+            message.delete()// lösche die gepostete messages               
+            spm.get_song_at_list(auth_id,message,bot,set_playsong.length+2,prefix,botchannel,memberchannel,set_playsong)
+            setTimeout(function(){
+                mpm.get_song(memberchannel,message,bot_MessChannel)
+            }, 250)
+            
+            return
+        }             
     }else{
-        var url = message.content.slice(prefix.length+set_playsong.length+1);                   
-        mpm.play_song(memberchannel,message,bot_MessChannel,url);
-        return;
-    };
+        var url = message.content.slice(prefix.length+set_playsong.length+1)                   
+        mpm.play_song(memberchannel,message,bot_MessChannel,url)
+        return
+    }
 }
 //------------------------------
 function wrap(text) {
-    return '```\n' + text.replace(/`/g, '`' + String.fromCharCode(8203)) + '\n```';
+    return '```\n' + text.replace(/`/g, '`' + String.fromCharCode(8203)) + '\n```'
 }
 //------------------------------
 

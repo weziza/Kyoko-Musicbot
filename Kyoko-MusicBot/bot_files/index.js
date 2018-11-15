@@ -1,9 +1,8 @@
 const discord = require('discord.js')
 const fs = require('fs')
+const wrt = require('./bot_module/write_temp_file_modul.js')
 //------------------------------
 const bot = new discord.Client()
-var botexp = bot
-exports.bot = botexp
 //------------------------------
 const playerEmoji = require('./bot_setting/emoji_setting')
 var playEmoji = playerEmoji.playEmoji,
@@ -49,7 +48,8 @@ var VolumeNr=1,
     purge_size = false,
     //------
     room = bot.channels.find(channel => channel.name === bot_category),
-    btc = bot.channels.find(channel => channel.name === botchannel)
+    btc = bot.channels.find(channel => channel.name === botchannel),
+    bot_command
 //------------------------------
 bot.commands = new discord.Collection()
 fs.readdir("./bot_commands/",(err, files)=>{
@@ -186,7 +186,8 @@ bot.on('messageReactionAdd', (reaction, user) => {
     }       
 })
 //------------------------------ 
-bot.on("message",function(message){ 
+bot.on("message",function(message){   
+
     //-----------------------------
     let messageArray = message.content.split(/\s+/g) // im channel wurde geschrieben ???
     // let command = messageArray[0]
@@ -198,42 +199,43 @@ bot.on("message",function(message){
     if (bot.channels.find(channel => channel.name === botchannel) == null){
         return console.log(" <-------> "+ "\n" +"cant find the channel "+botchannel+ "\n" +" <-------> ")
         // läuft der bot und man löscht den channel dann return sonst bekommt der bot ein error.
-    }else{
+    }else{        
         //-----------------------------
         if(message.content==prefix+"install"){return cmd.run(bot,message)
         }else if(message.channel.name==undefined && message.content.startsWith(prefix+set_savesong+" https://www.youtube.com")){return cmd.run(bot,message) 
         }else if(message.channel.name==undefined && message.content.startsWith(prefix+set_deletesong)){return cmd.run(bot,message) 
-        }else{
+        }else{            
             if (message_size_delete>100 && purge_size == false){purge_size = true
-                return bot_MessChannel.send(carefully(purge_size_max_message))
+                return bot_MessChannel.send(carefully(purge_size_max_message)),exp()
                 // verhindert ein error sollte bulkdelete über 100 liegen.
             }else if(message_size_delete<10 && purge_size == false){ purge_size = true
-                return bot_MessChannel.send(carefully(purge_size_min_message))
+                return bot_MessChannel.send(carefully(purge_size_min_message)),exp()
                 // sollte delete unter 10 liegen return.
             }else if (purge_size == true){        
-                return purge_size = false
+                return purge_size = false,exp()
                 /*  sollte eines von beiden zutreffen und purge_size wurde schon true gesetzt, 
                     dann geh auf false um die abfrage von vorne zu starten. */
             }else{                
-                if(!message.content.startsWith(prefix)){  
+                if(!message.content.startsWith(prefix)){
                     //console.log(message.channel.messages.size > message_size_delete)
-                    if(message.channel == bot_MessChannel){return autodelete_function(message,bot_MessChannel)}else{return}                
+                    if(message.channel == bot_MessChannel){return autodelete_function(message,bot_MessChannel),exp()}else{return exp()}                
                     // message beginnt mit prefix dann / wenn nicht return und delete all gesendeten messages.
                 }else{
+                    x=message.content
                     if(message.channel == bot_MessChannel){autodelete_function(message,bot_MessChannel)}
                     // sollten zu viele messages im chat stehen wie in der setting angegeben dann mach autodelete.
                     if (message.channel.name!=botchannel) // ist bot channel ja/nein ??
                     { 
-                        return message.channel.send(wrap(pls_write_in_botchannel)) // befehle nur im bot channel annehmen.
+                        return message.channel.send(wrap(pls_write_in_botchannel)),exp() // befehle nur im bot channel annehmen.
                     }else{         
                         //-----------------------------  
                         if (message.content.startsWith(prefix+set_volume)){VolumeNr = message.content.replace(/^[^0-9]+/,'') }
                         // gib mir die zahl des befehls aus
                         //-----------------------------
                         if(!cmd){ // ist cmd nicht dann                 
-                            return bot_MessChannel.send(wrap("invalid command")) //wenn der command nach dem prefix falsch geschrieben wurde 
+                            return bot_MessChannel.send(wrap("invalid command")) ,exp()//wenn der command nach dem prefix falsch geschrieben wurde 
                         }else{ // ist cmd ja dann  
-                            setTimeout(function(){return cmd.run(bot,message,VolumeNr)}, 250)                
+                            setTimeout(function(){return cmd.run(bot,message,VolumeNr),exp()}, 250)                
                         }
                     }
                 }
@@ -242,6 +244,21 @@ bot.on("message",function(message){
     }    
 })
 //------------------------------
+function exp()
+{
+    module.exports.table={ 
+        index:{
+            autodelete : autodelete,
+            purge_size: purge_size,
+            //------
+            room: room,
+            btc: btc,
+            bot_command: bot_command
+        }    
+    }
+    wrt.run()
+}
+//------------------------------
 function autodelete_function(message,bot_MessChannel) {    
 
     message.channel.fetchMessages({ limit: 100 }).then(messages => {                
@@ -249,13 +266,13 @@ function autodelete_function(message,bot_MessChannel) {
         if(messages.size > message_size_delete && autodelete==false){
             setTimeout(function () { 
                 inst = bot.commands.get("install")
-                inst.run(bot,message.channel)
+                inst.run(bot,message)
                 return
             }, 1000)                     
         }
         if(messages.size == message_size_delete) {
             let purge = bot.commands.get(set_purge)
-            return purge.run(bot, message.channel)
+            return purge.run(bot,message.channel)
         }
     }) 
 }

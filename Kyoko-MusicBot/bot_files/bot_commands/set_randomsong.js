@@ -15,7 +15,7 @@ exports.run = async (bot,message)=>{
     var bot_MessChannel = bot.channels.find(channel => channel.name === botchannel); // bot schreibt in einen bestimmten angegebenen channel
     var auth_id = message.author.id; // ist message author id
     //-----------------------------
-    return spm.Random_song(auth_id,message,bot,prefix,botchannel,in_voicechannel,bot_MessChannel);    
+    return spm.Random_song(auth_id,message,bot,prefix,set_randomsong,botchannel,in_voicechannel,bot_MessChannel);    
 }
 
 exports.help = {
