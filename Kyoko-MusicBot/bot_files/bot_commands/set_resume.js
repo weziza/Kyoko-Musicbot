@@ -1,4 +1,5 @@
 const sgm = require('../bot_module/music_play_modul');
+const bmc = require('../bot_module/bot_must_check.js')
 //------------------------------
 const setting = require('../bot_setting/bot_setting.json');
 var botchannel = setting.botchannel;
@@ -14,7 +15,9 @@ exports.run = async (bot,message)=>{
     //-----------------------------
     const voiceConnection = bot.voiceConnections.find(val => val.channel.guild.id == message.guild.id); //constant voiceConnection
     //-----------------------------
-    sgm.resume(message,prefix,voiceConnection,bot_MessChannel);
+    if(!bmc.user_in_voicechannel()){}else{return}
+    if(!bmc.check_it_play()){}else{return}
+    sgm.resume(prefix,voiceConnection,bot_MessChannel);
 }
 
 exports.help = {

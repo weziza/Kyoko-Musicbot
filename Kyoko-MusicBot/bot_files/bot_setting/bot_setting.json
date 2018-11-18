@@ -34,7 +34,5 @@
     "songlist_send_privat"  : true,
 
 
-    "debugBot"              : false,
-
-    "write_testing_file"    : false
+    "debugBot"              : false
 }

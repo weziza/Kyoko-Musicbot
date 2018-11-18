@@ -16,8 +16,8 @@
     "clean_queue_txt"           : "Беше преподавано списък с песни",
     
     "no_music_play"             : "Тя не възпроизвежда музика",
-    "player_pause"              : "Играчът е в почивката",
-    "resume_play"               : "Играчът се възобновява",
+    "player_pause"              : "играч почивка",
+    "resume_play"               : "възобновете възпроизвеждането",
 
     "no_file_created"           : "все още не е създаден файл",
     "enter_voice_channel"       : "първо трябва да въведете гласов канал",
@@ -53,7 +53,6 @@
     "looking_for"               : "моля, напишете това, което търсите",
     "pls_write_in_botchannel"   : "моля, пишете в бот канала",
     "botchannel_not_config"     : "бот канал не е конфигуриран",
-    "disconnect_text"           : "Ще се видим отново решен",
 
     "purge_size_min_message"    : "променливата [message_size_delete] е твърде малка,\n {minimal: 10} проверете настройката",
     "purge_size_max_message"    : "променливата [message_size_delete] е твърде висока,\n {max: 100} проверете настройката",

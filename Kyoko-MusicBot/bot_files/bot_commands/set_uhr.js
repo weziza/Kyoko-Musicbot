@@ -10,7 +10,6 @@ var set_uhr = commands_setting.set_uhr;
 //------------------------------
 
 exports.run = async (bot,message)=>{
-
     //------------------------------
     var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3;
     var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6);

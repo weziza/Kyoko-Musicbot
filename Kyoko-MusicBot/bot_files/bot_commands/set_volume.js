@@ -1,5 +1,6 @@
 const discord = require('discord.js')
 const sgm = require('../bot_module/music_play_modul')
+const bmc = require('../bot_module/bot_must_check.js')
 //------------------------------
 const commands_setting = require('../bot_setting/commands_setting.json')
 var set_volume = commands_setting.set_volume
@@ -14,9 +15,9 @@ exports.run = async (bot,message,VolumeNr)=>{
         setTimeout(function(){
             message.delete()}, 250)}// lösche die gepostete messages
     //------------------------------ 
-    const voiceConnection = bot.voiceConnections.find(val => val.channel.guild.id == message.guild.id) //constant voiceConnection
-    //------------------------------
-    sgm.volume(message,VolumeNr,voiceConnection) //funktion Volume 
+    if(!bmc.user_in_voicechannel()){}else{return}
+    if(!bmc.check_it_play()){}else{return}
+    sgm.volume(VolumeNr) //funktion Volume 
 }
 
 exports.help = {

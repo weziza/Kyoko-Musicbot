@@ -16,8 +16,8 @@
     "clean_queue_txt"           : "La liste des chansons a été enseignée",
     
     "no_music_play"             : "Il ne joue pas de musique",
-    "player_pause"              : "Le joueur est à la pause",
-    "resume_play"               : "CV du joueur",
+    "player_pause"              : "Pause joueur",
+    "resume_play"               : "reprendre la lecture",
 
     "no_file_created"           : "aucun fichier n'a encore été créé",
     "enter_voice_channel"       : "vous devez d'abord entrer un canal vocal",
@@ -53,7 +53,6 @@
     "looking_for"               : "s'il vous plaît écrivez ce que vous cherchez",
     "pls_write_in_botchannel"   : "s'il vous plaît écrivez dans le canal bot",
     "botchannel_not_config"     : "le canal bot n'est pas configuré",
-    "disconnect_text"           : "A bientôt déterminé",
 
     "purge_size_min_message"    : "la variable [message_size_delete] est trop petite,\n {minimal: 10} vérifiez le paramètre",
     "purge_size_max_message"    : "la variable [message_size_delete] est trop élevée,\n {max: 100} vérifiez le paramètre",

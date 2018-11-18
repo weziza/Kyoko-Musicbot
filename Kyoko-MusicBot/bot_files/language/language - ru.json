@@ -16,8 +16,8 @@
     "clean_queue_txt"           : "Список песен был преподан",
     
     "no_music_play"             : "Он не воспроизводит музыку",
-    "player_pause"              : "Игрок находится в перерыве",
-    "resume_play"               : "Поиск игрока",
+    "player_pause"              : "Игрок приостановился",
+    "resume_play"               : "возобновить игру",
 
     "no_file_created"           : "файл еще не создан",
     "enter_voice_channel"       : "вы должны сначала ввести голосовый канал",
@@ -53,7 +53,6 @@
     "looking_for"               : "напишите, что вы ищете",
     "pls_write_in_botchannel"   : "напишите в бот-канале",
     "botchannel_not_config"     : "бот-канал не настроен",
-    "disconnect_text"           : "Увидимся снова",
 
     "purge_size_min_message"    : "переменная [message_size_delete] слишком мала,\n {minimum: 10} проверьте настройку",
     "purge_size_max_message"    : "значение [message_size_delete] слишком велико,\n {max: 100} проверьте настройку",

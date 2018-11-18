@@ -1,5 +1,4 @@
-const bmess = require('./bot_message_modul'),
-    wrt = require('./write_temp_file_modul.js')
+const bmess = require('./bot_message_modul')
 //------------------------------
 const setting = require('../bot_setting/bot_setting.json')
 var botchannel = setting.botchannel

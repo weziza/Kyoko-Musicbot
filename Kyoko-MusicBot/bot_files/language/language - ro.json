@@ -16,8 +16,8 @@
     "clean_queue_txt"           : "Lista de melodii a fost predată",
     
     "no_music_play"             : "Nu redă muzică",
-    "player_pause"              : "Jucătorul se află în pauză",
-    "resume_play"               : "Jucătorul relua",
+    "player_pause"              : "Pauză jucător",
+    "resume_play"               : "relua redarea",
 
     "no_file_created"           : "niciun fișier nu a fost creat încă",
     "enter_voice_channel"       : "trebuie să introduceți mai întâi un canal vocal",
@@ -53,7 +53,6 @@
     "looking_for"               : "scrieți ceea ce căutați",
     "pls_write_in_botchannel"   : "scrieți în canalul bot",
     "botchannel_not_config"     : "canalul bot nu este configurat",
-    "disconnect_text"           : "Ne vedem din nou hotărâți",
 
     "purge_size_min_message"    : "variabila [message_size_delete] este prea mică,\n {minimal: 10} verificați setarea",
     "purge_size_max_message"    : "variabila [message_size_delete] este prea mare,\n {max: 100} verificați setarea",

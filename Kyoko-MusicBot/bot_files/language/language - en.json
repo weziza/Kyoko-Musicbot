@@ -16,7 +16,7 @@
     "clean_queue_txt"           : "Song list was taught",
     
     "no_music_play"             : "It does not play music",
-    "player_pause"              : "Player is in the break",
+    "player_pause"              : "Player break",
     "resume_play"               : "Player resume",
 
     "no_file_created"           : "no file has been created yet",
@@ -53,7 +53,6 @@
     "looking_for"               : "please write what you are looking for",
     "pls_write_in_botchannel"   : "please write in the bot channel",
     "botchannel_not_config"     : "bot channel is not configured",
-    "disconnect_text"           : "See you again",
 
     "purge_size_min_message"    : "the [message_size_delete] variable is too small,\n {minimal: 10} check the setting setting",
     "purge_size_max_message"    : "the [message_size_delete] variable is too high,\n {max: 100} check the setting setting",

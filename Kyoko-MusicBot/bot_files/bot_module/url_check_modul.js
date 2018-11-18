@@ -12,14 +12,12 @@ module.exports={
         url_error=false
         ytdl.getInfo(queue_url_array, (err, info) => { 
             if (err){
-                url_error=true  
-                // console.log(url_error)                          
+                url_error=true                       
                 return bot_MessChannel.send(carefully("[*]( error! - check the url )" + '\n' +"<   "+queue_url_array+"   >"))                
             }else{
                 url_error=false
             } 
         })
-        // console.log(url_error, "      url_check url_error")
         return url_error
     }
 }

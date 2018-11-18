@@ -43,7 +43,6 @@ exports.run = async (bot,message)=>{
     }else{
         return bmess.InfoScreen(set_playsong,set_searchsong,set_deletesong,set_savesong,set_songliste,set_randomsong,set_purge,set_volume,set_leave,set_resume,set_pause,set_skip,set_queue,set_clean,set_hilfe,set_uhr,set_mega,set_ping,set_url,bot_MessChannel,prefix,RandomColor,MaxQueue,bot_name) //info ausgabe
     }
-    //mpm.queue(message,bot_MessChannel)
 }
 
 exports.help = {

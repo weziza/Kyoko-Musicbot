@@ -1,6 +1,7 @@
 const discord = require('discord.js')
 const fs = require('fs')
-const wrt = require('./bot_module/write_temp_file_modul.js')
+const bmc = require('./bot_module/bot_must_check.js')
+const mpm = require('./bot_module/music_play_modul')
 //------------------------------
 const bot = new discord.Client()
 //------------------------------
@@ -50,6 +51,8 @@ var VolumeNr=1,
     room = bot.channels.find(channel => channel.name === bot_category),
     btc = bot.channels.find(channel => channel.name === botchannel),
     bot_command
+
+    
 //------------------------------
 bot.commands = new discord.Collection()
 fs.readdir("./bot_commands/",(err, files)=>{
@@ -96,7 +99,7 @@ bot.on('ready', () => {
     }
 }) 
 //------------------------------
-bot.on('messageReactionAdd', (reaction, user) => {
+bot.on('messageReactionAdd', (reaction, user) => {    
 
     var pause = bot.commands.get(set_pause),
         skip = bot.commands.get(set_skip),
@@ -106,88 +109,95 @@ bot.on('messageReactionAdd', (reaction, user) => {
         kick = bot.commands.get(set_leave),
         volume = bot.commands.get(set_volume)
 
-    if(reaction.emoji.id == pauseEmoji){
-        if(user.username==bot_name){
-            return
-        }else{
-            reaction.remove(user.id)            
-            pause.run(bot,reaction.message)
-        }
-    }
-    if(reaction.emoji.id === playEmoji) {
-        if(user.username==bot_name){
-            return
-        }else{
-            reaction.remove(user.id)            
-            resume.run(bot,reaction.message)
-        }
-    }
-    if(reaction.emoji.id === replayEmoji) {
-        if(user.username==bot_name){
-            return
-        }else{
-            reaction.remove(user.id)           
-            replay.run(bot,reaction.message)
-        }
-    }
-    if(reaction.emoji.id === cleanEmoji) {
-        if(user.username==bot_name){
-            return
-        }else{
-            reaction.remove(user.id)            
-            clean.run(bot,reaction.message)
-        }
-    }
-    if(reaction.emoji.id === skipEmoji) {
-        if(user.username==bot_name){
-            return
-        }else{
-            reaction.remove(user.id)            
-            skip.run(bot,reaction.message)
-        }
-    }
-    if(reaction.emoji.id === kickEmoji) {
-        if(user.username==bot_name){
-            return
-        }else{
-            reaction.remove(user.id)            
-            kick.run(bot,reaction.message)
-        }
-    }
-    if(reaction.emoji.id === volumeupEmoji) {
-        if(user.username==bot_name){
-            return
-        }else{
-            if(VolumeNr>9){
-                VolumeNr = 10
-                volume.run(bot,reaction.message,VolumeNr)
-                return reaction.remove(user.id)
-            }else{                
-                VolumeNr++               
-                volume.run(bot,reaction.message,VolumeNr) 
-                return reaction.remove(user.id) 
-            }
-        }
-    }    
-    if(reaction.emoji.id === volumedownEmoji) {
-        if(user.username==bot_name){
-            return
-        }else{
-            if(VolumeNr<2){
-                VolumeNr = 1
-                volume.run(bot,reaction.message,VolumeNr)
-                return reaction.remove(user.id)
+        // console.log(mpm.temp.bot_playing)
+    
+    if(!mpm.temp.bot_playing){return}else{
+        
+        if(reaction.emoji.id == pauseEmoji){
+            if(user.username==bot_name){
+                return
             }else{
-                VolumeNr--           
-                volume.run(bot,reaction.message,VolumeNr)
-                return reaction.remove(user.id)      
+                reaction.remove(user.id)            
+                pause.run(bot,reaction.message)
             }
         }
-    }       
+        if(reaction.emoji.id === playEmoji) {
+            if(user.username==bot_name){
+                return
+            }else{
+                reaction.remove(user.id)            
+                resume.run(bot,reaction.message)
+            }
+        }
+        if(reaction.emoji.id === replayEmoji) {
+            if(user.username==bot_name){
+                return
+            }else{
+                reaction.remove(user.id)           
+                replay.run(bot,reaction.message)
+            }
+        }
+        if(reaction.emoji.id === cleanEmoji) {
+            if(user.username==bot_name){
+                return
+            }else{
+                reaction.remove(user.id)            
+                clean.run(bot,reaction.message)
+            }
+        }
+        if(reaction.emoji.id === skipEmoji) {
+            if(user.username==bot_name){
+                return
+            }else{
+                reaction.remove(user.id)            
+                skip.run(bot,reaction.message)
+            }
+        }
+        if(reaction.emoji.id === kickEmoji) {
+            if(user.username==bot_name){
+                return
+            }else{
+                reaction.remove(user.id)            
+                kick.run(bot,reaction.message)
+            }
+        }
+        if(reaction.emoji.id === volumeupEmoji) {
+            if(user.username==bot_name){
+                return
+            }else{
+                if(VolumeNr>9){
+                    VolumeNr = 10
+                    volume.run(bot,reaction.message,VolumeNr)
+                    return reaction.remove(user.id)
+                }else{                
+                    VolumeNr++               
+                    volume.run(bot,reaction.message,VolumeNr) 
+                    return reaction.remove(user.id) 
+                }
+            }
+        }    
+        if(reaction.emoji.id === volumedownEmoji) {
+            if(user.username==bot_name){
+                return
+            }else{
+                if(VolumeNr<2){
+                    VolumeNr = 1
+                    volume.run(bot,reaction.message,VolumeNr)
+                    return reaction.remove(user.id)
+                }else{
+                    VolumeNr--           
+                    volume.run(bot,reaction.message,VolumeNr)
+                    return reaction.remove(user.id)      
+                }
+            }
+        }  
+    }     
 })
 //------------------------------ 
-bot.on("message",function(message){   
-
+bot.on("message",function(message){ 
+    
+    module.exports.temp={message:message,bot:bot}
+    
     //-----------------------------
     let messageArray = message.content.split(/\s+/g) // im channel wurde geschrieben ???
     // let command = messageArray[0]
@@ -196,46 +206,45 @@ bot.on("message",function(message){
     let bot_MessChannel = bot.channels.find(channel => channel.name === botchannel)             
     // bot schreibt in einen bestimmten angegebenen channel   
     //-----------------------------
-    if (bot.channels.find(channel => channel.name === botchannel) == null){
-        return console.log(" <-------> "+ "\n" +"cant find the channel "+botchannel+ "\n" +" <-------> ")
+    if(message.content==prefix+"install"){return cmd.run(bot,message)}
+    // if (bot.channels.find(channel => channel.name === botchannel) == null){
+    bmc.no_botchannel(message,bot)    
+    if(bmc.temp.no==true){
+        return
         // läuft der bot und man löscht den channel dann return sonst bekommt der bot ein error.
     }else{        
         //-----------------------------
-        if(message.content==prefix+"install"){return cmd.run(bot,message)
-        }else if(message.channel.name==undefined && message.content.startsWith(prefix+set_savesong+" https://www.youtube.com")){return cmd.run(bot,message) 
+        if(message.channel.name==undefined && message.content.startsWith(prefix+set_savesong+" https://www.youtube.com")){return cmd.run(bot,message) 
         }else if(message.channel.name==undefined && message.content.startsWith(prefix+set_deletesong)){return cmd.run(bot,message) 
         }else{            
             if (message_size_delete>100 && purge_size == false){purge_size = true
-                return bot_MessChannel.send(carefully(purge_size_max_message)),exp()
+                return bot_MessChannel.send(carefully(purge_size_max_message))
                 // verhindert ein error sollte bulkdelete über 100 liegen.
             }else if(message_size_delete<10 && purge_size == false){ purge_size = true
-                return bot_MessChannel.send(carefully(purge_size_min_message)),exp()
+                return bot_MessChannel.send(carefully(purge_size_min_message))
                 // sollte delete unter 10 liegen return.
             }else if (purge_size == true){        
-                return purge_size = false,exp()
+                return purge_size = false
                 /*  sollte eines von beiden zutreffen und purge_size wurde schon true gesetzt, 
                     dann geh auf false um die abfrage von vorne zu starten. */
             }else{                
-                if(!message.content.startsWith(prefix)){
-                    //console.log(message.channel.messages.size > message_size_delete)
-                    if(message.channel == bot_MessChannel){return autodelete_function(message,bot_MessChannel),exp()}else{return exp()}                
+                if(!message.content.startsWith(prefix)){                   
+                    if(message.channel == bot_MessChannel){return autodelete_function(message,bot_MessChannel)}else{return}                
                     // message beginnt mit prefix dann / wenn nicht return und delete all gesendeten messages.
                 }else{
-                    x=message.content
+                    bmc.run(message,bot) // sende bot_must_check die message und bot informationen erst wenn prefix benutzt wird
                     if(message.channel == bot_MessChannel){autodelete_function(message,bot_MessChannel)}
-                    // sollten zu viele messages im chat stehen wie in der setting angegeben dann mach autodelete.
-                    if (message.channel.name!=botchannel) // ist bot channel ja/nein ??
-                    { 
-                        return message.channel.send(wrap(pls_write_in_botchannel)),exp() // befehle nur im bot channel annehmen.
+                    // sollten zu viele messages im chat stehen wie in der setting angegeben dann mach autodelete
+                    if (bmc.write_bot_MessChannel()){ // ist bot channel ja/nein ??                     
                     }else{         
                         //-----------------------------  
                         if (message.content.startsWith(prefix+set_volume)){VolumeNr = message.content.replace(/^[^0-9]+/,'') }
                         // gib mir die zahl des befehls aus
                         //-----------------------------
                         if(!cmd){ // ist cmd nicht dann                 
-                            return bot_MessChannel.send(wrap("invalid command")) ,exp()//wenn der command nach dem prefix falsch geschrieben wurde 
+                            return bot_MessChannel.send(wrap("invalid command"))//wenn der command nach dem prefix falsch geschrieben wurde 
                         }else{ // ist cmd ja dann  
-                            setTimeout(function(){return cmd.run(bot,message,VolumeNr),exp()}, 250)                
+                            setTimeout(function(){return cmd.run(bot,message,VolumeNr)}, 250)                
                         }
                     }
                 }
@@ -243,21 +252,6 @@ bot.on("message",function(message){
         }
     }    
 })
-//------------------------------
-function exp()
-{
-    module.exports.table={ 
-        index:{
-            autodelete : autodelete,
-            purge_size: purge_size,
-            //------
-            room: room,
-            btc: btc,
-            bot_command: bot_command
-        }    
-    }
-    wrt.run()
-}
 //------------------------------
 function autodelete_function(message,bot_MessChannel) {    
 
@@ -294,7 +288,8 @@ bot.on("debug",function(debug){
     console.log(debug)}
 })
 //------------------------------
-bot.on("voiceStateUpdate",function(oldMember,newMember){   
+bot.on("voiceStateUpdate",function(oldMember,newMember){  
+    
     if(oldMember.user.bot){
         // console.log("bot")
         VolumeNr=1 //reset the volume on voice connect or leave
