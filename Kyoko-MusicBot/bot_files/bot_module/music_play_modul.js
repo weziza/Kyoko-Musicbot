@@ -262,8 +262,9 @@ exports.search_song = function(searchVideo,bot_MessChannel){
             request("https://www.googleapis.com/youtube/v3/search?part=id&type=video&q=" + encodeURIComponent(query) + "&key=" + yt_api_key, function(error, response, body){
                 var json = JSON.parse(body) 
                 if (json.items==undefined){
+                    console.log(json.items) 
                     return bot_MessChannel.send(wrap(yt_api_key_error))
-                }else{       
+                }else{                          
                     if (!json.items[0]){callback(URLArray[Math.floor(Math.random()* URLArray.length)])} //console.log("not found") 
                     else {callback(json.items[0].id.videoId)} //console.log("found")
                 }               
@@ -279,8 +280,9 @@ exports.search_song = function(searchVideo,bot_MessChannel){
                 return module.exports.temp={ vieo: undefined,bot_playing:bot_playing}                                                        
             }else{
                 fetchVideoInfo(id, function (err, videoInfo) {
-                setTimeout(function(){                   
-                    return module.exports.temp={vieo: videoInfo.url,bot_playing:bot_playing} 
+                setTimeout(function(){ 
+                    // console.log(videoInfo.url, "              getID  " )                    
+                    return module.exports.temp={vieo: videoInfo.url, bot_playing: bot_playing} 
                 }, 250) 
             });                        
         }                                                       
@@ -374,7 +376,7 @@ exports.resume = function(prefix,voiceConnection,bot_MessChannel){
     }else{return}
 }
 
-exports.volume = function(VolumeNr){
+exports.volume = function(VolumeNr,voiceConnection){
 
     const dispatcher = voiceConnection.player.dispatcher 
     // initial dispatcher

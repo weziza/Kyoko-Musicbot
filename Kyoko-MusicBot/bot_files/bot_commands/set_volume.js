@@ -9,7 +9,10 @@ const setting = require('../bot_setting/bot_setting.json')
 var prefix = setting.prefix
 //------------------------------
 exports.run = async (bot,message,VolumeNr)=>{
-     
+    
+    //-----------------------------
+    const voiceConnection = bot.voiceConnections.find(val => val.channel.guild.id == message.guild.id); //constant voiceConnection
+    //-----------------------------     
     if(message.content.startsWith(prefix+set_volume)){
         console.log(message.content)
         setTimeout(function(){
@@ -17,7 +20,7 @@ exports.run = async (bot,message,VolumeNr)=>{
     //------------------------------ 
     if(!bmc.user_in_voicechannel()){}else{return}
     if(!bmc.check_it_play()){}else{return}
-    sgm.volume(VolumeNr) //funktion Volume 
+    sgm.volume(VolumeNr,voiceConnection) //funktion Volume 
 }
 
 exports.help = {
