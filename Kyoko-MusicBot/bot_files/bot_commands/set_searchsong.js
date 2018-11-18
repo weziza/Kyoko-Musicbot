@@ -25,13 +25,14 @@ exports.run = async (bot,message)=>{
         return bot_MessChannel.send(wrap(looking_for))
     }else{
     //-----------------------------//-----------------------------//-----------------------------    
-        mpm.search_song(sucheVideo,bot_MessChannel)
-        // bot_MessChannel.send({files: ["./bot_stuff/st_files/loading.gif"]})          
-        setTimeout(function(){ 
-            if (mpm.temp.vieo==undefined){return}else{  
-                return mpm.play_song(voicechannel,message,bot_MessChannel, mpm.temp.vieo)                                           
+        mpm.search_song(sucheVideo,bot_MessChannel) //console.log("search_song")         
+        bot_MessChannel.send({files: ["./bot_stuff/st_files/searching.gif"]})          
+        // bot_MessChannel.send(wrap("search 5 second long please wait")) // console.log(mpm.temp.vieo,"    0")       
+        setTimeout(function(){ // console.log(mpm.temp.vieo,"    1")            
+            if (mpm.temp.vieo==undefined){return}else{            
+                return mpm.play_song(voicechannel,message,bot_MessChannel, mpm.temp.vieo) // console.log(mpm.temp.vieo,"    2")                                        
             }                    
-        }, 2000)   
+        }, 5000)   
     } 
  
 }
