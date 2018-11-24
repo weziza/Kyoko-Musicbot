@@ -10,8 +10,8 @@ var admin_message = lg.admin_message
 
 exports.run = async (bot,message)=>{
 
+    //-----------------------------
     let server = bot.guilds.find(guild => guild.name)
-
     //-----------------------------
     let bot_MessChannel = bot.channels.find(channel => channel.name === botchannel) 
     // bot schreibt in einen bestimmten angegebenen channel
@@ -37,7 +37,7 @@ exports.run = async (bot,message)=>{
                 btc = bot.channels.find(channel => channel.name === botchannel)
                 btc.setParent(room.id)
             }
-        }, 1000)
+        }, 1500)
     }else{
         message.author.send("```"+admin_message+"```")
     }  

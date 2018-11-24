@@ -1,6 +1,6 @@
 {
   "name": "index",
-  "version": "2.0.0.0",
+  "version": "2.1.7.3",
   "main": "index.js",
   "homepage": "https://github.com/H5Pro2/Kyoko-Musicbot",
   "dependencies": {
@@ -27,8 +27,8 @@
   "nodemonConfig": {
     "ignore": [
       "user_songlist/*.json",
-      "temp/not_found_url.json",
-      "temp/variable_testing.json"
+      "temp/bot_channel_id.json",
+      "temp/all_channels_id.json"
     ],
     "delay": "2500"
   },

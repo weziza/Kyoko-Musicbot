@@ -41,10 +41,9 @@ var no = false
     
     exports.write_bot_MessChannel = function(){  
         messagex=index.temp.message  
-        botx=index.temp.bot        
-        var write_bot_MessChannel = botx.channels.find(channel => channel.name === botchannel)         
-        // bot schreibt in einen bestimmten angegebenen channel        
-        if(messagex.channel.name!=botchannel){return messagex.channel.send(wrap2(pls_write_in_botchannel))}   
+        botx=index.temp.bot             
+        if(messagex.channel.name!=botchannel){return messagex.channel.send(wrap2(pls_write_in_botchannel))} 
+        // ist die nachricht nicht im bot channel geschriebn dann gebe eine rückmeldung an den user  
     }
 
 
@@ -54,6 +53,7 @@ var no = false
         //---------------------------------------
         var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3
         var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6)
+        //-----------------------------
         var bot_MessChannel = botx.channels.find(channel => channel.name === botchannel)
         var voicechannel = messagex.member.voiceChannel 
         // console.log(voicechannel) 
@@ -68,8 +68,9 @@ var no = false
         //---------------------------------------
         var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3
         var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6)
+        //-----------------------------
         var bot_MessChannel = botx.channels.find(channel => channel.name === botchannel)
-        //-----------------------------        
+        //-----------------------------     
         if(!mpm.temp.bot_playing){
             // return messagex.channel.send(wrap2(no_music_play))            
             return bmess.ambedMessage("؎",'```HTTP'+'\n' + no_music_play + '```', bot_MessChannel,RandomColor,bot_name,music_not_playing)

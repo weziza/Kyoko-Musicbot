@@ -25,23 +25,6 @@ var no_file_created = lg.no_file_created,
     song_saved =lg.song_saved,
     song_delete =lg.song_delete
 //------------------------------
-//var songlength,
-    // songlengthmsg,
-    // get_songnumber,
-    // mess_url,
-    // info_url,
-    // arrayLength,
-    // viertel,
-    // halb,
-    // dreiv,
-    // words_info_1,
-    // words_info_2,
-    // words_info_3,
-    // words_info_4
-
-// var user_url = [],
-//     user_url_info = []
-//------------------------------
 /**
 * @param  auth_id the author id
 * @param  message message from channel
@@ -114,12 +97,7 @@ exports.get_song_at_list = function(auth_id,message,bot,slice,prefix,botchannel,
 * @param  bot_MessChannel is member write in bot message channel?
 * @param  content_array array return from json_read
 */
-exports. Random_song = function(auth_id,message,bot,prefix,set_randomsong,botchannel,voicechannel,bot_MessChannel,content_array) {
-    // var url_mess = 0
-    // //---------------------------------------
-    // var sub = 0.5+Math.random()*0.15-0.35+Math.random()*1.3
-    // var RandomColor = '0x'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(sub,6)
-    //---------------------------------------      
+exports.Random_song = function(auth_id,message,bot,prefix,set_randomsong,botchannel,voicechannel,bot_MessChannel,content_array) { 
     fs.exists(Songlisten_pfad+auth_id+urlInput,(exists)=> {
         if (!exists) {
             message.delete()
@@ -128,7 +106,7 @@ exports. Random_song = function(auth_id,message,bot,prefix,set_randomsong,botcha
         if(message.content.startsWith(prefix+set_randomsong)) {
             
             user_url = rw.json_read(Songlisten_pfad+auth_id+urlInput,content_array)
-            var url_x = user_url[1]+[Math.floor(Math.random() * user_url.length)]
+            var url_x = user_url[1]+[Math.floor(Math.random() * user_url.length-1)]
             console.log(url_x)
             voicechannel.join()
             mpm.play_song(voicechannel, message,bot_MessChannel,url_x)
@@ -163,7 +141,8 @@ exports.save_song = function(auth,auth_id,message,bot,comando,slice,botchannel){
                 rw.json_write(Songlisten_pfad+auth_id+urlInfo,user_url_info) 
                 setTimeout(function(){
                     resolve('Success!')
-                    bot.channels.find(channel => channel.id === botchannel).send('```\n'+file_created+'\n```')
+                    // bot.channels.find(channel => channel.id === botchannel).send('```\n'+file_created+'\n```')
+                    bot.users.get(auth_id).send('```\n'+file_created+'\n```')
                 }, 250)
             })
             then_do.then(function(value) {               
@@ -189,7 +168,8 @@ function save_song_do_next(auth,auth_id,message,bot,comando,slice,botchannel,msg
     words_info[0] = auth
 
     if (url_message.indexOf("h")>0){
-        return bot.channels.find(channel => channel.id === botchannel).send('```\n' +many_blank_spaces+ '\n```')
+        // return bot.channels.find(channel => channel.id === botchannel).send('```\n' +many_blank_spaces+ '\n```')
+        return bot.users.get(auth_id).send('```\n' +many_blank_spaces+ '\n```')
     }
     else(message.content.startsWith(comando)) 
     {
@@ -208,7 +188,8 @@ function save_song_do_next(auth,auth_id,message,bot,comando,slice,botchannel,msg
                     
                     ytdl.getInfo(url_messageInfo, (error, videoInfo) => {
                         if (error) {                             
-                            return message.channel.send(wrap(incomplete_url)) // error unvollständige url                            
+                            // return message.channel.send(wrap(incomplete_url)) 
+                            return bot.users.get(auth_id).send(wrap(incomplete_url)) // error unvollständige url                           
                         }
                         else {
                             var time = videoInfo.length_seconds / 60 
@@ -223,7 +204,8 @@ function save_song_do_next(auth,auth_id,message,bot,comando,slice,botchannel,msg
                         setTimeout(function(){
                             user_url_info = [] 
                             user_url = [] 
-                            return bot.channels.find(channel => channel.id === botchannel).send('```\n' +url_messageInfo+'\n'+">> "+song_saved + '\n```')
+                            // return bot.channels.find(channel => channel.id === botchannel).send('```\n' +url_messageInfo+'\n'+">> "+song_saved + '\n```')
+                            return bot.users.get(auth_id).send('```\n' +url_messageInfo+'\n'+">> "+song_saved + '\n```')
                         }, 250)
                     })                    
                 }
@@ -231,7 +213,8 @@ function save_song_do_next(auth,auth_id,message,bot,comando,slice,botchannel,msg
             }                
         }else{
             message.delete()
-            return bot.channels.find(channel => channel.id === botchannel).send('```\n' +only_jt_url+ '\n```')
+            // return bot.channels.find(channel => channel.id === botchannel).send('```\n' +only_jt_url+ '\n```')
+            return bot.users.get(auth_id).send('```\n' +only_jt_url+ '\n```')
         }  
     }
 }
@@ -248,7 +231,8 @@ exports.songliste = function(auth,auth_id,message,bot,botchannel){
     fs.exists(Songlisten_pfad+auth_id+urlInfo,(exists)=> {
         if (!exists) {
             message.delete()
-            return bot.channels.find(channel => channel.name === botchannel).send(wrap(no_file_created))
+            // return bot.channels.find(channel => channel.name === botchannel).send(wrap(no_file_created))
+            return bot.users.get(auth_id).send(wrap(no_file_created))
         }
 
         var Info_buffer = fs.readFileSync(Songlisten_pfad+auth_id+urlInfo)
@@ -321,7 +305,8 @@ exports.delete_song = function(auth,auth_id,message,bot,comando,slice,botchannel
 
     fs.exists(Songlisten_pfad+auth_id+urlInput,(exists)=> {
         if (!exists) {            
-            return bot.channels.find(channel => channel.id ===  botchannel).send(wrap(no_file_created))  
+            // return bot.channels.find(channel => channel.id ===  botchannel).send(wrap(no_file_created))  
+            return bot.users.get(auth_id).send(wrap(no_file_created))
         }
         var i=0
         var words_url = rw.json_read(Songlisten_pfad+auth_id+urlInput,content_array)
@@ -344,7 +329,8 @@ exports.delete_song = function(auth,auth_id,message,bot,comando,slice,botchannel
                     if (get_songnumber==0){
                         user_url_info = [] 
                         uuser_urll = []
-                        return bot.channels.find(channel => channel.id === botchannel).send('```\n' +delete_your_name+ '\n```')
+                        // return bot.channels.find(channel => channel.id === botchannel).send('```\n' +delete_your_name+ '\n```')
+                        return bot.users.get(auth_id).send('```\n' +delete_your_name+ '\n```')
                     }else{
 
                         user_url.splice(get_songnumber, 1) //löscht 1 gewünschte zeile aus der array
@@ -354,7 +340,8 @@ exports.delete_song = function(auth,auth_id,message,bot,comando,slice,botchannel
                         setTimeout(function(){
                             user_url_info = [] 
                             user_url = [] 
-                            return bot.channels.find(channel => channel.id === botchannel).send('```\n'+get_songnumber+" : "+lead+'\n'+" >> "+song_delete+ '\n```')
+                            // return bot.channels.find(channel => channel.id === botchannel).send('```\n'+get_songnumber+" : "+lead+'\n'+" >> "+song_delete+ '\n```')
+                            return bot.users.get(auth_id).send('```\n'+get_songnumber+" : "+lead+'\n'+" >> "+song_delete+ '\n```')
                         }, 250)
                     }
                 }

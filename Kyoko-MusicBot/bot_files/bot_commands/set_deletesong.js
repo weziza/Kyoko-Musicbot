@@ -18,9 +18,13 @@ exports.run = async (bot,message)=>{
     var auth = message.author.username; // ist message author
     var auth_id = message.author.id; // ist message author id
     var msg = message.content.toLowerCase();
+    //-----------------------------
+    x = fs.readFileSync("./temp/bot_channel_id.json"), err =>{if (err){throw err}}
+    var fileback = JSON.parse(x)   
+    //hole dir die informationen aus 
     //-----------------------------    
-    if (message.channel.name==botchannel){
-        //console.log(message.channel.id,"   ", auth_id)
+    if (fileback.botchannel_id != message.channel.id ){
+        // console.log(message.channel.id,"   ", " auth_id ==  ",auth_id)
         message.delete();
         return message.author.send("```"+ write_at_private +"```");
     } else{
