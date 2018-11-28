@@ -2,6 +2,7 @@ const discord = require('discord.js')
 const fs = require('fs')
 const bmc = require('./bot_module/bot_must_check.js')
 const mpm = require('./bot_module/music_play_modul')
+const stp = require('./bot_commands/set_purge')
 //------------------------------
 const bot = new discord.Client()
 //------------------------------
@@ -283,13 +284,11 @@ bot.on("message",function(message){
         }else{    
             //-----------  messages starten mit prefix ?? ------------------            
             if(!message.content.startsWith(prefix)){
-                if(message.channel == bot_MessChannel)
-                {return autodelete_function(message,bot_MessChannel)}else{return}                
+                if(message.channel == bot_MessChannel){return autodelete_function(message,bot_MessChannel)}else{return}                
                 // message beginnt mit prefix dann / wenn nicht return und delete all gesendeten messages.
             }else{
                 bmc.run(message,bot) // sende bot_must_check die message und bot informationen erst wenn prefix benutzt wird
-                if(message.channel == bot_MessChannel)
-                {autodelete_function(message,bot_MessChannel),console.log("hier ")}
+                if(message.channel == bot_MessChannel){autodelete_function(message,bot_MessChannel)}
                 // sollten zu viele messages im chat stehen wie in der setting angegeben dann mach autodelete
                 if (bmc.write_bot_MessChannel()){ // ist botchannel ?? - ja/nein                     
                 }else{         
@@ -310,13 +309,7 @@ bot.on("message",function(message){
 //------------------------------
 function autodelete_function(message,bot_MessChannel) {    
 
-   
-    var msz = 0
-
     message.channel.fetchMessages({ limit: 100 }).then(messages => {                
-
-        msz = messages.size
-        // console.log(msz)
 
         if(messages.size == 100 && autodelete==false){
             setTimeout(function () { 
@@ -325,9 +318,9 @@ function autodelete_function(message,bot_MessChannel) {
                 return inst.run(bot,message)                
             }, 1000)                     
         }
-        if(messages.size > message_size_delete){
+        if(messages.size > message_size_delete-1){
             let purge = bot.commands.get(set_purge)
-            return purge.run(bot,message.channel,msz)
+            return purge.run(bot,message)
         }
     }), err =>{if (err){throw err,console.log(err)}}
 }
