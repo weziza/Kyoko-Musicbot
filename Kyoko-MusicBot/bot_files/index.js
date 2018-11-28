@@ -115,9 +115,10 @@ function pathandfilecheck(){
     fs.exists("./user_songlist",(exists)=>{console.log( "path user_songlist     exists:  " + exists)}),
     setTimeout(function(){
         console.log("<<------------------------------->>")
-        fs.exists("./package.json",(exists)=>{console.log(      "file package.json      exists:  " + exists)}),
-        fs.exists("./win_bot_run.exe",(exists)=>{console.log(   "file win_bot_run.exe   exists:  " + exists)}),
-        fs.exists("./win_npm.exe",(exists)=>{console.log(       "file win_npm.exe       exists:  " + exists)}) 
+        fs.exists("./package-lock.json",(exists)=>{console.log( "file package-lock.json     exists:  " + exists)}),
+        fs.exists("./package.json",(exists)=>{console.log(      "file package.json          exists:  " + exists)}),
+        fs.exists("./win_bot_run.exe",(exists)=>{console.log(   "file win_bot_run.exe       exists:  " + exists)}),
+        fs.exists("./win_npm.exe",(exists)=>{console.log(       "file win_npm.exe           exists:  " + exists)}) 
     }, 100) 
     setTimeout(function(){ 
         console.log("<<------------------------------->>")
