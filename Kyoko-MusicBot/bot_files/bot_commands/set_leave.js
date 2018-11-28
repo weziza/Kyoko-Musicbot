@@ -17,10 +17,10 @@ exports.run = async (bot,message)=>{
         msz = messages.size+1
     })
     var bot_MessChannel = bot.channels.find(channel => channel.name === botchannel) // bot schreibt in einen bestimmten angegebenen channel
-    setTimeout(function(){
-        // console.log("hallo  bulkDelete   on end")  
-        bot_MessChannel.bulkDelete(msz)
-    },10000) 
+    // setTimeout(function(){
+    //     // console.log("hallo  bulkDelete   on end")  
+    //     bot_MessChannel.bulkDelete(msz)
+    // },10000) 
     //------------------------------
     sgm.leave(bot_MessChannel,message)    
 }

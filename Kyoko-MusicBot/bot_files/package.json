@@ -1,6 +1,6 @@
 {
   "name": "index",
-  "version": "2.1.7.3",
+  "version": "2.17.4",
   "main": "index.js",
   "homepage": "https://github.com/H5Pro2/Kyoko-Musicbot",
   "dependencies": {

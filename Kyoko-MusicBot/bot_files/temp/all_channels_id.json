@@ -1,10 +1,14 @@
 {
     "channels": [
-        "1  Name: voice channel | and Channel id: 500327235044245504",
-        "2  Name: bot sachen | and Channel id: 500327664255762434",
-        "3  Name: voice | and Channel id: 507549727395545088",
-        "4  Name: images | and Channel id: 507769236274282510",
-        "5  Name: bot room | and Channel id: 515118190012006401",
-        "6  Name: bot-eingabe | and Channel id: 515118190683095051"
+        "1  Name: Text-Kanäle | and Channel type: category | and Channel id: 480376719593701397",
+        "2  Name: chat-channel | and Channel type: text | and Channel id: 480376719593701398",
+        "3  Name: Sprach-Kanäle | and Channel type: category | and Channel id: 480376719593701399",
+        "4  Name: voice room | and Channel type: voice | and Channel id: 480376719593701400",
+        "5  Name: warframe-hilfen | and Channel type: text | and Channel id: 481921479907344405",
+        "6  Name: afk room | and Channel type: voice | and Channel id: 482141227823661078",
+        "7  Name: voice room 2 | and Channel type: voice | and Channel id: 482141288947515402",
+        "8  Name: hiden channel | and Channel type: voice | and Channel id: 503577400261476373",
+        "9  Name: bot room | and Channel type: category | and Channel id: 517153220964122625",
+        "10  Name: bot_chat-channel | and Channel type: text | and Channel id: 517153428644823062"
     ]
 }

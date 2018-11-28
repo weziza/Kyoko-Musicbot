@@ -1,5 +1,5 @@
 const discord = require('discord.js')
-const sgm = require('../bot_module/music_play_modul')
+const mpm = require('../bot_module/music_play_modul')
 const bmc = require('../bot_module/bot_must_check.js')
 //------------------------------
 const commands_setting = require('../bot_setting/commands_setting.json')
@@ -20,7 +20,7 @@ exports.run = async (bot,message,VolumeNr)=>{
     //------------------------------ 
     if(!bmc.user_in_voicechannel()){}else{return}
     if(!bmc.check_it_play()){}else{return}
-    sgm.volume(VolumeNr,voiceConnection) //funktion Volume 
+    mpm.volume(VolumeNr,voiceConnection) //funktion Volume 
 }
 
 exports.help = {

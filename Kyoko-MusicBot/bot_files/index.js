@@ -18,6 +18,7 @@ var playEmoji = playerEmoji.playEmoji,
 const setting = require('./bot_setting/bot_setting.json')
 var token = setting.token
     botchannel = setting.botchannel,
+    bot_category = setting.bot_category,
     prefix = setting.prefix,
     bot_name = setting.bot_name,
     message_size_delete = setting.message_size_delete,
@@ -69,25 +70,29 @@ fs.readdir("./bot_commands/",(err, files)=>{
 bot.on('ready', () => { 
 
     var channel = bot.channels.find(channel => channel.name === botchannel) 
-    //------------------------------
-    if(channel.name==botchannel){
-        channel_id=true
-        file = {botchannel_id: channel.id, file_is_writen: channel_id}
-        fs.writeFile("./temp/bot_channel_id.json",JSON.stringify(file, null, 4), err =>{if (err){throw err}})               
-    }else{console.log("no is not  "+channel.id,"   server start")}
-    // write a json file for bot channel id information for funktions
-    //------------------------------
-    var channelsid = []
-    x_channel = bot.channels.map(channel=>channel.name+" | and Channel id: "+channel.id)
-    x_channel.forEach((f,i)=>{channelsid.push(`${i+1}  Name: ${f}`)})
-    fs.writeFile("./temp/all_channels_id.json",JSON.stringify({channels: channelsid}, null, 4), err =>{if (err){throw err}})
-    // on bot start write all channels and id´s listet in a json file 
-    //------------------------------
-    if (bot.channels.find(channel => channel.name === botchannel) == null) {
-        return console.log(" <-------> " + "\n" + "cant find the channel " + botchannel + "\n" + " <-------> ")
-        // startet der bot und fibdet den bot channel nicht dann return sonst bekommt der bot ein error.
-    }
-    else {                
+    if(!channel){  
+        console.log(bot.channels.map(channel=>channel.type+" | and Channel id: "+channel.id))
+        if(bot.channels.find(channel=>channel.type === "text")){
+            let channelfound = bot.channels.find(channel=>channel.type === "text")
+            channelfound.send(" <-------> " + "\n" + "no channel found name " + botchannel + "  it will installed"+ "\n" + " <-------> ")
+            return console.log(bot.channels.find(channel=>channel.type === "text") + "found")
+        }
+    }else{
+        //------------------------------
+        if(channel.name==botchannel){
+            channel_id=true
+            file = {botchannel_id: channel.id, file_is_writen: channel_id}
+            fs.writeFile("./temp/bot_channel_id.json",JSON.stringify(file, null, 4), err =>{if (err){throw err}})               
+        }else{console.log("no is not  "+channel.id,"   server start")}
+        // write a json file for bot channel id information for funktions
+        //------------------------------
+        var channelsid = []
+        x_channel = bot.channels.map(channel=>channel.name+" | and Channel type: "+channel.type+" | and Channel id: "+channel.id)
+        x_channel.forEach((f,i)=>{channelsid.push(`${i+1}  Name: ${f}`)})
+        fs.writeFile("./temp/all_channels_id.json",JSON.stringify({channels: channelsid}, null, 4), err =>{if (err){throw err}})
+        // on bot start write all channels and id´s listet in a json file 
+
+                        
         bot.user.setActivity("-->  " + prefix + set_hilfe + "  <--")
         pathandfilecheck()                                
         setTimeout(function(){ 
@@ -227,6 +232,16 @@ bot.on('messageReactionAdd', (reaction, user) => {
 })
 //------------------------------ 
 bot.on("message",function(message){ 
+
+    if (!bot.channels.find(channel=>channel.name === botchannel)){
+        // console.log("install  "+botchannel)
+        inst = bot.commands.get("install")
+        return inst.run(bot,message)
+    }else if(!bot.channels.find(channel=>channel.name === bot_category)){
+        // console.log("install   "+bot_category)
+        inst = bot.commands.get("install")
+        return inst.run(bot,message)
+    }  
     
     // console.log(message.channel.id)
     //-----------------------------
@@ -295,16 +310,18 @@ function autodelete_function(message,bot_MessChannel) {
 
     message.channel.fetchMessages({ limit: 100 }).then(messages => {                
 
-        if(messages.size > message_size_delete && autodelete==false){
+        if(messages.size == 100 && autodelete==false){
             setTimeout(function () { 
-                inst = bot.commands.get("install")
-                inst.run(bot,message)
+                console.log("install"+"  -  ",messages.size)
+                // inst = bot.commands.get("install")
+                // inst.run(bot,message)
                 return
             }, 1000)                     
         }
         if(messages.size == message_size_delete) {
-            let purge = bot.commands.get(set_purge)
-            return purge.run(bot,message.channel)
+            console.log("delete")
+            // let purge = bot.commands.get(set_purge)
+            // return purge.run(bot,message.channel)
         }
     }) 
 }
@@ -333,6 +350,90 @@ bot.on("voiceStateUpdate",function(oldMember,newMember){
         VolumeNr=1 //reset the volume on voice connect or leave
     }
 })
+//------------------------------
+//auto volume control versuch
+/* bot.on("guildMemberSpeaking",async function(member,speaking){ 
+    
+    // await member.await(val => val.channel.guild.id,{time: 2500,}) 
+    //-----------------------------
+    const voiceConnection = bot.voiceConnections.find(val => val.channel.guild.id == messagesave.guild.id); //constant voiceConnection
+    //-----------------------------   
+    var VolumeNrmath = VolumeNr
+    var timerknock
+    // console.log("hallo") 
+    if(member.user.bot){
+        console.log("bot")        
+    }
+    if(!member.user.bot){
+        if(speaking){  
+            console.log("---------------------------  "+speaking)
+            console.log("speaking"+ member.user)
+            clearTimeout(timerknock)
+            console.log("---------------------------  "+timerknock)
+
+            setTimeout(function(){
+                console.log(VolumeNrmath/1.2)
+                mpm.volume(VolumeNrmath/1.2,voiceConnection) //funktion Volume   
+            }, 100)
+            setTimeout(function(){
+                console.log(VolumeNrmath/1.4)
+                mpm.volume(VolumeNrmath/1.4,voiceConnection) //funktion Volume   
+            }, 200)
+            setTimeout(function(){
+                console.log(VolumeNrmath/1.6)
+                mpm.volume(VolumeNrmath/1.6,voiceConnection) //funktion Volume   
+            }, 300) 
+            setTimeout(function(){
+                console.log(VolumeNrmath/1.8)
+                mpm.volume(VolumeNrmath/1.8,voiceConnection) //funktion Volume   
+            }, 400) 
+            setTimeout(function(){
+                console.log(VolumeNrmath/2)
+                mpm.volume(VolumeNrmath/2,voiceConnection) //funktion Volume   
+            }, 500)   
+            setTimeout(function(){
+                console.log(VolumeNrmath/2.2)
+                mpm.volume(VolumeNrmath/2.2,voiceConnection) //funktion Volume   
+            }, 600) 
+            setTimeout(function(){
+                console.log(VolumeNrmath/2.4)
+                mpm.volume(VolumeNrmath/2.4,voiceConnection) //funktion Volume   
+            }, 700) 
+        }else{
+            console.log("---------------------------  "+speaking)
+            console.log("speaking"+ member.user)
+            mpm.volume(VolumeNrmath/2.4,voiceConnection) //funktion Volume  
+            setTimeout(function(){
+                console.log(VolumeNrmath/2.2)
+                mpm.volume(VolumeNrmath/2.2,voiceConnection) //funktion Volume   
+            }, 100)
+            setTimeout(function(){
+                console.log(VolumeNrmath/2)
+                mpm.volume(VolumeNrmath/2,voiceConnection) //funktion Volume   
+            }, 200)  
+            setTimeout(function(){
+                console.log(VolumeNrmath/1.8)
+                mpm.volume(VolumeNrmath/1.8,voiceConnection) //funktion Volume   
+            }, 300) 
+            setTimeout(function(){
+                console.log(VolumeNrmath/1.6)
+                mpm.volume(VolumeNrmath/1.6,voiceConnection) //funktion Volume   
+            }, 400) 
+            setTimeout(function(){
+                console.log(VolumeNrmath/1.4)
+                mpm.volume(VolumeNrmath/1.4,voiceConnection) //funktion Volume   
+            }, 500)
+            setTimeout(function(){
+                console.log(VolumeNrmath/1.2)
+                mpm.volume(VolumeNrmath/1.2,voiceConnection) //funktion Volume   
+            }, 600)
+            setTimeout(function(){
+                console.log(VolumeNr)
+                mpm.volume(VolumeNr,voiceConnection) //funktion Volume  
+            }, 700) 
+        }
+    }
+})*/
 //------------------------------
 bot.once('guildMemberAdd', member => {
     console.log(member.user.username)

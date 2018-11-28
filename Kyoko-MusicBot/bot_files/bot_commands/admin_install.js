@@ -13,35 +13,45 @@ exports.run = async (bot,message)=>{
     //-----------------------------
     let server = bot.guilds.find(guild => guild.name)
     //-----------------------------
-    let bot_MessChannel = bot.channels.find(channel => channel.name === botchannel) 
-    // bot schreibt in einen bestimmten angegebenen channel
+    let btroom = bot.channels.find(channel => channel.name === bot_category) 
+    let btchan = bot.channels.find(channel => channel.name === botchannel)
     //----------------------------
     // console.log(message.author.id)
-    if (message.author.id==admin_id || message.author.id == bot.user.id){ 
-        if(!bot_category){
-            if(botchannel){
-                btc = bot.channels.find(channel => channel.name === botchannel)
-                if(!btc){server.createChannel(botchannel,'text')}else{btc.delete(botchannel).then(server.createChannel(botchannel,'text'))} 
-            }else{ return bot_MessChannel.send("no bot channel config") }
-        }else{
-            room = bot.channels.find(channel => channel.name === bot_category)
-            if(!room){server.createChannel(bot_category,'category')}else{room.delete(bot_category).then(server.createChannel(bot_category,'category'))}
-            
-            btc = bot.channels.find(channel => channel.name === botchannel)
-            if(!btc){server.createChannel(botchannel,'text')}else{btc.delete(botchannel).then(server.createChannel(botchannel,'text'))} 
-        }  
+    if (message.author.id==admin_id || message.author.id == bot.user.id){
+        if(!btchan&&!btroom){
+            if(!btroom){server.createChannel(bot_category,'category')}else{btroom.delete(bot_category).then(server.createChannel(bot_category,'category'))}
+            if(!btchan){server.createChannel(botchannel,'text')}else{btchan.delete(botchannel).then(server.createChannel(botchannel,'text'))} 
+            parentchannel(bot,message)
 
-        setTimeout(function(){ 
-            if(bot.channels.find(channel => channel.name === botchannel)&&bot.channels.find(channel => channel.name === bot_category)){
-                room = bot.channels.find(channel => channel.name === bot_category)
-                btc = bot.channels.find(channel => channel.name === botchannel)
-                btc.setParent(room.id)
+        }else if(!btchan){
+            server.createChannel(botchannel,'text')
+            parentchannel(bot,message)       
+        }else{
+            if(btchan&&btroom){
+                btchan.delete(botchannel).then(server.createChannel(botchannel,'text'))
+                parentchannel(bot,message)
             }
-        }, 1500)
+        }
+
+        if(!btroom){
+            server.createChannel(bot_category,'category')
+            parentchannel(bot,message)
+        }
+
     }else{
         message.author.send("```"+admin_message+"```")
     }  
 }
+
+
+function parentchannel(bot,message) {
+    setTimeout(function () {
+        btchan = bot.channels.find(channel => channel.name === botchannel)
+        btroom = bot.channels.find(channel => channel.name === bot_category)
+        return btchan.setParent(btroom.id)
+    }, 1500)
+}
+
 
 exports.help = {
     name: "install"

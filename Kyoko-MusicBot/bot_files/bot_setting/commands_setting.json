@@ -12,11 +12,11 @@
     "set_volume"    : "volume",
     "set_purge"     : "purge",
     "set_randomsong": "random",    
-    "set_songliste" : "songliste",
+    "set_songliste" : "liste",
     "set_savesong"  : "save",
     "set_deletesong": "delete",
     "set_playsong"  : "play",
     "set_replay"    : "replay",
     "set_searchsong": "suche", 
-    "set_url"       : "url"    
+    "set_url"       : "url" 
 }

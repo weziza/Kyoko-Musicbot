@@ -408,14 +408,17 @@ function play(connection,message,bot_MessChannel){
         // check bot play, bei abrupten beenden des bots TypeError: Parameter "url" must be a string, not undefined
         // da dieser in playStream geht aber keine url lesen kann
     }else{ 
-
-        // dispatcher = connection.playStream(ytdl(queue_url_array[0], { filter: "audioonly" , liveBuffer: 4000, quality: "highest" }))
-        dispatcher = connection.playStream(ytdl(queue_url_array[0], { filter: "audioonly"}))
+        dispatcher = connection.playStream(ytdl(queue_url_array[0], 
+        { 
+            filter: "audioonly",
+            // audioBitrate: "32",
+            // quality: "lowest"
+        }))
         //stream die erste stelle der array.. also [0]
         resume_queue_url = queue_url_array[0]
         resume_queue_url_titel = queue_titel_array[0]
     }    
-    //-----------------------------
+    //-----------------------------HuqOYz5zERslwDB5bgqLvBIfqJozqeWH
     queue_url_array.shift() //shift gleich die erste stelle in der array...  
     // bei einem lead ist der bot eigentlich schon bei disconnect nach dem abspielen des ersten liedes
     //-----------------------------
@@ -429,18 +432,13 @@ function play(connection,message,bot_MessChannel){
 
     dispatcher.on("end",function(){
 
-        var msz = 0
-
-        message.channel.fetchMessages({ limit: 100 }).then(messages => {            
-            msz = messages.size
-        })
-
         if(queue_url_array[0]){ 
         // solange noch etwas in der queue_url_array ist, shift diese          
             MinQueue-- 
             // -- queue aus der warteschlange
             //-----------------------------
             play(connection,message,bot_MessChannel),queue_titel_array.shift() 
+            resume_queue_url_titel = queue_titel_array[0]
             // replay and shift queue_titel_array um eine stelle       
             current_queue_songtitel = queue_titel_array.map((queue_titel_array, x) => ((x + 1) + ': ' + queue_titel_array)).join('\n')
             // füge nummerierung zur current_queue_songtitel hinzu                                
@@ -473,8 +471,7 @@ function play(connection,message,bot_MessChannel){
                 //--------
                 cleaning=false 
                 // default cleaning varialbe                
-                //-----------------------------
-                // bot_MessChannel.bulkDelete(msz).catch(err => console.log(err)) 
+                //----------------------------- 
                 return bot_MessChannel.send({files: ["./bot_stuff/images/no_music_image.png"]})  // send leave image
                 // es gibt noch proleme beim spamen der play und leave funktion 
                 // muss vielleicht als url und nicht als image send ausgeführt werden 
