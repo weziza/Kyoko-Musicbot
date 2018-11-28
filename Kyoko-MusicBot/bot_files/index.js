@@ -231,7 +231,7 @@ bot.on('messageReactionAdd', (reaction, user) => {
     }     
 })
 //------------------------------ 
-bot.on("message",function(message){ 
+bot.on("message",function(message){     
 
     if (!bot.channels.find(channel=>channel.name === botchannel)){
         // console.log("install  "+botchannel)
@@ -269,7 +269,7 @@ bot.on("message",function(message){
         //läuft der bot und man löscht den channel dann return sonst bekommt der bot ein error.
     }else{        
         //-------------//  purge abfragen  //----------------           
-        if (message_size_delete>100 && purge_size == false){purge_size = true
+        if (message_size_delete>100 && purge_size == false){purge_size = true            
             return bot_MessChannel.send(carefully(purge_size_max_message))
             // verhindert ein error sollte bulkdelete über 100 liegen.
         }else if(message_size_delete<10 && purge_size == false){ purge_size = true
@@ -282,12 +282,14 @@ bot.on("message",function(message){
         //-----------------------------        
         }else{    
             //-----------  messages starten mit prefix ?? ------------------            
-            if(!message.content.startsWith(prefix)){                   
-                if(message.channel == bot_MessChannel){return autodelete_function(message,bot_MessChannel)}else{return}                
+            if(!message.content.startsWith(prefix)){
+                if(message.channel == bot_MessChannel)
+                {return autodelete_function(message,bot_MessChannel)}else{return}                
                 // message beginnt mit prefix dann / wenn nicht return und delete all gesendeten messages.
             }else{
                 bmc.run(message,bot) // sende bot_must_check die message und bot informationen erst wenn prefix benutzt wird
-                if(message.channel == bot_MessChannel){autodelete_function(message,bot_MessChannel)}
+                if(message.channel == bot_MessChannel)
+                {autodelete_function(message,bot_MessChannel),console.log("hier ")}
                 // sollten zu viele messages im chat stehen wie in der setting angegeben dann mach autodelete
                 if (bmc.write_bot_MessChannel()){ // ist botchannel ?? - ja/nein                     
                 }else{         
@@ -308,22 +310,26 @@ bot.on("message",function(message){
 //------------------------------
 function autodelete_function(message,bot_MessChannel) {    
 
+   
+    var msz = 0
+
     message.channel.fetchMessages({ limit: 100 }).then(messages => {                
+
+        msz = messages.size
+        // console.log(msz)
 
         if(messages.size == 100 && autodelete==false){
             setTimeout(function () { 
-                console.log("install"+"  -  ",messages.size)
-                // inst = bot.commands.get("install")
-                // inst.run(bot,message)
-                return
+                // console.log("install"+"  -  ",messages.size)
+                inst = bot.commands.get("install")
+                return inst.run(bot,message)                
             }, 1000)                     
         }
-        if(messages.size == message_size_delete) {
-            console.log("delete")
-            // let purge = bot.commands.get(set_purge)
-            // return purge.run(bot,message.channel)
+        if(messages.size > message_size_delete){
+            let purge = bot.commands.get(set_purge)
+            return purge.run(bot,message.channel,msz)
         }
-    }) 
+    }), err =>{if (err){throw err,console.log(err)}}
 }
 //------------------------------
 function wrap(text) {
@@ -352,9 +358,9 @@ bot.on("voiceStateUpdate",function(oldMember,newMember){
 })
 //------------------------------
 //auto volume control versuch
-/* bot.on("guildMemberSpeaking",async function(member,speaking){ 
+bot.on("guildMemberSpeaking",async function(member,speaking){ 
     
-    // await member.await(val => val.channel.guild.id,{time: 2500,}) 
+/*     // await member.await(val => val.channel.guild.id,{time: 2500,}) 
     //-----------------------------
     const voiceConnection = bot.voiceConnections.find(val => val.channel.guild.id == messagesave.guild.id); //constant voiceConnection
     //-----------------------------   
@@ -432,8 +438,8 @@ bot.on("voiceStateUpdate",function(oldMember,newMember){
                 mpm.volume(VolumeNr,voiceConnection) //funktion Volume  
             }, 700) 
         }
-    }
-})*/
+    }*/
+})
 //------------------------------
 bot.once('guildMemberAdd', member => {
     console.log(member.user.username)
