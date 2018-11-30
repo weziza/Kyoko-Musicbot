@@ -47,7 +47,8 @@ var purge_size_max_message = lg.purge_size_max_message,
 var VolumeNr=1,
     autodelete=false,
     purge_size = false,
-    bot_command
+    bot_command,
+    max_message_size = 90
 //------------------------------
 bot.commands = new discord.Collection()
 fs.readdir("./bot_commands/",(err, files)=>{
@@ -233,19 +234,11 @@ bot.on('messageReactionAdd', (reaction, user) => {
     }     
 })
 //------------------------------ 
-bot.on("message",function(message){     
+bot.on("message",function(message){ 
 
-    if (!bot.channels.find(channel=>channel.name === botchannel)){
-        // console.log("install  "+botchannel)
-        inst = bot.commands.get("install")
-        return inst.run(bot,message)
-    }else if(!bot.channels.find(channel=>channel.name === bot_category)){
-        // console.log("install   "+bot_category)
-        inst = bot.commands.get("install")
-        return inst.run(bot,message)
-    }  
-    
-    // console.log(message.channel.id)
+    // let lastmessage = message.channel.messages.map(msg=>msg.channel.messages.last())
+    // let ldate = lastmessage.map(msg=>msg.channel.messages.last().createdAt)
+    // let creatlastmessage = ldate[0].getDate()
     //-----------------------------
     x = fs.readFileSync("./temp/bot_channel_id.json"), err =>{if (err){throw err}}
     var fileback = JSON.parse(x) 
@@ -260,6 +253,17 @@ bot.on("message",function(message){
     let bot_MessChannel = bot.channels.find(channel => channel.name === botchannel)             
     // bot schreibt in einen bestimmten angegebenen channel   
     //-----------------------------
+
+    if (!bot_MessChannel){
+        // console.log("install  "+botchannel)
+        inst = bot.commands.get("install")
+        return inst.run(bot,message)
+    }else if(!bot.channels.find(channel=>channel.name === bot_category)){
+        // console.log("install   "+bot_category)
+        inst = bot.commands.get("install")
+        return inst.run(bot,message)
+    }  
+    
     if(message.content==prefix+"install"){return cmd.run(bot,message)}
     if(fileback.file_is_writen==true&&message.content.startsWith(prefix+set_savesong+" https://www.youtube.com")){return cmd.run(bot,message)} 
     if(fileback.file_is_writen==true&&message.content.startsWith(prefix+set_deletesong)){return cmd.run(bot,message)}
@@ -271,7 +275,7 @@ bot.on("message",function(message){
         //läuft der bot und man löscht den channel dann return sonst bekommt der bot ein error.
     }else{        
         //-------------//  purge abfragen  //----------------           
-        if (message_size_delete>100 && purge_size == false){purge_size = true            
+        if (message_size_delete>max_message_size && purge_size == false){purge_size = true            
             return bot_MessChannel.send(carefully(purge_size_max_message))
             // verhindert ein error sollte bulkdelete über 100 liegen.
         }else if(message_size_delete<10 && purge_size == false){ purge_size = true
@@ -309,20 +313,45 @@ bot.on("message",function(message){
 })
 //------------------------------
 function autodelete_function(message,bot_MessChannel) {    
+    
+    message.channel.fetchMessages({ limit: 100 }).then(messages => {             
 
-    message.channel.fetchMessages({ limit: 100 }).then(messages => {                
+        var lastdate = new Date();
+        lastdate.setDate(lastdate.getDate()-12); // date for 12 days
+        // console.log(lastdate.getDate(),lastdate.getMonth()+1,lastdate.getFullYear())
+        
+        msz = messages.size
+        // console.log(msz)
 
-        if(messages.size == 100 && autodelete==false){
+        let lastmessage = message.channel.messages.map(msg=>msg.channel.messages.last())
+        let ldate = lastmessage.map(msg=>msg.channel.messages.last().createdAt)
+        let creatlastmessage = ldate[0].getDate()        
+        // console.log("-> the last message or message 100, of the channel is:",lastmessage[0].content,"\n","-> writen on day:",creatlastmessage,".",ldate[0].getMonth()+1,".",ldate[0].getFullYear(),"\n","-> the message channel size is:",msz)
+        // console.log("---------------------------")
+        let firstmessage = message.channel.messages.map(msg=>msg.channel.messages.first())
+        var aktullemessagetdate = message.channel.messages.map(messages=>messages.channel.lastMessage.createdAt)
+        var amd = aktullemessagetdate[0].getDate()
+        // console.log("-> the first message in the channel is:",firstmessage[0].content,"\n","-> the current message writen on day:",amd-7,".",aktullemessagetdate[0].getMonth()+1,".",aktullemessagetdate[0].getFullYear(),"\n","-> the message channel size is:",msz)
+
+        if(amd==lastdate.getDate()){
             setTimeout(function () { 
-                // console.log("install"+"  -  ",messages.size)
+                // console.log("-------------amd--------------")
                 inst = bot.commands.get("install")
                 return inst.run(bot,message)                
             }, 1000)                     
-        }
-        if(messages.size > message_size_delete-1){
+        }//installiert den channel nach 13 tagen wieder neu.... versuch!!
+        if(msz > max_message_size && autodelete==false){
+            setTimeout(function () { 
+                // console.log("-------------msz--------------")
+                inst = bot.commands.get("install")
+                return inst.run(bot,message)               
+            }, 1000)                     
+        }//installiert den channel neu wenn die maximale messages.size erreicht wurde
+        if(messages.size == message_size_delete-1){
+            // console.log("-------------size--------------")
             let purge = bot.commands.get(set_purge)
             return purge.run(bot,message)
-        }
+        }// löscht die letzten messages die vorgegeben wird in der bot setting
     }), err =>{if (err){throw err,console.log(err)}}
 }
 //------------------------------

@@ -294,7 +294,7 @@ exports.queue =  function(message,bot_MessChannel){
     var msz = 0
     message.channel.fetchMessages({ limit: 100 }).then(messages => {
         msz = messages.size
-    })
+    }), err =>{if (err){throw err}}
     //-----------------------------
     bot_MessChannel.bulkDelete(msz)
     //-----------------------------

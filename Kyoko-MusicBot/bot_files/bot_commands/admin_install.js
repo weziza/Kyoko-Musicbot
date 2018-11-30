@@ -20,17 +20,22 @@ exports.run = async (bot,message)=>{
     if (message.author.id==admin_id || message.author.id == bot.user.id){
         if(!btchan&&!btroom){
             if(!btroom){server.createChannel(bot_category,'category')}else{btroom.delete(bot_category).then(server.createChannel(bot_category,'category'))}
-            if(!btchan){server.createChannel(botchannel,'text')}else{btchan.delete(botchannel).then(server.createChannel(botchannel,'text'))} 
-            parentchannel(bot,message)
-
-        }else if(!btchan){
-            server.createChannel(botchannel,'text')
-            parentchannel(bot,message)       
-        }else{
-            if(btchan&&btroom){
-                btchan.delete(botchannel).then(server.createChannel(botchannel,'text'))
+            setTimeout(function () { 
+                if(!btchan){server.createChannel(botchannel,'text')}else{btchan.delete(botchannel).then(server.createChannel(botchannel,'text'))} 
                 parentchannel(bot,message)
-            }
+            }, 1000)
+        }else if(!btchan){
+            setTimeout(function () { 
+                server.createChannel(botchannel,'text')
+                parentchannel(bot,message)
+            }, 1000)       
+        }else{
+            setTimeout(function () { 
+                if(btchan&&btroom){
+                    btchan.delete(botchannel).then(server.createChannel(botchannel,'text'))
+                    parentchannel(bot,message)
+                }
+            }, 1000) 
         }
 
         if(!btroom){
